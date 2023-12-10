@@ -762,6 +762,13 @@ function build-x86()
 
 }
 
+function build-lineage-virtio()
+{
+	args=("$@")
+    bash vendor/$vendor_name/tools/build-lineage-virtio.sh "${args[@]}"
+
+}
+
 function bass_check_project()
 {
     echo -e "${ltblue}Checking project status...${reset}"

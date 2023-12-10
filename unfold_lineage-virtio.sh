@@ -37,6 +37,7 @@ pushd aosptree
 repo init -u https://github.com/LineageOS/android.git -b lineage-21.0 --git-lfs
 cd .repo/manifests
 rm default.xml
+rm ../local_manifests/roomservice.xml
 cp ${LOCAL_PATH}/manifests/lineage-static.xml lineage.xml
 cp ${LOCAL_PATH}/manifests/bass-lineage.xml bass.xml
 cp ${LOCAL_PATH}/manifests/default_lineage.xml default.xml
