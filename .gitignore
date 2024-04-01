@@ -10,7 +10,10 @@ private/addons/*
 .config
 .config/**
 
+aospbasetree/**
+patchsets/**
 scratchpad/
+aosp_folders_missing.txt
 
 ._*
 .DS_Store
