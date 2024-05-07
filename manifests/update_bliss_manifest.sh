@@ -15,7 +15,7 @@ fi
 
 echo Init repo tree using Bliss OS manifest
 pushd ../aosptree
-repo init -u https://github.com/BlissRoms-x86/manifest.git -b arcadia-x86 --git-lfs
+repo init -u https://github.com/BlissOS/platform_manifest.git -b universe-x86 --git-lfs
 repo sync -c --force-sync -j4
 repo manifest -r -o ../manifests/bliss-static.xml
 popd
