@@ -56,9 +56,9 @@ else
 fi
 
 # source the official lunch command
-sed '/ lunch()/,/^}/!d'  build/envsetup.sh | sed 's/function lunch/function aosp_lunch/' > ${tmp_lunch}
-source ${tmp_lunch}
-rm -f ${tmp_lunch}
+# sed '/ lunch()/,/^}/!d'  build/envsetup.sh | sed 's/function lunch/function aosp_lunch/' > ${tmp_lunch}
+# source ${tmp_lunch}
+# rm -f ${tmp_lunch}
 
 function checkProjectStatus() {
     TARGET_PROJECT_PATH=$1
@@ -231,38 +231,38 @@ function checkProjectStatus() {
 }
 
 # Override lunch function to filter lunch targets
-function lunch
-{
-    local T=$(gettop)
-    if [ ! "$T" ]; then
-        echo "[lunch] Couldn't locate the top of the tree.  Try setting TOP." >&2
-        return
-    fi
+# function lunch
+# {
+#     local T=$(gettop)
+#     if [ ! "$T" ]; then
+#         echo "[lunch] Couldn't locate the top of the tree.  Try setting TOP." >&2
+#         return
+#     fi
 
-    if [ "$BASS_DEBUG" != "true" ] ; then
-    if menu_redirect; then
-        echo -e "${green}Starting menu redirect\n${reset}"
-    else
-        echo -e "${yellow}Vendor Customization functions not found. Check license and verify all instructions have been followed, continuing without menu...\n${reset}"
-    fi
-    if copy_wallpaper; then
-        echo -e "${green}Starting wallpaper customization\n${reset}"
-    else
-        echo -e "${yellow}Vendor Customization functions not found. Check license and verify all instructions have been followed, continuing without wallpaper customization...\n${reset}"
-    fi
-    if copy_grub_background; then
-        echo -e "${green}Starting grub background customization\n${reset}"
-    else
-        echo -e "${yellow}Vendor Customization functions not found. Check license and verify all instructions have been followed, continuing without grub customization...\n${reset}"
-    fi
+#     if [ "$BASS_DEBUG" != "true" ] ; then
+#     if menu_redirect; then
+#         echo -e "${green}Starting menu redirect\n${reset}"
+#     else
+#         echo -e "${yellow}Vendor Customization functions not found. Check license and verify all instructions have been followed, continuing without menu...\n${reset}"
+#     fi
+#     if copy_wallpaper; then
+#         echo -e "${green}Starting wallpaper customization\n${reset}"
+#     else
+#         echo -e "${yellow}Vendor Customization functions not found. Check license and verify all instructions have been followed, continuing without wallpaper customization...\n${reset}"
+#     fi
+#     if copy_grub_background; then
+#         echo -e "${green}Starting grub background customization\n${reset}"
+#     else
+#         echo -e "${yellow}Vendor Customization functions not found. Check license and verify all instructions have been followed, continuing without grub customization...\n${reset}"
+#     fi
     
-    copy_configs
-    add_grub_cmdline_options
-    update_apps
-    fi
-    aosp_lunch $*
+#     copy_configs
+#     add_grub_cmdline_options
+#     update_apps
+#     fi
+#     aosp_lunch $*
 
-}
+# }
 
 function launch_menu() 
 {
