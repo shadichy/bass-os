@@ -1343,7 +1343,7 @@
   <project name="platform_art" path="art" remote="BlissOS" revision="81c585c2ed4bcb73b6ba3998e71506ced038abbf" upstream="universe-x86" dest-branch="universe-x86"/>
   <project name="platform_bionic" path="bionic" remote="BlissOS" revision="0130e1d06e5bacd6e3126f2b5f2234f0f76f7022" upstream="universe-x86" dest-branch="universe-x86"/>
   <project name="platform_bootable_recovery" path="bootable/recovery" remote="BlissOS" revision="19ec203a8df9abab5803ecaa0b26844a3f868dc8" upstream="universe-x86" dest-branch="universe-x86"/>
-  <project name="platform_build_make" path="build/make" remote="BlissRoms" revision="213851655aff56a14df65647da4fa664306a5938" upstream="universe" dest-branch="universe">
+  <project name="platform_build_make" path="build/make" remote="BlissOS" revision="213851655aff56a14df65647da4fa664306a5938" upstream="universe-x86" dest-branch="universe-x86">
     <copyfile src="core/root.mk" dest="Makefile"/>
     <linkfile src="CleanSpec.mk" dest="build/CleanSpec.mk"/>
     <linkfile src="buildspec.mk.default" dest="build/buildspec.mk.default"/>
@@ -1352,7 +1352,7 @@
     <linkfile src="target" dest="build/target"/>
     <linkfile src="tools" dest="build/tools"/>
   </project>
-  <project name="platform_build_soong" path="build/soong" remote="BlissRoms" revision="c7716114e988c0f5caa04fdf68265125942523a1" upstream="universe" dest-branch="universe">
+  <project name="platform_build_soong" path="build/soong" remote="BlissOS" revision="c7716114e988c0f5caa04fdf68265125942523a1" upstream="universe-x86" dest-branch="universe-x86">
     <linkfile src="root.bp" dest="Android.bp"/>
     <linkfile src="bootstrap.bash" dest="bootstrap.bash"/>
   </project>
