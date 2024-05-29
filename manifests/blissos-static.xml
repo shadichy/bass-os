@@ -1370,7 +1370,7 @@
   <project name="platform_frameworks_base" path="frameworks/base" remote="BlissOS" revision="b5ddf8651873d31f316922ec597e416effc26406" upstream="universe-x86" dest-branch="universe-x86"/>
   <project name="platform_frameworks_libs_systemui" path="frameworks/libs/systemui" remote="BlissOS" revision="6dfcd462acdf9c1c8ccd0deba66a9c0ec12a192b" upstream="universe-x86" dest-branch="universe-x86"/>
   <project name="platform_frameworks_native" path="frameworks/native" remote="BlissOS" revision="fcb289400a6b947cb66fec593b9d1a155545c0cc" upstream="universe-x86" dest-branch="universe-x86"/>
-  <project name="platform_frameworks_opt_telephony" path="frameworks/opt/telephony" remote="BlissRoms" revision="universe-pre-qpr" upstream="universe-pre-qpr" dest-branch="universe-pre-qpr"/>
+  <project name="platform_frameworks_opt_telephony" path="frameworks/opt/telephony" remote="BlissRoms" revision="8875c16e842e71af5ab203247a7b8adfce327f73" upstream="universe" dest-branch="universe"/>
   <project name="platform_hardware_bliss_interfaces" path="hardware/bliss/interfaces" remote="BlissRoms" revision="universe-pre-qpr" upstream="universe-pre-qpr" dest-branch="universe-pre-qpr"/>
   <project name="platform_hardware_google_gchips" path="hardware/google/gchips" remote="BlissOS" revision="691cc3cfc717cdcc64e50f5acc4e1b9916282a93" upstream="universe-x86" dest-branch="universe-x86"/>
   <project name="platform_hardware_google_graphics_common" path="hardware/google/graphics/common" remote="BlissOS" revision="7961369315cf3f287789ebea39ff4a1fb4d34b13" upstream="universe-x86" dest-branch="universe-x86"/>
@@ -1429,8 +1429,8 @@
   <project name="platform_packages_apps_ThemePicker" path="packages/apps/ThemePicker" remote="BlissOS" revision="6f6d4f6f93f9cf197ba90a33bd05855b89f8e91e" upstream="universe-x86" dest-branch="universe-x86"/>
   <project name="platform_packages_modules_Bluetooth" path="packages/modules/Bluetooth" remote="BlissOS" revision="universe-x86" upstream="universe-x86" dest-branch="universe-x86"/>
   <project name="platform_packages_modules_Wifi" path="packages/modules/Wifi" remote="BlissOS" revision="afeac6b800348a64440a2d412315596e7ad50fba" upstream="universe-x86" dest-branch="universe-x86" groups="pdk-cw-fs,pdk-fs"/>
-  <project name="platform_packages_modules_adb" path="packages/modules/adb" remote="BlissRoms" revision="universe-pre-qpr" upstream="universe-pre-qpr" dest-branch="universe-pre-qpr"/>
-  <project name="platform_packages_modules_common" path="packages/modules/common" remote="BlissRoms" revision="universe-pre-qpr" upstream="universe-pre-qpr" dest-branch="universe-pre-qpr" groups="pdk-cw-fs,pdk-fs"/>
+  <project name="platform_packages_modules_adb" path="packages/modules/adb" remote="BlissRoms" revision="a394017210684fa5fd0cebeae312bfed9c773a87" upstream="universe" dest-branch="universe"/>
+  <project name="platform_packages_modules_common" path="packages/modules/common" remote="BlissRoms" revision="4255debbbedd66cb0bc08f90ea29241bbeb1d497" upstream="universe" dest-branch="universe" groups="pdk-cw-fs,pdk-fs"/>
   <project name="platform_packages_services_OmniJaws" path="packages/services/OmniJaws" remote="BlissRoms" revision="universe-pre-qpr" upstream="universe-pre-qpr" dest-branch="universe-pre-qpr"/>
   <project name="platform_prebuilts_abi-dumps_vndk" path="prebuilts/abi-dumps/vndk" remote="BlissOS" revision="bcb302462c9c1e53c7e89c799fbcf74b13227276" upstream="universe-x86" dest-branch="universe-x86"/>
   <project name="platform_prebuilts_clang_host_linux-x86_clang-r416183b1" path="prebuilts/clang/host/linux-x86/clang-r416183b1" remote="BlissRoms" revision="universe-pre-qpr" upstream="universe-pre-qpr" dest-branch="universe-pre-qpr"/>
@@ -1449,7 +1449,7 @@
   <project name="platform_system_vold" path="system/vold" remote="BlissOS" revision="91afefaf28e202b1454376e9bf420a9ab7c1559f" upstream="universe-x86" dest-branch="universe-x86"/>
   <project name="platform_toolchain_pgo-profiles" path="toolchain/pgo-profiles" remote="BlissOS" revision="2da51e42b12a0eff9fca76522b138e24d4c02dd2" upstream="universe-x86" dest-branch="universe-x86"/>
   <project name="platform_vendor_bliss" path="vendor/bliss" remote="BlissOS" revision="17834eeb4b0acb4b51d20bd445b22213a5ec322e" upstream="universe-x86" dest-branch="universe-x86"/>
-  <project name="platform_vendor_certification" path="vendor/certification" remote="BlissRoms-gitlab" revision="universe-pre-qpr" upstream="universe-pre-qpr" dest-branch="universe-pre-qpr"/>
+  <project name="platform_vendor_certification" path="vendor/certification" remote="BlissRoms-gitlab" revision="b63dc788e5cd9d8da7f5b5587a489b34b47fa763" upstream="universe" dest-branch="universe"/>
   <project name="platform_vendor_nxp_opensource_packages_apps_Nfc" path="vendor/nxp/opensource/commonsys/packages/apps/Nfc" remote="BlissRoms" revision="universe-pre-qpr" upstream="universe-pre-qpr" dest-branch="universe-pre-qpr"/>
   <project name="platform_vendor_overlays" path="vendor/overlays" remote="BlissRoms" revision="universe-pre-qpr" upstream="universe-pre-qpr" dest-branch="universe-pre-qpr"/>
   <project name="platform_vendor_prebuilts" path="vendor/prebuilts" remote="BlissRoms-gitlab" revision="universe-pre-qpr" upstream="universe-pre-qpr" dest-branch="universe-pre-qpr" clone-depth="1"/>
