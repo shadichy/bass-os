@@ -1,17 +1,17 @@
-From 0de7173737cf3679989850b795254a7d60aa0a13 Mon Sep 17 00:00:00 2001
+From 8612ebc0c51fb2588f95085e4bafe293a77d619e Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Thu, 15 Jun 2023 15:50:08 -0400
-Subject: [PATCH 02/11] Do not build bootanimation
+Subject: [PATCH 2/5] Do not build bootanimation
 
 ---
  config/common.mk | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/config/common.mk b/config/common.mk
-index e0900913..15c8605a 100644
+index 7ae4f6f3..cc075ede 100644
 --- a/config/common.mk
 +++ b/config/common.mk
-@@ -172,7 +172,7 @@ PRODUCT_COPY_FILES += \
+@@ -171,7 +171,7 @@ PRODUCT_COPY_FILES += \
      vendor/bliss/config/permissions/privapp-permissions-omadm.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/permissions/privapp-permissions-omadm.xml
  
  # Bliss Bootanimation

@@ -1,17 +1,17 @@
-From 2307232d6cf98b228729aa84298b38db0ec91d9a Mon Sep 17 00:00:00 2001
+From a14abdc7f47ac9545ac6a8028dd62118df5d0b3e Mon Sep 17 00:00:00 2001
 From: electrikjesus <electrikjesus@gmail.com>
 Date: Wed, 6 Mar 2024 15:55:13 -0500
-Subject: [PATCH 10/11] Allow using minimal FOSS apps on vanilla builds
+Subject: [PATCH 4/5] Allow using minimal FOSS apps on vanilla builds
 
 ---
  config/common.mk | 6 ++++++
  1 file changed, 6 insertions(+)
 
 diff --git a/config/common.mk b/config/common.mk
-index fd53ee88..e51a9c90 100644
+index cc075ede..de932986 100644
 --- a/config/common.mk
 +++ b/config/common.mk
-@@ -211,6 +211,12 @@ endif
+@@ -212,6 +212,12 @@ endif
  ifeq ($(BLISS_BUILD_VARIANT), foss)
  $(call inherit-product, vendor/foss/foss.mk)
  endif
