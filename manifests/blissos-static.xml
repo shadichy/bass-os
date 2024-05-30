@@ -1358,7 +1358,7 @@
   </project>
   <project name="platform_device_generic_x86" path="device/generic/x86" remote="BR-x86" revision="f43416c73f7d8c301dc6f347f44631e18a8a79a4" upstream="r-x86" dest-branch="r-x86"/>
   <project name="platform_device_generic_x86_64" path="device/generic/x86_64" remote="BR-x86" revision="b118534ddce65b124f3c458e536b85beccf3a669" upstream="r11" dest-branch="r11"/>
-  <project name="platform_external_android-nn-driver" path="external/android-nn-driver" remote="BlissRoms" revision="universe-pre-qpr" upstream="universe-pre-qpr" dest-branch="universe-pre-qpr"/>
+  <project name="platform_external_android-nn-driver" path="external/android-nn-driver" remote="BlissOS" revision="958292ca885c81cb9cb41540ac66f46c34002ca8" upstream="universe-x86" dest-branch="universe-x86"/>
   <project name="platform_external_blissethernet" path="vendor/bliss/blissethernet" remote="BlissBass" revision="ee226e6cd96370e39dd467d0e784275754ea7b5a" upstream="arcadia-x86" dest-branch="arcadia-x86"/>
   <project name="platform_external_cronet" path="external/cronet" remote="BlissRoms-gitlab" revision="universe-pre-qpr" upstream="universe-pre-qpr" dest-branch="universe-pre-qpr"/>
   <project name="platform_external_gptfdisk" path="external/gptfdisk" remote="BlissOS" revision="e50b6795f41f41fec44ab44044c43399dd12e284" upstream="universe-x86" dest-branch="universe-x86" groups="pdk"/>
