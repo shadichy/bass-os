@@ -1383,7 +1383,7 @@
   <project name="platform_hardware_libhardware" path="hardware/libhardware" remote="BlissOS" revision="ecb9b731520e59e708d6e547cd7b14d5fa90d1fc" upstream="universe-x86" dest-branch="universe-x86"/>
   <project name="platform_hardware_liblights" path="hardware/liblights" remote="ag-github" revision="fd2e518ce7f63e699f560460bf65923e25e166a8" upstream="r-x86" dest-branch="r-x86"/>
   <project name="platform_hardware_libsensors" path="hardware/libsensors" remote="ag-github" revision="cca7c671cd1176b73feab0523429355bea4a985a" upstream="14-x86" dest-branch="14-x86"/>
-  <project name="platform_hardware_lineage_compat" path="hardware/lineage/compat" remote="BlissRoms" revision="universe-pre-qpr" upstream="universe-pre-qpr" dest-branch="universe-pre-qpr"/>
+  <project name="platform_hardware_lineage_compat" path="hardware/lineage/compat" remote="BlissOS" revision="c87fd8ba8432820b52efb1dccd8e7d8b7e57896d" upstream="universe-x86" dest-branch="universe-x86"/>
   <project name="platform_hardware_qcom-caf_common" path="hardware/qcom-caf/common" remote="BlissRoms" revision="universe-pre-qpr" upstream="universe-pre-qpr" dest-branch="universe-pre-qpr" groups="qcom">
     <linkfile src="os_pickup_aosp.mk" dest="hardware/qcom/Android.mk"/>
     <linkfile src="os_pickup_sepolicy_vndr.mk" dest="device/qcom/sepolicy_vndr/SEPolicy.mk"/>
