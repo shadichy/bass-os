@@ -24,7 +24,7 @@
   
   <default remote="aosp" revision="refs/tags/android-14.0.0_r25" sync-j="4"/>
   
-  <project name="BlissLabs/BlissOS/platform_packages_apps_paranoidsense" path="packages/apps/ParanoidSense" remote="gl" revision="universe-pre-qpr" upstream="universe-pre-qpr" dest-branch="universe-pre-qpr"/>
+  <project name="BlissLabs/BlissOS/platform_packages_apps_paranoidsense" path="packages/apps/ParanoidSense" remote="gl" revision="f48afe871848d69744435756ea71e50770896c60" upstream="universe" dest-branch="universe"/>
   <project name="CLI11" path="external/CLI11" remote="ag-github" revision="c4d6f978fd0f82168fb30630fda3d73965884f79" upstream="aosp" dest-branch="aosp"/>
   <project name="GSL" path="external/Microsoft-GSL" remote="ag-github" revision="49af8fa84b3dc80a2d59e98864052fcdc0b85e4f" upstream="aosp" dest-branch="aosp"/>
   <project name="android-generic/vendor_prebuilts_agp-apps" path="vendor/agp-apps" remote="gitlab" revision="6c9733d447779e609adc052bb325e5532f266e31" upstream="master" dest-branch="master"/>
