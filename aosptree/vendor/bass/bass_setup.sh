@@ -588,6 +588,10 @@ function copy_configs()
         sed -i 's#config_letterboxBackgroundType">0#config_letterboxBackgroundType">3#g' frameworks/base/core/res/res/values/config.xml
         sed -i 's#config_letterboxBackgroundType">0#config_letterboxBackgroundType">3#g' frameworks/base/core/res/res/values/config.xml
     fi
+
+    echo ""
+    echo -e "${ltgreen}copy_configs() complete${reset}"
+    echo ""
 }
 
 function add_grub_cmdline_options()
