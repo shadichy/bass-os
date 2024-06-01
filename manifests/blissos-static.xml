@@ -1417,7 +1417,7 @@
   </project>
   <project name="platform_hardware_qcom_wlan" path="hardware/qcom/wlan" remote="BlissRoms" revision="universe-pre-qpr" upstream="universe-pre-qpr" dest-branch="universe-pre-qpr"/>
   <project name="platform_manifest" path="manifest" remote="BlissOS" revision="b5bf6382974e8f7c73f4b9d64b0bbea28fbe8013" upstream="universe-x86" dest-branch="universe-x86"/>
-  <project name="platform_packages_apps_BlissSystemUI" path="packages/apps/BlissSystemUI" remote="BlissRoms" revision="universe-pre-qpr" upstream="universe-pre-qpr" dest-branch="universe-pre-qpr"/>
+  <project name="platform_packages_apps_BlissSystemUI" path="packages/apps/BlissSystemUI" remote="BlissRoms" revision="178020519ccef8aa804d4ff485fb432bdb08fe5d" upstream="universe" dest-branch="universe"/>
   <project name="platform_packages_apps_Blissify" path="packages/apps/Blissify" remote="BlissOS" revision="6b779c404c30c789962456536f0d8786639f3747" upstream="universe-x86" dest-branch="universe-x86"/>
   <project name="platform_packages_apps_Contacts" path="packages/apps/Contacts" remote="BlissRoms" revision="universe-pre-qpr" upstream="universe-pre-qpr" dest-branch="universe-pre-qpr"/>
   <project name="platform_packages_apps_DeskClock" path="packages/apps/DeskClock" remote="BlissRoms" revision="universe-pre-qpr" upstream="universe-pre-qpr" dest-branch="universe-pre-qpr"/>
