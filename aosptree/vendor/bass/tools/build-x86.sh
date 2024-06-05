@@ -181,10 +181,20 @@ function clean_configs()
             git checkout -- $file
         done
     fi
+    if [[ "$BLISS_CLEAR_DW_HOTSEAT" = "true" ]]; then
+        DWORKSPACE_LIST=$(find res/xml/ -type f -name "dw_hotseat*.xml")
+        for file in $DWORKSPACE_LIST
+        do
+            git checkout -- $file
+        done
+    fi
     git checkout -- src/com/android/launcher3/config/FeatureFlags.java
     cd ../../..
     cd packages/apps/Blissify
     git checkout -- res/xml/blissify_button.xml
+    cd ../../..
+    cd packages/apps/Settings
+    git checkout -- res/xml/button_settings.xml
     cd ../../..
     cd kernel
     git checkout -- arch/x86/configs/android-x86_64_defconfig
