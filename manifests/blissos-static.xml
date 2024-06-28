@@ -187,7 +187,7 @@
   <project name="external_tree" path="external/tree" remote="ag-gitlab" revision="d416ac08403f324d958cf0f37d8fa6ceaaac902c" upstream="u-x86" dest-branch="u-x86"/>
   <project name="external_v86d" path="external/v86d" remote="ag-github" revision="bf5f11a175a6740dd29cd224c804e03b2ac80558" upstream="r-x86" dest-branch="r-x86"/>
   <project name="fmt" path="external/fmtlib9" remote="ag-github" revision="1cbb1c3f11ef589eecb58caa0f70f77a426b4ec0" upstream="android" dest-branch="android"/>
-  <project name="glodroid_aospext" path="glodroid/aospext" remote="ag-github" revision="f03a36184c15b5d4b9bfb7f26cf000b84413649e" upstream="main" dest-branch="main"/>
+  <project name="glodroid_aospext" path="glodroid/aospext" remote="ag-github" revision="191f9efcbc0cd2d00d03da0a4832bf1ba1834cdb" upstream="main" dest-branch="main"/>
   <project name="hardware_intel_audio" path="hardware/intel/audio" remote="ag-github" revision="647fa2280230fccaef9bdfb72dc236f076bcf4c2" upstream="13-x86" dest-branch="13-x86"/>
   <project name="hardware_intel_common_gmmlib" path="hardware/intel/common/gmmlib" remote="ag-github" revision="aac8272ad770435a175104e672c581bfc23fc6ac" upstream="latest" dest-branch="latest"/>
   <project name="hardware_intel_common_libva" path="hardware/intel/common/libva" remote="ag-github" revision="9433fbe0cf49a0afbe6cfaf2ff67b3b95f456cbb" upstream="11-x86" dest-branch="11-x86"/>
