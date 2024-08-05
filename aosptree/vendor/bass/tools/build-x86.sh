@@ -461,7 +461,7 @@ while [[ $# -gt 0 ]]; do
             shift
             ;;
         --desktoponsecondary)
-            USE_DESKTOP_MODE_ON_SECONDARY_DISPLAY=true
+            USE_DESKTOP_MODE_ON_SECONDARY_DISPLAYS=true
             shift
             ;;
         --grubcmdline)
@@ -697,7 +697,7 @@ echo "UseGboardLitePrebuilt: ${USE_GBOARD_LITE_PREBUILT}";
 echo "UseMinimalFossApps: ${USE_MINIMAL_FOSS_APPS}";
 echo "DisableDeviceSearch: ${BLISS_DISABLE_DEVICE_SEARCH}";
 echo "BuildSecureADB: ${BLISS_BUILD_SECURE_ADB}";
-echo "DesktopModeOnSecondaryDisplays: ${USE_DESKTOP_MODE_ON_SECONDARY_DISPLAY}";
+echo "DesktopModeOnSecondaryDisplays: ${USE_DESKTOP_MODE_ON_SECONDARY_DISPLAYS}";
 echo "GrubCmdlineOptions: ${GRUB_CMDLINE_OPTIONS}";
 echo "IncludeAgPrivApps: ${INCLUDE_AGPRIVAPPS}";
 echo "BassDoNotClean: ${BASS_DO_NOT_CLEAN}";
