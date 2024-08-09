@@ -1417,7 +1417,7 @@
   </project>
   <project name="platform_hardware_qcom_wlan" path="hardware/qcom/wlan" remote="BlissRoms" revision="universe-pre-qpr" upstream="universe-pre-qpr" dest-branch="universe-pre-qpr"/>
   <project name="platform_manifest" path="manifest" remote="BlissOS" revision="b5bf6382974e8f7c73f4b9d64b0bbea28fbe8013" upstream="universe-x86" dest-branch="universe-x86"/>
-  <project name="platform_packages_apps_BlissSystemUI" path="packages/apps/BlissSystemUI" remote="BlissRoms" revision="178020519ccef8aa804d4ff485fb432bdb08fe5d" upstream="universe" dest-branch="universe"/>
+  <project name="platform_packages_apps_BlissSystemUI" path="packages/apps/BlissSystemUI" remote="BlissOS" revision="178020519ccef8aa804d4ff485fb432bdb08fe5d" upstream="universe-x86" dest-branch="universe-x86"/>
   <project name="platform_packages_apps_Blissify" path="packages/apps/Blissify" remote="BlissOS" revision="6b779c404c30c789962456536f0d8786639f3747" upstream="universe-x86" dest-branch="universe-x86"/>
   <project name="platform_packages_apps_Contacts" path="packages/apps/Contacts" remote="BlissRoms" revision="universe-pre-qpr" upstream="universe-pre-qpr" dest-branch="universe-pre-qpr"/>
   <project name="platform_packages_apps_DeskClock" path="packages/apps/DeskClock" remote="BlissRoms" revision="universe-pre-qpr" upstream="universe-pre-qpr" dest-branch="universe-pre-qpr"/>
@@ -1429,7 +1429,7 @@
   <project name="platform_packages_apps_ThemePicker" path="packages/apps/ThemePicker" remote="BlissOS" revision="6f6d4f6f93f9cf197ba90a33bd05855b89f8e91e" upstream="universe-x86" dest-branch="universe-x86"/>
   <project name="platform_packages_modules_Bluetooth" path="packages/modules/Bluetooth" remote="BlissOS" revision="universe-x86" upstream="universe-x86" dest-branch="universe-x86"/>
   <project name="platform_packages_modules_Wifi" path="packages/modules/Wifi" remote="BlissOS" revision="afeac6b800348a64440a2d412315596e7ad50fba" upstream="universe-x86" dest-branch="universe-x86" groups="pdk-cw-fs,pdk-fs"/>
-  <project name="platform_packages_modules_adb" path="packages/modules/adb" remote="BlissRoms" revision="a394017210684fa5fd0cebeae312bfed9c773a87" upstream="universe" dest-branch="universe"/>
+  <project name="platform_packages_modules_adb" path="packages/modules/adb" remote="BR-x86" revision="a394017210684fa5fd0cebeae312bfed9c773a87" upstream="universe-x86-08052024" dest-branch="universe-x86-08052024"/>
   <project name="platform_packages_modules_common" path="packages/modules/common" remote="BlissRoms" revision="4255debbbedd66cb0bc08f90ea29241bbeb1d497" upstream="universe" dest-branch="universe" groups="pdk-cw-fs,pdk-fs"/>
   <project name="platform_packages_services_OmniJaws" path="packages/services/OmniJaws" remote="BlissRoms" revision="universe-pre-qpr" upstream="universe-pre-qpr" dest-branch="universe-pre-qpr"/>
   <project name="platform_prebuilts_abi-dumps_vndk" path="prebuilts/abi-dumps/vndk" remote="BlissOS" revision="bcb302462c9c1e53c7e89c799fbcf74b13227276" upstream="universe-x86" dest-branch="universe-x86"/>
