@@ -217,4 +217,5 @@ $(foreach f,$(wildcard $(LOCAL_PATH)/permissions/*.xml),\
 PRODUCT_PROPERTY_OVERRIDES += \
     ro.bliss.device.vendor.id=BASS.DEMO.A01-001 \
     ro.boot.hardware.sku=BASS.DEMO.A01-001 \
-    ro.boot.product.hardware.sku=BASS.DEMO.A01-001
+    ro.boot.product.hardware.sku=BASS.DEMO.A01-001 \
+    ro.bliss.device.is.licensed=false
