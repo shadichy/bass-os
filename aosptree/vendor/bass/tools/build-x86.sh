@@ -645,6 +645,13 @@ if [ "$BLISS_PRODUCTION_BUILD" = "true" ]; then
     fi
 fi
 
+if [ "$USE_LINDROID" = "true" ]; then
+echo -e ""
+echo -e "Enabling libhybris debugging..."
+echo -e ""
+export ENABLE_LIBHYBRIS_DEBUGGING=true
+fi
+
 # Display build configuration
 echo "Title: ${RELEASE_OS_TITLE}";
 echo "SmartDock: ${USE_SMARTDOCK}";
