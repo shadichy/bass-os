@@ -191,6 +191,16 @@ PRODUCT_PACKAGES += \
 
 endif
 
+ifeq ($(USE_LINDROID),true)
+    PRODUCT_PROPERTY_OVERRIDES += \
+        ro.boot.enable_console=true
+
+endif
+
+# ifneq (,$(filter true,$(USE_SMARTDOCK_B) $(USE_SMARTDOCK) $(USE_DESKTOP_MODE_ON_SECONDARY_DISPLAY)))
+#   PRODUCT_PROPERTY_OVERRIDES += persist.wm.debug.desktop_mode=true
+# endif
+
 # Copy any Permissions files, overriding anything if needed
 $(foreach f,$(wildcard $(LOCAL_PATH)/permissions/*.xml),\
     $(eval PRODUCT_COPY_FILES += $(f):$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/permissions/$(notdir $f)))
