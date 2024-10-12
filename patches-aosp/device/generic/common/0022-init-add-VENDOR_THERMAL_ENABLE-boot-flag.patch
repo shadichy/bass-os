@@ -1,7 +1,7 @@
-From f642509c7c83d5dd4652eaa6975162437bc3627d Mon Sep 17 00:00:00 2001
+From c320fac0b6a7b285241883f9c10ecfefb648fab7 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Sat, 12 Oct 2024 15:30:59 -0400
-Subject: [PATCH 23/25] init: add VENDOR_THERMAL_ENABLE boot flag
+Subject: [PATCH 22/23] init: add VENDOR_THERMAL_ENABLE boot flag
 
 This will give us a way to disable the Intel thermal HAL on devices.
 ---
@@ -9,10 +9,10 @@ This will give us a way to disable the Intel thermal HAL on devices.
  1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/init.sh b/init.sh
-index 1ca9d2a..ef2bc82 100644
+index 6ca5c85..17d2889 100644
 --- a/init.sh
 +++ b/init.sh
-@@ -570,10 +570,14 @@ function init_hal_thermal()
+@@ -652,10 +652,14 @@ function init_hal_thermal()
  	#thermal-daemon test, pulled from Project Celadon
  	case "$(cat /sys/class/dmi/id/chassis_vendor | head -1)" in 
  	QEMU)

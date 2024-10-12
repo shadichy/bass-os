@@ -1,17 +1,17 @@
-From f66d87adc600a8dab7b888962cea84db8ec07bcd Mon Sep 17 00:00:00 2001
+From b15273186d2d1da5361f56c4916d72e94016a86b Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Fri, 31 May 2024 23:15:11 -0400
-Subject: [PATCH 13/25] init: Better set_lowmem options for A14
+Subject: [PATCH 12/23] init: Better set_lowmem options for A14
 
 ---
  init.sh | 18 +++++++++++++-----
  1 file changed, 13 insertions(+), 5 deletions(-)
 
 diff --git a/init.sh b/init.sh
-index 70f501a..cde04dd 100644
+index d7f3335..df7555d 100644
 --- a/init.sh
 +++ b/init.sh
-@@ -752,17 +752,25 @@ function init_cpu_governor()
+@@ -825,17 +825,25 @@ function init_cpu_governor()
  
  function set_lowmem()
  {

@@ -1,7 +1,7 @@
-From 17bd2d4f65cef0588485c46a4c2345663bcc9fa8 Mon Sep 17 00:00:00 2001
+From 3cc505d9c2d61943e3565b8adc08523a86604504 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Fri, 9 Aug 2024 12:59:04 -0400
-Subject: [PATCH 21/25] init: rework CPU scaling
+Subject: [PATCH 20/23] init: rework CPU scaling
 
 ---
  init.sh     | 54 +++++++++++++++++++++++++++++++++++++++++------------
@@ -9,10 +9,10 @@ Subject: [PATCH 21/25] init: rework CPU scaling
  2 files changed, 72 insertions(+), 12 deletions(-)
 
 diff --git a/init.sh b/init.sh
-index 4ed0a6f..c66a19a 100644
+index c16688c..8e95b0f 100644
 --- a/init.sh
 +++ b/init.sh
-@@ -801,6 +801,19 @@ function init_cpu_governor()
+@@ -874,6 +874,19 @@ function init_cpu_governor()
  	}
  }
  
@@ -32,7 +32,7 @@ index 4ed0a6f..c66a19a 100644
  function set_lowmem()
  {
  	# 3GB size in kB : https://source.android.com/devices/tech/perf/low-ram
-@@ -1438,14 +1451,33 @@ function set_package_opts()
+@@ -1511,14 +1524,33 @@ function set_package_opts()
  
  function init_misc_cpu()
  {
@@ -74,7 +74,7 @@ index 4ed0a6f..c66a19a 100644
  
  	# Allow for adjusting cpu energy performance
  	# Normal options: default, performance, balance_performance, balance_power, power
-@@ -1462,10 +1494,7 @@ function init_misc_cpu()
+@@ -1535,10 +1567,7 @@ function init_misc_cpu()
  
  	fi
  
@@ -86,7 +86,7 @@ index 4ed0a6f..c66a19a 100644
  		echo passive > /sys/devices/system/cpu/intel_pstate/status
  	fi
  }
-@@ -1509,6 +1538,7 @@ function do_bootcomplete()
+@@ -1583,6 +1612,7 @@ function do_bootcomplete()
  	hciconfig | grep -q hci || pm disable com.android.bluetooth
  
  	init_cpu_governor
@@ -95,7 +95,7 @@ index 4ed0a6f..c66a19a 100644
  	[ -z "$(getprop persist.sys.root_access)" ] && setprop persist.sys.root_access 3
  
 diff --git a/init.x86.rc b/init.x86.rc
-index 315b25b..0d1c0c1 100644
+index 2a97b97..2898cd3 100644
 --- a/init.x86.rc
 +++ b/init.x86.rc
 @@ -56,6 +56,10 @@ on post-fs-data

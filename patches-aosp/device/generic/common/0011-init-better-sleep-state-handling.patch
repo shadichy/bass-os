@@ -1,17 +1,17 @@
-From 726fca97ed2f85499fa30d553573e5a53111273e Mon Sep 17 00:00:00 2001
+From 48da6578b4fe8cfe39db8eafa78884dedb357118 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Fri, 31 May 2024 23:13:05 -0400
-Subject: [PATCH 12/25] init: better sleep state handling
+Subject: [PATCH 11/23] init: better sleep state handling
 
 ---
  init.sh | 13 ++++++++++++-
  1 file changed, 12 insertions(+), 1 deletion(-)
 
 diff --git a/init.sh b/init.sh
-index 621659d..70f501a 100644
+index ce93b3a..d7f3335 100644
 --- a/init.sh
 +++ b/init.sh
-@@ -551,7 +551,18 @@ function init_hal_power()
+@@ -633,7 +633,18 @@ function init_hal_power()
  			;;
  	esac
  

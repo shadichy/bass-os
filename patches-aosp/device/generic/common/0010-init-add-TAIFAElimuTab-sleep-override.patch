@@ -1,17 +1,17 @@
-From 6173c92c2304d971e33ad82f98cac57ad927e5e9 Mon Sep 17 00:00:00 2001
+From 2edf12090c0c26702620b08392ddc33b4df846c6 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Fri, 31 May 2024 23:11:36 -0400
-Subject: [PATCH 11/25] init: add TAIFAElimuTab sleep override
+Subject: [PATCH 10/23] init: add TAIFAElimuTab sleep override
 
 ---
  init.sh | 3 +++
  1 file changed, 3 insertions(+)
 
 diff --git a/init.sh b/init.sh
-index a18d18b..621659d 100644
+index 189c5ac..ce93b3a 100644
 --- a/init.sh
 +++ b/init.sh
-@@ -544,6 +544,9 @@ function init_hal_power()
+@@ -626,6 +626,9 @@ function init_hal_power()
  		e-tab*Pro)
  			SLEEP_STATE=force
  			;;

@@ -1,17 +1,17 @@
-From 42903898e1d64692af28e838f3274efdc5844030 Mon Sep 17 00:00:00 2001
+From 5715680ecf0e9ed751ce91fec2322d5ca186548e Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Fri, 31 May 2024 23:19:01 -0400
-Subject: [PATCH 14/25] init: Also disable blissroms/blissos updaters
+Subject: [PATCH 13/23] init: Also disable blissroms/blissos updaters
 
 ---
  init.sh | 2 ++
  1 file changed, 2 insertions(+)
 
 diff --git a/init.sh b/init.sh
-index cde04dd..3bbd4f6 100644
+index df7555d..8f46196 100644
 --- a/init.sh
 +++ b/init.sh
-@@ -1514,6 +1514,8 @@ function do_bootcomplete()
+@@ -1595,6 +1595,8 @@ function do_bootcomplete()
  	#/system/bin xtr.keymapper.server.InputService > /dev/null 2>&1 &
  
  	if [ ! "$(getprop ro.boot.slot_suffix)" ]; then

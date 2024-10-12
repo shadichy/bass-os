@@ -1,17 +1,17 @@
-From 023b24dd633a1ff4e17e1dec2b121fc1d0d557ab Mon Sep 17 00:00:00 2001
+From 2007aa95694e308f769353182c4f20c1dd75abd8 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
-Date: Fri, 31 May 2024 22:55:09 -0400
-Subject: [PATCH 05/25] init: Add set_max_logd options
+Date: Sat, 12 Oct 2024 17:45:27 -0400
+Subject: [PATCH 04/23] init: Add set_max_logd options
 
 ---
  init.sh | 35 +++++++++++++++++++++++++++++++++++
  1 file changed, 35 insertions(+)
 
 diff --git a/init.sh b/init.sh
-index 332d7bd..39796f4 100644
+index 48cbc08..eb66122 100644
 --- a/init.sh
 +++ b/init.sh
-@@ -903,6 +903,40 @@ function set_usb_mode()
+@@ -976,6 +976,40 @@ function set_usb_mode()
  	done
  }
  
@@ -52,14 +52,14 @@ index 332d7bd..39796f4 100644
  function do_init()
  {
  	init_misc
-@@ -911,6 +945,7 @@ function do_init()
+@@ -984,6 +1018,7 @@ function do_init()
  	set_custom_timezone
  	init_hal_audio
  	set_custom_ota
 +	set_max_logd
+ 	init_hal_brcm_wifi
  	init_hal_bluetooth
  	init_hal_camera
- 	init_hal_gps
 -- 
 2.34.1
 

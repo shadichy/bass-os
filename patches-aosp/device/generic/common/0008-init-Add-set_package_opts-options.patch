@@ -1,17 +1,17 @@
-From 414076efb159df6a9e4c95c17e80845cb390311e Mon Sep 17 00:00:00 2001
+From 1d49a2769a85872dabf398ef9f43b77c16bca0b1 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Fri, 31 May 2024 23:04:11 -0400
-Subject: [PATCH 09/25] init: Add set_package_opts options
+Subject: [PATCH 08/23] init: Add set_package_opts options
 
 ---
  init.sh | 51 +++++++++++++++++++++++++++++++++++++++++++++++++++
  1 file changed, 51 insertions(+)
 
 diff --git a/init.sh b/init.sh
-index f30487c..e4a4254 100644
+index 7b05352..1186820 100644
 --- a/init.sh
 +++ b/init.sh
-@@ -1313,6 +1313,56 @@ function set_custom_settings()
+@@ -1386,6 +1386,56 @@ function set_custom_settings()
  	
  }
  
@@ -68,7 +68,7 @@ index f30487c..e4a4254 100644
  function do_init()
  {
  	init_misc
-@@ -1410,6 +1460,7 @@ function do_bootcomplete()
+@@ -1491,6 +1541,7 @@ function do_bootcomplete()
  	fi
  
  	set_custom_settings

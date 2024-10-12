@@ -1,7 +1,7 @@
-From b6951f7da95e1a529e9365771b678cbb47779452 Mon Sep 17 00:00:00 2001
+From 93c541f97ed6f2b476896fab46184e4eba7af68d Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Sat, 1 Jun 2024 12:28:39 -0400
-Subject: [PATCH 16/25] overlays: update with bass config defaults
+Subject: [PATCH 15/23] overlays: update with bass config defaults
 
 ---
  .../base/core/res/res/values/config.xml       | 56 +++++++++++++++++++

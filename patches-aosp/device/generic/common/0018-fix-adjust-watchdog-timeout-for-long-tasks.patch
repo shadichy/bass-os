@@ -1,7 +1,7 @@
-From 674c348e98185c9860a4c33c7a47c6498df3c23e Mon Sep 17 00:00:00 2001
+From bf8b46717f3068e01dab232f89facc184f5772e3 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Thu, 27 Jun 2024 11:47:52 -0400
-Subject: [PATCH 19/25] fix: adjust watchdog timeout for long tasks
+Subject: [PATCH 18/23] fix: adjust watchdog timeout for long tasks
 
 This adds ro.hw_timeout_multiplier property to the device
 ---
@@ -9,10 +9,10 @@ This adds ro.hw_timeout_multiplier property to the device
  1 file changed, 4 insertions(+)
 
 diff --git a/device.mk b/device.mk
-index db08247..66478ad 100644
+index eee14de..5e375e5 100644
 --- a/device.mk
 +++ b/device.mk
-@@ -69,6 +69,10 @@ endif
+@@ -74,6 +74,10 @@ endif
  PRODUCT_PRODUCT_PROPERTIES += \
      persist.sys.fuse.passthrough.enable=true
  

@@ -1,17 +1,17 @@
-From a14261afbde1203e7158193e5522b7d671cc1342 Mon Sep 17 00:00:00 2001
+From 46c31df70479aaa5b74eb87a49454e1008dfa687 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Fri, 31 May 2024 22:49:00 -0400
-Subject: [PATCH 03/25] Inherit bass toolkit
+Subject: [PATCH 02/23] Inherit bass toolkit
 
 ---
  device.mk | 3 +++
  1 file changed, 3 insertions(+)
 
 diff --git a/device.mk b/device.mk
-index ad17e85..b7cd12f 100644
+index 15b1cb1..642dd73 100644
 --- a/device.mk
 +++ b/device.mk
-@@ -306,6 +306,9 @@ $(call inherit-product-if-exists, vendor/google/proprietary/SettingsIntelligence
+@@ -310,6 +310,9 @@ $(call inherit-product-if-exists, vendor/google/proprietary/SettingsIntelligence
  # Boringdroid
  $(call inherit-product-if-exists, vendor/boringdroid/boringdroid.mk)
  

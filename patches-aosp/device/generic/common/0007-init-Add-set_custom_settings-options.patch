@@ -1,17 +1,17 @@
-From 2297e1ba02d8c17c3b6dcc10580f5400888d71b7 Mon Sep 17 00:00:00 2001
+From 771c29e71e800030d9815493e4e0d9d9a0194a26 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Fri, 31 May 2024 23:03:08 -0400
-Subject: [PATCH 08/25] init: Add set_custom_settings options
+Subject: [PATCH 07/23] init: Add set_custom_settings options
 
 ---
  init.sh | 69 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  1 file changed, 69 insertions(+)
 
 diff --git a/init.sh b/init.sh
-index 1d84120..f30487c 100644
+index c6b2015..7b05352 100644
 --- a/init.sh
 +++ b/init.sh
-@@ -1246,6 +1246,73 @@ function set_custom_package_perms()
+@@ -1319,6 +1319,73 @@ function set_custom_package_perms()
  
  }
  
@@ -85,7 +85,7 @@ index 1d84120..f30487c 100644
  function do_init()
  {
  	init_misc
-@@ -1342,6 +1409,8 @@ function do_bootcomplete()
+@@ -1423,6 +1490,8 @@ function do_bootcomplete()
  		pm disable org.lineageos.updater
  	fi
  

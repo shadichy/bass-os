@@ -1,17 +1,17 @@
-From 1fa62058dd12948d96a9cdcded7f791922bd18f3 Mon Sep 17 00:00:00 2001
+From 9d49cea394453a785041cb111446097b9cb1b140 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Fri, 31 May 2024 22:57:46 -0400
-Subject: [PATCH 06/25] init: Add set_iio_options options...
+Subject: [PATCH 05/23] init: Add set_iio_options options...
 
 ---
  init.sh | 41 +++++++++++++++++++++++++++++++++++++++++
  1 file changed, 41 insertions(+)
 
 diff --git a/init.sh b/init.sh
-index 39796f4..f1b362a 100644
+index eb66122..0998867 100644
 --- a/init.sh
 +++ b/init.sh
-@@ -937,6 +937,46 @@ function set_max_logd()
+@@ -1010,6 +1010,46 @@ function set_max_logd()
  	
  }
  
@@ -58,7 +58,7 @@ index 39796f4..f1b362a 100644
  function do_init()
  {
  	init_misc
-@@ -958,6 +998,7 @@ function do_init()
+@@ -1032,6 +1072,7 @@ function do_init()
  	init_hal_thermal
  	init_hal_sensors
  	init_hal_surface

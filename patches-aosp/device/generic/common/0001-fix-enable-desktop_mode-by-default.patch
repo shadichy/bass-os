@@ -1,17 +1,17 @@
-From 10d8ad31fb28e0f633a022620bbecfad9b8265f5 Mon Sep 17 00:00:00 2001
+From e5b34eaefeb1766ccd77b365fdc57cce0e2f38f8 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Fri, 31 May 2024 22:46:22 -0400
-Subject: [PATCH 02/25] fix: enable desktop_mode by default
+Subject: [PATCH 01/23] fix: enable desktop_mode by default
 
 ---
  device.mk | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/device.mk b/device.mk
-index d377534..ad17e85 100644
+index 4da3237..15b1cb1 100644
 --- a/device.mk
 +++ b/device.mk
-@@ -308,7 +308,7 @@ $(call inherit-product-if-exists, vendor/boringdroid/boringdroid.mk)
+@@ -312,7 +312,7 @@ $(call inherit-product-if-exists, vendor/boringdroid/boringdroid.mk)
  
  # Enable MultiWindow
  PRODUCT_PROPERTY_OVERRIDES += \

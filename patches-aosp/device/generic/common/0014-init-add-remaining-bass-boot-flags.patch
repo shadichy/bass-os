@@ -1,17 +1,17 @@
-From 307f9780f0c04e01999c007366f705c7f37623ab Mon Sep 17 00:00:00 2001
+From 6f56eaf5cb4b3e4913434101c48796f57d64d847 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Fri, 31 May 2024 23:28:44 -0400
-Subject: [PATCH 15/25] init: add remaining bass boot flags
+Subject: [PATCH 14/23] init: add remaining bass boot flags
 
 ---
  init.sh | 128 ++++++++++++++++++++++++++++++++++++++++++++++++++------
  1 file changed, 115 insertions(+), 13 deletions(-)
 
 diff --git a/init.sh b/init.sh
-index 3bbd4f6..f34371e 100644
+index 8f46196..d8dc9bc 100644
 --- a/init.sh
 +++ b/init.sh
-@@ -672,6 +672,57 @@ function init_hal_sensors()
+@@ -741,6 +741,57 @@ function init_hal_sensors()
              fi
      fi
  
@@ -69,7 +69,7 @@ index 3bbd4f6..f34371e 100644
      set_property ro.iio.accel.quirks "no-trig,no-event"
      set_property ro.iio.anglvel.quirks "no-trig,no-event"
      set_property ro.iio.magn.quirks "no-trig,no-event"
-@@ -1552,19 +1603,6 @@ for c in `cat /proc/cmdline`; do
+@@ -1633,19 +1684,6 @@ for c in `cat /proc/cmdline`; do
  					DPI=*)
  						set_property ro.sf.lcd_density "$DPI"
  						;;
@@ -89,7 +89,7 @@ index 3bbd4f6..f34371e 100644
  					# Battery Stats
  					SET_FAKE_BATTERY_LEVEL=*)
  						# Let us fake the total battery percentage
-@@ -1600,6 +1638,70 @@ for c in `cat /proc/cmdline`; do
+@@ -1681,6 +1719,70 @@ for c in `cat /proc/cmdline`; do
  						# Force disable recents
  						# options: true, false
  						set_property persist.bliss.disable_recents "$FORCE_DISABLE_RECENTS"

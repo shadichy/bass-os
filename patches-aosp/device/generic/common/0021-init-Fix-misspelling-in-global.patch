@@ -1,17 +1,17 @@
-From c4f694d44189cbeb32405f37b0ad2fe213423d94 Mon Sep 17 00:00:00 2001
+From 7d22c45e56c766fe01274b3118d096422ce82a20 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Tue, 27 Aug 2024 19:30:43 -0400
-Subject: [PATCH 22/25] init: Fix misspelling in "global"
+Subject: [PATCH 21/23] init: Fix misspelling in "global"
 
 ---
  init.sh | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/init.sh b/init.sh
-index c66a19a..1ca9d2a 100644
+index 8e95b0f..6ca5c85 100644
 --- a/init.sh
 +++ b/init.sh
-@@ -1388,7 +1388,7 @@ function set_custom_settings()
+@@ -1461,7 +1461,7 @@ function set_custom_settings()
  							fi
  							;;
  						FORCE_USE_ADB_CLIENT_MODE=3)

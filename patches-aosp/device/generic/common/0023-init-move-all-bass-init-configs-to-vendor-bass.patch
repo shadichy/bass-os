@@ -1,17 +1,17 @@
-From 04efb258fe9d081c29084a79b8b95c09480f8fe2 Mon Sep 17 00:00:00 2001
+From 79ca199da2c94cb3fc8dd64b8eeae7dc6dd6fae1 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
-Date: Sat, 12 Oct 2024 15:33:15 -0400
-Subject: [PATCH 25/25] init: move all bass init configs to vendor/bass
+Date: Sat, 12 Oct 2024 17:51:45 -0400
+Subject: [PATCH 23/23] init: move all bass init configs to vendor/bass
 
 ---
- init.sh | 598 --------------------------------------------------------
- 1 file changed, 598 deletions(-)
+ init.sh | 574 --------------------------------------------------------
+ 1 file changed, 574 deletions(-)
 
 diff --git a/init.sh b/init.sh
-index ef2bc82..c4929a7 100644
+index 17d2889..e3e9738 100644
 --- a/init.sh
 +++ b/init.sh
-@@ -676,57 +676,6 @@ function init_hal_sensors()
+@@ -745,57 +745,6 @@ function init_hal_sensors()
              fi
      fi
  
@@ -69,37 +69,7 @@ index ef2bc82..c4929a7 100644
      set_property ro.iio.accel.quirks "no-trig,no-event"
      set_property ro.iio.anglvel.quirks "no-trig,no-event"
      set_property ro.iio.magn.quirks "no-trig,no-event"
-@@ -818,29 +767,6 @@ function init_cpu_scaling()
- 
- }
- 
--function set_lowmem()
--{
--	# 3GB size in kB : https://source.android.com/devices/tech/perf/low-ram
--	SIZE_3GB=3145728
--
--	mem_size=`cat /proc/meminfo | grep MemTotal | tr -s ' ' | cut -d ' ' -f 2`
--
--	if [ "$mem_size" -le "$SIZE_3GB" ]
--	then
--		setprop ro.config.low_ram ${FORCE_LOW_MEM:-true}
--	else
--		# Choose between low-memory vs high-performance device. 
--		# Default = false.
--		setprop ro.config.low_ram ${FORCE_LOW_MEM:-false}
--	fi
--
--	# Use free memory and file cache thresholds for making decisions 
--	# when to kill. This mode works the same way kernel lowmemorykiller 
--	# driver used to work. AOSP Default = false, Our default = true
--	setprop ro.lmk.use_minfree_levels ${FORCE_MINFREE_LEVELS:-true}
--	
--}
--
- function set_custom_ota()
- {
- 	for c in `cat /proc/cmdline`; do
-@@ -897,138 +823,6 @@ function init_prepare_ota()
+@@ -970,138 +919,6 @@ function init_prepare_ota()
  	fi
  }
  
@@ -238,7 +208,7 @@ index ef2bc82..c4929a7 100644
  # Allow iio options to be passed through cmdline
  function set_iio_options()
  {
-@@ -1069,389 +863,6 @@ function set_iio_options()
+@@ -1142,389 +959,6 @@ function set_iio_options()
  	done
  }
  
@@ -628,20 +598,19 @@ index ef2bc82..c4929a7 100644
  
  function init_misc_cpu()
  {
-@@ -1506,12 +917,8 @@ function init_misc_cpu()
- function do_init()
+@@ -1580,11 +1014,8 @@ function do_init()
  {
  	init_misc
--	set_lowmem
+ 	set_lowmem
 -	set_usb_mode
 -	set_custom_timezone
  	init_hal_audio
  	set_custom_ota
 -	set_max_logd
+ 	init_hal_brcm_wifi
  	init_hal_bluetooth
  	init_hal_camera
- 	init_hal_gps
-@@ -1594,17 +1001,12 @@ function do_bootcomplete()
+@@ -1675,17 +1106,12 @@ function do_bootcomplete()
  	#CLASSPATH=$(echo /data/app/*/xtr.keymapper*/base.apk) /system/bin/app_process \
  	#/system/bin xtr.keymapper.server.InputService > /dev/null 2>&1 &
  

@@ -1,14 +1,14 @@
-From d0d80b99c659e4afc5641aae1b2deaa69b87cc21 Mon Sep 17 00:00:00 2001
+From ce1732f604f608a602551ec1a1f0bcaa83f97719 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
-Date: Fri, 31 May 2024 23:11:10 -0400
-Subject: [PATCH 10/25] init: add init_misc_cpu options
+Date: Sat, 12 Oct 2024 17:47:06 -0400
+Subject: [PATCH 09/23] init: add init_misc_cpu options
 
 ---
  init.sh | 36 ++++++++++++++++++++++++++++++++++++
  1 file changed, 36 insertions(+)
 
 diff --git a/init.sh b/init.sh
-index e4a4254..a18d18b 100644
+index 1186820..189c5ac 100644
 --- a/init.sh
 +++ b/init.sh
 @@ -30,6 +30,8 @@ function init_misc()
@@ -17,10 +17,10 @@ index e4a4254..a18d18b 100644
  
 +	init_misc_cpu
 +
- 	# enable sdcardfs if /data is not mounted on tmpfs or 9p
- 	#mount | grep /data\ | grep -qE 'tmpfs|9p'
- 	#[ $? -eq 0 ] && set_prop_if_empty ro.sys.sdcardfs false
-@@ -1363,6 +1365,40 @@ function set_package_opts()
+ 	# enable sdcardfs/esdfs if /data is not mounted on tmpfs or 9p
+ 	mount | grep /data\ | grep -qE 'tmpfs|9p'
+ 	[ $? -eq 0 ] && SDCARDFS_DISABLE=${SDCARDFS_DISABLE:-1}
+@@ -1436,6 +1438,40 @@ function set_package_opts()
  	
  }
  

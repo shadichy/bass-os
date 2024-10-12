@@ -1,17 +1,17 @@
-From 7c4637f93b50b2e18d7bca0b6b875b23b5264ac0 Mon Sep 17 00:00:00 2001
+From a277b290d7881438d548e2a1c69828df7120224c Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Thu, 27 Jun 2024 11:46:41 -0400
-Subject: [PATCH 18/25] Use fuse passthrough
+Subject: [PATCH 17/23] Use fuse passthrough
 
 ---
  device.mk | 6 +++++-
  1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/device.mk b/device.mk
-index b7cd12f..db08247 100644
+index 642dd73..eee14de 100644
 --- a/device.mk
 +++ b/device.mk
-@@ -65,6 +65,10 @@ PRODUCT_PRODUCT_PROPERTIES += \
+@@ -70,6 +70,10 @@ PRODUCT_PRODUCT_PROPERTIES += \
      ro.lmk.use_new_strategy=false
  endif
  
@@ -22,7 +22,7 @@ index b7cd12f..db08247 100644
  PRODUCT_COPY_FILES := \
      $(if $(wildcard $(PRODUCT_DIR)init.rc),$(PRODUCT_DIR)init.rc:root/init.rc) \
      $(if $(wildcard $(PRODUCT_DIR)init.sh),$(PRODUCT_DIR),$(LOCAL_PATH)/)init.sh:system/etc/init.sh \
-@@ -175,7 +179,7 @@ $(foreach f,$(wildcard $(LOCAL_PATH)/permissions/*.xml),\
+@@ -179,7 +183,7 @@ $(foreach f,$(wildcard $(LOCAL_PATH)/permissions/*.xml),\
      $(eval PRODUCT_COPY_FILES += $(f):$(TARGET_COPY_OUT_SYSTEM_EXT)/etc/permissions/$(notdir $f)))
  
  # Get emulated storage settings

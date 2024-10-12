@@ -1,17 +1,17 @@
-From 32a4a06ade4d6b7f97edaadb750343eaf9c6f1ac Mon Sep 17 00:00:00 2001
+From 98bc080c458e68e9b16a768b51f47fcbffb3720d Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Fri, 31 May 2024 23:00:38 -0400
-Subject: [PATCH 07/25] init: Add set_custom_package_perms options
+Subject: [PATCH 06/23] init: Add set_custom_package_perms options
 
 ---
  init.sh | 271 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  1 file changed, 271 insertions(+)
 
 diff --git a/init.sh b/init.sh
-index f1b362a..1d84120 100644
+index 0998867..c6b2015 100644
 --- a/init.sh
 +++ b/init.sh
-@@ -977,6 +977,275 @@ function set_iio_options()
+@@ -1050,6 +1050,275 @@ function set_iio_options()
  	done
  }
  
@@ -287,7 +287,7 @@ index f1b362a..1d84120 100644
  function do_init()
  {
  	init_misc
-@@ -1015,6 +1284,8 @@ function do_bootcomplete()
+@@ -1089,6 +1358,8 @@ function do_bootcomplete()
  {
  	hciconfig | grep -q hci || pm disable com.android.bluetooth
  

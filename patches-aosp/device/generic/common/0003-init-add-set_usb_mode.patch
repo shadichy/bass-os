@@ -1,17 +1,17 @@
-From aec9f0ca8376cba4e31dc4bdd4b0ffe6c9739b7c Mon Sep 17 00:00:00 2001
+From f920a5eba0e9fd3d5801af978612391bae98542f Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Fri, 31 May 2024 22:53:28 -0400
-Subject: [PATCH 04/25] init: add set_usb_mode
+Subject: [PATCH 03/23] init: add set_usb_mode
 
 ---
  init.sh | 78 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
  1 file changed, 78 insertions(+)
 
 diff --git a/init.sh b/init.sh
-index 7cf8761..332d7bd 100644
+index 1748d9d..48cbc08 100644
 --- a/init.sh
 +++ b/init.sh
-@@ -826,10 +826,88 @@ function set_custom_timezone()
+@@ -899,10 +899,88 @@ function set_custom_timezone()
  	
  }
  

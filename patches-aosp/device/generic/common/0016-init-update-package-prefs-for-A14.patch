@@ -1,17 +1,17 @@
-From 19a55b332ca12b79fe8e310f6ab38d690dafd5a3 Mon Sep 17 00:00:00 2001
+From 45efe14f196198d7cac02b922827eb0250e6829f Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Sat, 1 Jun 2024 16:50:48 -0400
-Subject: [PATCH 17/25] init: update package prefs for A14
+Subject: [PATCH 16/23] init: update package prefs for A14
 
 ---
  init.sh | 34 ++++++++++++++++------------------
  1 file changed, 16 insertions(+), 18 deletions(-)
 
 diff --git a/init.sh b/init.sh
-index f34371e..4ed0a6f 100644
+index d8dc9bc..c16688c 100644
 --- a/init.sh
 +++ b/init.sh
-@@ -1056,8 +1056,6 @@ function set_custom_package_perms()
+@@ -1129,8 +1129,6 @@ function set_custom_package_perms()
  {
  	# Set up custom package permissions
  
@@ -20,7 +20,7 @@ index f34371e..4ed0a6f 100644
  	# KioskLauncher
  	exists_kiosk=$(pm list packages org.blissos.kiosklauncher | grep -c org.blissos.kiosklauncher)
  	if [ $exists_kiosk -eq 1 ]; then
-@@ -1197,22 +1195,22 @@ function set_custom_package_perms()
+@@ -1270,22 +1268,22 @@ function set_custom_package_perms()
  		pm grant cu.axel.smartdock android.permission.PACKAGE_USAGE_STATS
  		pm grant cu.axel.smartdock android.permission.QUERY_ALL_PACKAGES
  		pm grant cu.axel.smartdock android.permission.WRITE_SECURE_SETTINGS
@@ -49,7 +49,7 @@ index f34371e..4ed0a6f 100644
  
  		# set overlays enabled
  		settings put secure secure_overlay_settings 1
-@@ -1275,16 +1273,16 @@ function set_custom_package_perms()
+@@ -1348,16 +1346,16 @@ function set_custom_package_perms()
  	exists_taskbar=$(pm list packages com.farmerbb.taskbar | grep -c com.farmerbb.taskbar)
  	if [ $exists_taskbar -eq 1 ]; then
  		pm grant com.farmerbb.taskbar android.permission.PACKAGE_USAGE_STATS
@@ -69,7 +69,7 @@ index f34371e..4ed0a6f 100644
  		appops set com.farmerbb.taskbar MANAGE_OVERLAY_PERMISSION allow
  		pm grant com.farmerbb.taskbar android.permission.SYSTEM_ALERT_WINDOW
  		pm grant com.farmerbb.taskbar android.permission.USE_FULL_SCREEN_INTENT
-@@ -1302,19 +1300,19 @@ function set_custom_package_perms()
+@@ -1375,19 +1373,19 @@ function set_custom_package_perms()
  			pm grant com.google.android.gms android.permission.READ_EXTERNAL_STORAGE
  			pm grant com.google.android.gms android.permission.ACCESS_BACKGROUND_LOCATION
  			pm grant com.google.android.gms android.permission.ACCESS_COARSE_UPDATES
@@ -94,7 +94,7 @@ index f34371e..4ed0a6f 100644
  			appops set com.google.android.vending android.permission.FAKE_PACKAGE_SIGNATURE
  		fi
  	fi
-@@ -1510,8 +1508,6 @@ function do_bootcomplete()
+@@ -1584,8 +1582,6 @@ function do_bootcomplete()
  {
  	hciconfig | grep -q hci || pm disable com.android.bluetooth
  
@@ -103,7 +103,7 @@ index f34371e..4ed0a6f 100644
  	init_cpu_governor
  
  	[ -z "$(getprop persist.sys.root_access)" ] && setprop persist.sys.root_access 3
-@@ -1564,6 +1560,8 @@ function do_bootcomplete()
+@@ -1645,6 +1641,8 @@ function do_bootcomplete()
  	#CLASSPATH=$(echo /data/app/*/xtr.keymapper*/base.apk) /system/bin/app_process \
  	#/system/bin xtr.keymapper.server.InputService > /dev/null 2>&1 &
  
