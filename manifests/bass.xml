@@ -32,7 +32,7 @@
   <!-- Android-Generic -->
   <!-- <remove-project name="kerNel_common" /> -->
   <!-- <project path="kernel" name="Bliss-Bass/kernel_common" remote="sghub" sync-s="true" revision="gloria-20240227-fw" /> -->
-  <remove-project name="vendor_foss" />
+  <!-- <remove-project name="vendor_foss" /> -->
   <project name="vendor_foss" path="vendor/foss" remote="ag-github" revision="16071dab08f838d6736204b0b3b27186f44e196b" upstream="hmchoice" dest-branch="hmchoice"/>
 
   <!-- LineageOS -->
