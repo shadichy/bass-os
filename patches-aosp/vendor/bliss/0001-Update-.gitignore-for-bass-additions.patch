@@ -1,7 +1,7 @@
-From 390416ae8a5588a16997dd5b9fa8a1e422fd38d7 Mon Sep 17 00:00:00 2001
+From 9b4d8440306e998e83358079050973d83f205f95 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Thu, 7 Mar 2024 09:37:19 -0500
-Subject: [PATCH 1/5] Update .gitignore for bass additions
+Subject: [PATCH 1/6] Update .gitignore for bass additions
 
 ---
  .gitignore | 3 +++

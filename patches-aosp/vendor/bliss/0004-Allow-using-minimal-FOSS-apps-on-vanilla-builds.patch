@@ -1,7 +1,7 @@
-From a14abdc7f47ac9545ac6a8028dd62118df5d0b3e Mon Sep 17 00:00:00 2001
+From d604a57e8e28f02f47c19a6b4f7249a33dd45dfd Mon Sep 17 00:00:00 2001
 From: electrikjesus <electrikjesus@gmail.com>
 Date: Wed, 6 Mar 2024 15:55:13 -0500
-Subject: [PATCH 4/5] Allow using minimal FOSS apps on vanilla builds
+Subject: [PATCH 4/6] Allow using minimal FOSS apps on vanilla builds
 
 ---
  config/common.mk | 6 ++++++

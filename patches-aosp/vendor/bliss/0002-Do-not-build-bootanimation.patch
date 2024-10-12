@@ -1,7 +1,7 @@
-From 8612ebc0c51fb2588f95085e4bafe293a77d619e Mon Sep 17 00:00:00 2001
+From 1b1140edcbf865eeda2a35bff705459b425e45a7 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Thu, 15 Jun 2023 15:50:08 -0400
-Subject: [PATCH 2/5] Do not build bootanimation
+Subject: [PATCH 2/6] Do not build bootanimation
 
 ---
  config/common.mk | 2 +-
