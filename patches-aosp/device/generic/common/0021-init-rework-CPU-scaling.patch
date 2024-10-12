@@ -1,0 +1,147 @@
+From 17bd2d4f65cef0588485c46a4c2345663bcc9fa8 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Fri, 9 Aug 2024 12:59:04 -0400
+Subject: [PATCH 21/25] init: rework CPU scaling
+
+---
+ init.sh     | 54 +++++++++++++++++++++++++++++++++++++++++------------
+ init.x86.rc | 30 +++++++++++++++++++++++++++++
+ 2 files changed, 72 insertions(+), 12 deletions(-)
+
+diff --git a/init.sh b/init.sh
+index 4ed0a6f..c66a19a 100644
+--- a/init.sh
++++ b/init.sh
+@@ -801,6 +801,19 @@ function init_cpu_governor()
+ 	}
+ }
+ 
++function init_cpu_scaling()
++{
++	for cpu in $(ls -d /sys/devices/system/cpu/cpu?); do
++		chown 1000.1000 $cpu/cpufreq/scaling_governor
++		chmod 0664 $cpu/cpufreq/scaling_governor
++		chown 1000.1000 $cpu/cpufreq/scaling_max_freq
++		chmod 0664 $cpu/cpufreq/scaling_max_freq
++		chown 1000.1000 $cpu/cpufreq/scaling_min_freq
++		chmod 0664 $cpu/cpufreq/scaling_min_freq
++	done
++
++}
++
+ function set_lowmem()
+ {
+ 	# 3GB size in kB : https://source.android.com/devices/tech/perf/low-ram
+@@ -1438,14 +1451,33 @@ function set_package_opts()
+ 
+ function init_misc_cpu()
+ {
+-	# Allow for adjusting intel_pstate max/min freq on boot
+-	if [ -n "$INTEL_PSTATE_CPU_MIN_PERF_PCT"  ]; then
+-		echo $INTEL_PSTATE_CPU_MIN_PERF_PCT > /sys/devices/system/cpu/intel_pstate/min_perf_pct
+-	fi
+-	
+-	if [ -n "$INTEL_PSTATE_CPU_MAX_PERF_PCT"  ]; then
+-		echo $INTEL_PSTATE_CPU_MAX_PERF_PCT > /sys/devices/system/cpu/intel_pstate/max_perf_pct
+-	fi
++	for c in `cat /proc/cmdline`; do
++        case $c in
++            *=*)
++                eval $c
++                if [ -z "$1" ]; then
++                    case $c in
++                        INTEL_PSTATE_CPU_MIN_PERF_PCT=*)
++							# Allow for adjusting intel_pstate max/min freq on boot
++                            echo $INTEL_PSTATE_CPU_MIN_PERF_PCT > /sys/devices/system/cpu/intel_pstate/min_perf_pct
++                            ;;
++                        INTEL_PSTATE_CPU_MAX_PERF_PCT=*)
++							# Allow for adjusting intel_pstate max/min freq on boot
++                            echo $INTEL_PSTATE_CPU_MAX_PERF_PCT > /sys/devices/system/cpu/intel_pstate/max_perf_pct
++                            ;;
++						INTEL_PSTATE_STATUS=*)
++							# Set cpu scaling at boot (ie set pstate status to active/passive at boot)
++							echo $INTEL_PSTATE_STATUS > /sys/devices/system/cpu/intel_pstate/status
++							;;
++						INTEL_PSTATE_NO_TURBO=*)
++							# Force no turbo at boot
++							echo $INTEL_PSTATE_NO_TURBO > /sys/devices/system/cpu/intel_pstate/no_turbo
++							;;
++                    esac
++                fi
++                ;;
++        esac
++    done
+ 
+ 	# Allow for adjusting cpu energy performance
+ 	# Normal options: default, performance, balance_performance, balance_power, power
+@@ -1462,10 +1494,7 @@ function init_misc_cpu()
+ 
+ 	fi
+ 
+-	# Set cpu scaling at boot (ie set pstate status to active/passive at boot)
+-	if [ -n "$INTEL_PSTATE_STATUS"  ]; then
+-		echo $INTEL_PSTATE_STATUS > /sys/devices/system/cpu/intel_pstate/status
+-	else
++	if [ -z "$INTEL_PSTATE_STATUS"  ]; then
+ 		echo passive > /sys/devices/system/cpu/intel_pstate/status
+ 	fi
+ }
+@@ -1509,6 +1538,7 @@ function do_bootcomplete()
+ 	hciconfig | grep -q hci || pm disable com.android.bluetooth
+ 
+ 	init_cpu_governor
++	init_cpu_scaling
+ 
+ 	[ -z "$(getprop persist.sys.root_access)" ] && setprop persist.sys.root_access 3
+ 
+diff --git a/init.x86.rc b/init.x86.rc
+index 315b25b..0d1c0c1 100644
+--- a/init.x86.rc
++++ b/init.x86.rc
+@@ -56,6 +56,10 @@ on post-fs-data
+     # Set indication (checked by vold) that we have finished this action
+     setprop vold.post_fs_data_done 1
+ 
++    # Communicate with mpdecision and thermald
++    mkdir /dev/socket/mpdecision 0770 system system
++    chmod 2770 /dev/socket/mpdecision
++
+     setprop persist.vendor.thermal.mode thermal-daemon
+     mkdir /data/vendor/thermal-daemon 0660 system system
+ 
+@@ -77,6 +81,32 @@ on boot
+     # workaround for h.265 slowness
+     setprop sys.media.vdec.drop 0
+ 
++	# Allow setting thermal zone policy
++	chown system system /sys/class/thermal/thermal_zone0/policy
++    chown system system /sys/class/thermal/thermal_zone1/policy
++    chown system system /sys/class/thermal/thermal_zone2/policy
++
++	## Little gov
++    chmod 0644 /sys/devices/system/cpu/cpufreq/policy0/scaling_governor
++    write /sys/devices/system/cpu/cpufreq/policy0/scaling_governor schedutil
++    ## Little min freq
++    chmod 0644 /sys/devices/system/cpu/cpufreq/policy0/scaling_min_freq
++    ## Little max freq
++    chmod 0644 /sys/devices/system/cpu/cpufreq/policy0/scaling_max_freq
++    ## Little gov Setting
++    chown system system /sys/devices/system/cpu/cpufreq/policy0/schedutil/*
++    chmod 0644 /sys/devices/system/cpu/cpufreq/policy0/schedutil/*
++    ## Big gov
++    chmod 0644 /sys/devices/system/cpu/cpufreq/policy4/scaling_governor
++    write /sys/devices/system/cpu/cpufreq/policy4/scaling_governor schedutil
++    ## Big min freq
++    chmod 0644 /sys/devices/system/cpu/cpufreq/policy4/scaling_min_freq
++    ## Big max freq
++    chmod 0644 /sys/devices/system/cpu/cpufreq/policy4/scaling_max_freq
++	## Big gov Setting
++    chown system system /sys/devices/system/cpu/cpufreq/policy4/schedutil/*
++    chmod 0644 /sys/devices/system/cpu/cpufreq/policy4/schedutil/*
++
+     #Celadon thermal HAL
+     chown system system /sys/devices/system/cpu/intel_pstate/max_perf_pct
+     chown system system /sys/devices/system/cpu/intel_pstate/min_perf_pct
+-- 
+2.34.1
+

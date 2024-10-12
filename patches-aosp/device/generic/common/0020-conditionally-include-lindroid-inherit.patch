@@ -1,0 +1,26 @@
+From ccedad3f2a6030436285558badfa6f88ee731492 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Fri, 28 Jun 2024 14:36:58 -0400
+Subject: [PATCH 20/25] conditionally include lindroid inherit
+
+---
+ device.mk | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/device.mk b/device.mk
+index 66478ad..06af258 100644
+--- a/device.mk
++++ b/device.mk
+@@ -327,3 +327,9 @@ PRODUCT_VENDOR_PROPERTIES += drm.service.enabled=true
+ 
+ PRODUCT_REQUIRES_INSECURE_EXECMEM_FOR_SWIFTSHADER := true
+ 
++ifeq ($(USE_LINDROID),true)
++
++$(call inherit-product, vendor/lindroid/lindroid.mk) 
++
++endif
++
+-- 
+2.34.1
+

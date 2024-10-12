@@ -1,0 +1,25 @@
+From 75299ccb71f31b8fffe1133224daa671784e8caf Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Sat, 12 Oct 2024 15:32:21 -0400
+Subject: [PATCH 24/25] init.rc: use adaptive mode for vendor thermal hal
+
+---
+ init.x86.rc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/init.x86.rc b/init.x86.rc
+index 0d1c0c1..4dd47fc 100644
+--- a/init.x86.rc
++++ b/init.x86.rc
+@@ -135,7 +135,7 @@ service wpa_supplicant /vendor/bin/hw/wpa_supplicant -dd \
+ service logcat /system/bin/logcat -b all -v threadtime -f /data/log.txt
+     class debug
+ 
+-service thermal-daemon /system/vendor/bin/thermal-daemon --config-file /system/vendor/etc/thermal-daemon/thermal-conf.xml --ignore-cpuid-check
++service thermal-daemon /system/vendor/bin/thermal-daemon --config-file /system/vendor/etc/thermal-daemon/thermal-conf.xml --ignore-cpuid-check --adaptive
+     class main
+     user system
+     group system
+-- 
+2.34.1
+

@@ -1,0 +1,38 @@
+From a9f91c77db2e229e1ebab17df3678ca9a70625e2 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Fri, 31 May 2024 15:04:21 -0400
+Subject: [PATCH 01/25] Disable nouveau-experimental for now
+
+---
+ BoardConfig.mk  | 2 +-
+ gpu/gpu_mesa.mk | 1 -
+ 2 files changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/BoardConfig.mk b/BoardConfig.mk
+index a37403d..2b8dcb9 100644
+--- a/BoardConfig.mk
++++ b/BoardConfig.mk
+@@ -108,7 +108,7 @@ endif
+ #BOARD_MESA3D_CLASSIC_DRIVERS := i965
+ BOARD_MESA3D_BUILD_LIBGBM := true
+ BOARD_MESA3D_GALLIUM_DRIVERS := crocus iris i915 nouveau r600 radeonsi svga virgl zink swrast
+-BOARD_MESA3D_VULKAN_DRIVERS := amd intel intel_hasvk virtio swrast nouveau-experimental
++BOARD_MESA3D_VULKAN_DRIVERS := amd intel intel_hasvk virtio swrast
+ BOARD_MESA3D_GALLIUM_VA := enabled
+ BOARD_MESA3D_VIDEO_CODECS := h264dec h264enc h265dec h265enc vc1dec
+ BUILD_EMULATOR_OPENGL := true
+diff --git a/gpu/gpu_mesa.mk b/gpu/gpu_mesa.mk
+index 08d6699..1b13216 100644
+--- a/gpu/gpu_mesa.mk
++++ b/gpu/gpu_mesa.mk
+@@ -21,7 +21,6 @@ PRODUCT_PACKAGES := \
+     vulkan.amd \
+     vulkan.virtio \
+     vulkan.swrast \
+-    vulkan.nouveau-experimental \
+     libEGL_angle \
+     libGLESv1_CM_angle \
+     libGLESv2_angle \
+-- 
+2.34.1
+
