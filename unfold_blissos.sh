@@ -174,6 +174,7 @@ addon_patchsets=$(find private/addons -maxdepth 1 -type d -name "patchsets-*")
 echo -e "${ltgreen}Applying Addons${reset}"
 # for each foldername, strip/trim the "patchsets-" part and apply the patch using apply_addon_patches.sh script
 for addon in ${addon_patchsets} ; do
+    cp -r $addon aosptree/vendor/bass/patches/
     # remove "patchsets-" part from foldername
     addon=$(echo ${addon%%/} | sed 's|patchsets-||')
     # strip all but the last part of the foldername
