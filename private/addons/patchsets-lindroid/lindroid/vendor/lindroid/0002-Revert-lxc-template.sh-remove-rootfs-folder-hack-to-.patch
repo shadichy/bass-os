@@ -1,0 +1,28 @@
+From 6f7e19baaa6f379feed6308a597074c4a667ea0e Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Mon, 1 Jul 2024 15:48:41 -0400
+Subject: [PATCH 2/2] Revert "lxc: template.sh: remove rootfs folder hack to
+ make place for new rootfs format"
+
+This reverts commit 7f64e5bbdf0295670fd693170d0f9beebb2f0164.
+---
+ lxc/template.sh | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/lxc/template.sh b/lxc/template.sh
+index d53b47c..d54e353 100755
+--- a/lxc/template.sh
++++ b/lxc/template.sh
+@@ -327,7 +327,8 @@ unpack_rootfs() {
+     echo "Excludes: ${EXCLUDES}"
+   fi
+ 
+-  tar ${EXCLUDES} --numeric-owner --selinux -xpf "${LXC_FSTREE}" -C "${LXC_ROOTFS}"
++  #TODO remove /.. from the end when rootfs packing is fixed
++  tar ${EXCLUDES} --numeric-owner --selinux -xpf "${LXC_FSTREE}" -C "${LXC_ROOTFS}/.."
+ 
+   prepare_rootfs
+ }
+-- 
+2.34.1
+

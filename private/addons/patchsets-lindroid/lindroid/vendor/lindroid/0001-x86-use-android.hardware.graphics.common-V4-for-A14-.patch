@@ -1,0 +1,26 @@
+From 5fe2bd8200b5b2ad78ff2930a5e5adca99ab9194 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Fri, 28 Jun 2024 17:00:30 -0400
+Subject: [PATCH 1/2] [x86] use android.hardware.graphics.common-V4 for A14
+ QPR1
+
+---
+ interfaces/composer/Android.bp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/interfaces/composer/Android.bp b/interfaces/composer/Android.bp
+index dcf78e9..95683cf 100644
+--- a/interfaces/composer/Android.bp
++++ b/interfaces/composer/Android.bp
+@@ -3,7 +3,7 @@ aidl_interface {
+     system_ext_specific: true,
+     srcs: [ "vendor/lindroid/composer/*.aidl" ],
+     imports: [
+-        "android.hardware.graphics.common-V5",
++        "android.hardware.graphics.common-V4",
+     ],
+ 
+     unstable: true,
+-- 
+2.34.1
+
