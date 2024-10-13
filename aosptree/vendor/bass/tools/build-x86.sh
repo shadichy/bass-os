@@ -198,9 +198,15 @@ function clean_configs()
     cd packages/apps/Settings
     git checkout -- res/xml/button_settings.xml
     cd ../../..
-    cd kernel
+    cd kernel/x86/common
     git checkout -- arch/x86/configs/android-x86_64_defconfig
-    cd ..
+    cd ../../..
+    cd kernel/x86/surface
+    git checkout -- arch/x86/configs/android-x86_64_defconfig
+    cd ../../..
+    cd kernel/x86/zenith
+    git checkout -- arch/x86/configs/android-x86_64_defconfig
+    cd ../../..
     cd frameworks/base 
     git checkout -- core/java/android/util/FeatureFlagUtils.java
     git checkout -- core/res/res/values/config.xml

@@ -547,10 +547,14 @@ function copy_configs()
 
     if [ "$BLISS_REMOVE_KSU" = "true" ]; then
         echo "Removing KSU config from kernel"
-        sed -i 's/CONFIG_KSU=y/\# CONFIG_KSU is not set/' kernel/arch/x86/configs/android-x86_64_defconfig
+        sed -i 's/CONFIG_KSU=y/\# CONFIG_KSU is not set/' kernel/x86/common/arch/x86/configs/android-x86_64_defconfig
+        sed -i 's/CONFIG_KSU=y/\# CONFIG_KSU is not set/' kernel/x86/surface/arch/x86/configs/android-x86_64_defconfig
+        sed -i 's/CONFIG_KSU=y/\# CONFIG_KSU is not set/' kernel/x86/zenith/arch/x86/configs/android-x86_64_defconfig
     else
         echo "Adding KSU config to kernel"
-        sed -i 's/\# CONFIG_KSU is not set/CONFIG_KSU=y/' kernel/arch/x86/configs/android-x86_64_defconfig
+        sed -i 's/\# CONFIG_KSU is not set/CONFIG_KSU=y/' kernel/x86/common/arch/x86/configs/android-x86_64_defconfig
+        sed -i 's/\# CONFIG_KSU is not set/CONFIG_KSU=y/' kernel/x86/surface/arch/x86/configs/android-x86_64_defconfig
+        sed -i 's/\# CONFIG_KSU is not set/CONFIG_KSU=y/' kernel/x86/zenith/arch/x86/configs/android-x86_64_defconfig
     fi
 
     if [ "$BLISS_DISABLE_LARGE_SCREEN_SETTINGS" = "true" ]; then
