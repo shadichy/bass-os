@@ -1,4 +1,5 @@
 -include vendor/bass/apps.mk
+$(call inherit-product-if-exists, $(LOCAL_PATH)/prebuilts/bootsight/bootsight.mk)
 
 # Common Overlays
 DEVICE_PACKAGE_OVERLAYS += vendor/bass/overlay/common
@@ -28,6 +29,13 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/bass_init/bass_init.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/bass_init.rc                       \
     $(LOCAL_PATH)/configs/bass_init/bass_init.sh:$(TARGET_COPY_OUT_VENDOR)/etc/bass_init/bass_init.sh
 
+
+# Bootsight Service
+PRODUCT_PACKAGES += \
+    BootSight \
+    com.bliss.bootsight-permissions.xml \
+    whitelist-com.bliss.bootsight.xml \
+    com.bliss.bootsight-default-permissions.xml
 
 ifeq ($(USE_PER_DISPLAY_FOCUS),true)
 
