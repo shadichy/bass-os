@@ -221,6 +221,9 @@ $(foreach f,$(wildcard $(LOCAL_PATH)/templates/vendor/etc/*.xml),\
 
 endif
 
+# Copy any product specific input configs if found
+$(foreach f,$(wildcard $(LOCAL_PATH)/templates/product/media/*),\
+    $(eval PRODUCT_COPY_FILES += $(f):$(TARGET_COPY_OUT_PRODUCT)/media/$(notdir $f)))
 
 
 include $(LOCAL_PATH)/tmp/bass_build_config.mk
