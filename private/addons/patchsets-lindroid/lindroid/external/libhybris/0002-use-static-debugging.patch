@@ -1,0 +1,28 @@
+From d5f2a6a82a516fb74bb8077028dddb4243355e05 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Mon, 8 Jul 2024 17:10:25 -0400
+Subject: [PATCH 2/2] use static debugging
+
+---
+ debian/rules | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/debian/rules b/debian/rules
+index 468d672..6df2a0f 100755
+--- a/debian/rules
++++ b/debian/rules
+@@ -49,7 +49,10 @@ DEFAULT_CONFIGURATION = \
+ 	--enable-property-cache \
+ 	--enable-experimental \
+ 	--enable-glvnd \
+-	--enable-clicd
++	--enable-clicd \
++	--enable-debug \
++	--enable-trace
++
+ ARCH_CONFIGURATION =
+ 
+ ifeq ($(DEB_HOST_ARCH),$(findstring $(DEB_HOST_ARCH), armhf))
+-- 
+2.34.1
+
