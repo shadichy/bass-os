@@ -725,12 +725,13 @@ echo "Enablecleardwhotseatfavorites: ${BLISS_CLEAR_DW_HOTSEAT}";
 echo "UseSystemUIBlureffects: ${BLISS_USE_SYSTEMUI_BLUR}";
 
 jcores=$(nproc --all --ignore=4);
-lunch bliss_x86_64-userdebug 
+lunch bliss_x86_64-ap1a-userdebug
 # Moving lunch options for Bass here
 copy_configs
 add_grub_cmdline_options
 update_apps
-make ${BUILD_EXTRA_PACKAGES} blissify iso_img -j$jcores;
+# make ${BUILD_EXTRA_PACKAGES} blissify iso_img -j$jcores;
+make ${BUILD_EXTRA_PACKAGES} iso_img -j$jcores;
 
 # Look in out/target/product/x86_64/ for the .iso, .sha256 and Changelog* files,
 # and copy them to a new /iso directory. using the filename of the .iso for the directory name and the .iso file name.
