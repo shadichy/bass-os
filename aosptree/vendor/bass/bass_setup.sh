@@ -611,9 +611,9 @@ function bass_build_config()
         echo -e "${ltblue}Setting config defaults${reset}"
         # Vendor unique build identifier
         BASS_VENDOR="Bliss Co-Labs"
-        BASS_VENDOR_ID="BASS.DEMO.A01-001"
-        BASS_HARDWARE_SKU="BASS.DEMO.A01-001"
-        BASS_PRODUCT_HARDWARE_SKU="BASS.DEMO.A01-001"
+        BASS_VENDOR_ID="BASS.DEMO."${BLISS_SPECIAL_VARIANT#-}"."$(date +%Y%m%d%H)
+        BASS_HARDWARE_SKU="BASS.DEMO."${BLISS_SPECIAL_VARIANT#-}"."$(date +%Y%m%d%H)
+        BASS_PRODUCT_HARDWARE_SKU="BASS.DEMO."${BLISS_SPECIAL_VARIANT#-}"."$(date +%Y%m%d%H)
 
     else
         echo -e "${ltblue}Setting custom config defaults${reset}"
