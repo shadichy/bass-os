@@ -26,8 +26,9 @@ Before building, ensure your system has at least 16 CPU cores, 32GB of RAM, a sw
 
 - [Install AOSP required packages](https://source.android.com/setup/build/initializing).
 ```bash
-sudo apt-get install git-core gnupg flex bison gperf build-essential zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev ccache libgl1-mesa-dev libxml2-utils xsltproc unzip squashfs-tools python3-mako libssl-dev ninja-build lunzip syslinux syslinux-utils gettext genisoimage gettext bc xorriso xmlstarlet meson glslang-tools git-lfs libncurses5 libncurses5:i386 libelf-dev aapt zstd rdfind nasm bindgen
+sudo apt-get install git-core gnupg flex bison gperf build-essential zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 x11proto-core-dev libx11-dev lib32z-dev ccache libgl1-mesa-dev libxml2-utils xsltproc unzip squashfs-tools python3-mako libssl-dev ninja-build lunzip syslinux syslinux-utils gettext genisoimage gettext bc xorriso xmlstarlet glslang-tools git-lfs libncurses5 libelf-dev aapt zstd rdfind nasm bindgen cbindgen
 ```
+lib32ncurses5-dev libncurses5:i386
 
 <br/>
 
@@ -53,7 +54,7 @@ rustup target add \
 - Install additional packages (for building mesa3d, libcamera, and other meson-based components)
 ```bash
 sudo apt-get install -y python3-pip pkg-config python3-dev ninja-build
-sudo pip3 install mako jinja2 ply pyyaml pyelftools
+sudo pip3 install mako jinja2 ply pyyaml pyelftools meson --break-system-packages
 ```
 
 - Install the `repo` tool
