@@ -21,7 +21,7 @@ echo -e "\033[1;34mBuild Tools Script: ${vendor_bass_tools_target_script}\033[0m
 
 export vendor_title=${vendor_title}
 export vendor_variant=${vendor_variant}
-export vendor_lunch_targets=${vendor_lunch_target}
+export vendor_lunch_target=${vendor_lunch_target}
 export vendor_make_target=${vendor_make_target}
 export vendor_bass_tools_target=${vendor_bass_tools_target}
 export vendor_bass_tools_target_script=${vendor_bass_tools_target_script}

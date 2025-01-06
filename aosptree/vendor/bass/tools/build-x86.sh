@@ -767,6 +767,10 @@ echo "Usegeneratedvendorinputdefinition: ${INCLUDE_VENDOR_INPUT}";
 echo "UseSystemUIBlureffects: ${BLISS_USE_SYSTEMUI_BLUR}";
 
 jcores=$(nproc --all --ignore=4);
+echo -e "\033[1;34mUsing $jcores cores\033[0m"
+echo -e "\033[1;34mStarting build for: "${vendor_lunch_target}"\033[0m"
+echo -e "\033[1;34mVendor Variant: ${vendor_variant}\033[0m"
+echo -e "\033[1;34mVendor Make Target: ${vendor_make_target}\033[0m"
 lunch ${vendor_lunch_target}
 # Moving lunch options for Bass here
 copy_configs
