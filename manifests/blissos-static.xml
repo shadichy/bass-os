@@ -1534,7 +1534,7 @@
   <project name="platform_scripts" path="bliss/scripts" remote="BlissRoms" revision="351a7566d0c5e2e588fb49ac4174fff3236b6f9c" upstream="universe" dest-branch="universe"/>
   <project name="platform_system_apex" path="system/apex" remote="BlissOS" revision="7d816f37810a4e93d4e4e0413b531233381cb024" upstream="universe-x86" dest-branch="universe-x86"/>
   <project name="platform_system_bpf" path="system/bpf" remote="BlissRoms" revision="d5e515c0085b354fb8f00ef3feb09ec0f0b1f60b" upstream="universe" dest-branch="universe"/>
-  <project name="platform_system_core" path="system/core" remote="BlissOS" revision="7d40758edbfdb5824d39377e5fbd44fd3b428b0c" upstream="universe-x86" dest-branch="universe-x86"/>
+  <project name="platform_system_core" path="system/core" remote="BlissOS" revision="4893d4d006ff621ccfaa1e34726623169ec36aa2" upstream="universe-x86" dest-branch="universe-x86"/>
   <project name="platform_system_extras" path="system/extras" remote="BlissRoms" revision="475c4581eb899cd3fc65388cc7e6019e0f9f06ca" upstream="universe" dest-branch="universe"/>
   <project name="platform_system_hardware_interfaces" path="system/hardware/interfaces" remote="BlissOS" revision="c5ec7441fbba1c5592ca03dc98eaad4632cb5af4" upstream="universe-x86" dest-branch="universe-x86"/>
   <project name="platform_system_keymint" path="system/keymint" remote="BlissRoms" revision="c306562dce5cd48920d93abc10b8d4c584b26288" upstream="universe" dest-branch="universe" groups="pdk"/>
