@@ -1,0 +1,26 @@
+From 7ec8985a6cd353d618feb3d58721c919b1b6cbf8 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Thu, 24 Oct 2024 18:08:17 -0400
+Subject: [PATCH] Include bass setup
+
+Change-Id: Ibfc152a3734c99f2dd89a3d7024d65904a935fc8
+---
+ build/envsetup.sh | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/build/envsetup.sh b/build/envsetup.sh
+index 1306df2b..d0588a20 100644
+--- a/build/envsetup.sh
++++ b/build/envsetup.sh
+@@ -932,6 +932,8 @@ alias mmmap='dopush mmma'
+ alias mkap='dopush mka'
+ alias cmkap='dopush cmka'
+ 
++source vendor/bass/bass_setup.sh
++
+ function repopick() {
+     T=$(gettop)
+     $T/vendor/lineage/build/tools/repopick.py $@
+-- 
+2.34.1
+

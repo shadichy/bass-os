@@ -1,0 +1,25 @@
+From 37a23ce776e5c311f70419c45b30d040c3f959a4 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Sat, 12 Oct 2024 18:45:24 -0400
+Subject: [PATCH 2/2] soong: whitelist bindgen
+
+Change-Id: I1f3dded36cc1fc014471eb55013d06d50664820d
+---
+ ui/build/paths/config.go | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/ui/build/paths/config.go b/ui/build/paths/config.go
+index 9afaab0cf..60c2d885e 100644
+--- a/ui/build/paths/config.go
++++ b/ui/build/paths/config.go
+@@ -88,6 +88,7 @@ func GetConfig(name string) PathConfig {
+ var Configuration = map[string]PathConfig{
+         "bash":           Allowed,
+         "cpio":           Allowed,
++	"bindgen":   	  Allowed,
+ 	"bison":          Allowed,
+ 	"brotli":         Allowed,
+ 	"ccache":         Allowed,
+-- 
+2.34.1
+
