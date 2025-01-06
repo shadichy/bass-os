@@ -1,0 +1,43 @@
+From 19c218da0875f103b2d38e4d76bf6cd23b9783ba Mon Sep 17 00:00:00 2001
+From: Erfan Abdi <erfangplus@gmail.com>
+Date: Sun, 20 Feb 2022 10:02:50 +0100
+Subject: [PATCH 10/18] fwb: Limit app installation on lockdown mode
+
+Change-Id: I2b8a791a25d47b127f54b48df4a07d8a5ec94a7c
+---
+ .../android/packageinstaller/PackageInstallerActivity.java  | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/packages/PackageInstaller/src/com/android/packageinstaller/PackageInstallerActivity.java b/packages/PackageInstaller/src/com/android/packageinstaller/PackageInstallerActivity.java
+index 1d7e507fa631..bb1ad1aa144c 100644
+--- a/packages/PackageInstaller/src/com/android/packageinstaller/PackageInstallerActivity.java
++++ b/packages/PackageInstaller/src/com/android/packageinstaller/PackageInstallerActivity.java
+@@ -44,6 +44,7 @@ import android.os.Bundle;
+ import android.os.Handler;
+ import android.os.Looper;
+ import android.os.Process;
++import android.os.SystemProperties;
+ import android.os.UserHandle;
+ import android.os.UserManager;
+ import android.provider.Settings;
+@@ -517,12 +518,17 @@ public class PackageInstallerActivity extends AlertActivity {
+      * Check if it is allowed to install the package and initiate install if allowed.
+      */
+     private void checkIfAllowedAndInitiateInstall() {
++        if (SystemProperties.get("ro.boot.bliss.bootmode").equals("lockdown")) {
++            showDialogInner(DLG_UNKNOWN_SOURCES_RESTRICTED_FOR_USER);
++            return;
++        }
+         if (mAllowUnknownSources || !isInstallRequestFromUnknownSource(getIntent())) {
+             if (mLocalLOGV) Log.i(TAG, "install allowed");
+             initiateInstall();
+         } else {
+             handleUnknownSources();
+         }
++        
+     }
+ 
+     private void handleUnknownSources() {
+-- 
+2.34.1
+
