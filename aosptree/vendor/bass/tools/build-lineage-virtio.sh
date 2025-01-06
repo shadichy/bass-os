@@ -162,15 +162,7 @@ function displayHelp() {
 
 # Clean configs function
 function clean_configs()
-{    
-    cd bootable/newinstaller
-    git checkout -- boot/isolinux/isolinux.cfg
-    git checkout -- install/grub2/efi/boot/android.cfg
-    cd ../..
-    cd device/generic/common/
-    git checkout -- overlay/frameworks/base/core/res/res/values/config.xml
-    git checkout -- overlay/frameworks/base/packages/SettingsProvider/res/values/defaults.xml
-    cd ../../..
+{
     cd vendor/$vendor_name
     git checkout -- overlay/common/frameworks/base/core/res/res/values/config.xml
     git checkout -- overlay/common/frameworks/base/packages/SettingsProvider/res/values/defaults.xml
@@ -192,15 +184,12 @@ function clean_configs()
     fi
     git checkout -- src/com/android/launcher3/config/FeatureFlags.java
     cd ../../..
-    cd packages/apps/Blissify
-    git checkout -- res/xml/blissify_button.xml
-    cd ../../..
     cd packages/apps/Settings
     git checkout -- res/xml/button_settings.xml
     cd ../../..
-    cd kernel
-    git checkout -- arch/x86/configs/android-x86_64_defconfig
-    cd ..
+    # cd kernel
+    # git checkout -- arch/x86/configs/android-x86_64_defconfig
+    # cd ..
     cd frameworks/base 
     git checkout -- core/java/android/util/FeatureFlagUtils.java
     git checkout -- core/res/res/values/config.xml
