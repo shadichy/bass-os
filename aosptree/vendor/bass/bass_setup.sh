@@ -755,17 +755,10 @@ function get_build_var()
     fi
 }
 
-function build-x86()
+function build-${vendor_bass_tools_target}()
 {
 	args=("$@")
-    bash vendor/$vendor_name/tools/build-x86.sh "${args[@]}"
-
-}
-
-function build-lineage-virtio()
-{
-	args=("$@")
-    bash vendor/$vendor_name/tools/build-lineage-virtio.sh "${args[@]}"
+    bash vendor/$vendor_name/tools/${vendor_bass_tools_target_script} "${args[@]}"
 
 }
 

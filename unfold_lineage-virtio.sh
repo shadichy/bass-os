@@ -25,7 +25,7 @@ CL_RST=`tput sgr0`
 reset=`tput sgr0`
 
 LOCAL_PATH=$(pwd)
-
+bass_patch_dir="${LOCAL_PATH}/patches-lineage"
 res_patch_dir="${LOCAL_PATH}/patches-aosp--resolutions"
 top_dir=`readlink -f "$LOCAL_PATH/aosptree"`
 
@@ -79,7 +79,7 @@ echo -e "${ltblue}Patch AOSP tree ${reset}"
 patch_dir() {
     pushd aosptree/$1
     repo sync -l .
-    patches=$(ls ${LOCAL_PATH}/patches-aosp/$1/*.patch)
+    patches=$(ls ${bass_patch_dir}/$1/*.patch)
     stripped_path=${1#./}
     res_patch_dir="${LOCAL_PATH}/patches-aosp--resolutions/"
     for i in ${patches} ; do
@@ -127,7 +127,7 @@ patch_dir() {
     popd
 }
 
-pushd patches-aosp
+pushd ${bass_patch_dir}
 directories=$(find -name *patch | xargs dirname | uniq)
 # 
 popd
@@ -214,5 +214,9 @@ for vendor_patch in ${vendor_patches} ; do
     fi
 done
 
+# copy vendor configs
+if [ -f ${LOCAL_PATH}/configs/vendor/lineage_virtio/vendor_config.cfg ]; then
+    cp ${LOCAL_PATH}/configs/vendor/lineage_virtio/vendor_config.cfg .config/vendor_config.cfg
+fi
 
 echo -e "${ltgreen}   Done   ${reset}"
