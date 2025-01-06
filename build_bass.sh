@@ -31,6 +31,6 @@ echo -e ""
 echo -e "\033[1;34mBuilding Bass OS\033[0m"
 pushd aosptree
 . build/envsetup.sh
-build-x86 $@
+build_bass_source $@
 popd
 

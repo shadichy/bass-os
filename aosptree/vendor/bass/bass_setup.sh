@@ -755,7 +755,7 @@ function get_build_var()
     fi
 }
 
-function build-${vendor_bass_tools_target}()
+function build_bass_source()
 {
 	args=("$@")
     bash vendor/$vendor_name/tools/${vendor_bass_tools_target_script} "${args[@]}"
