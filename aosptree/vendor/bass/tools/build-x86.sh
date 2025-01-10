@@ -175,18 +175,19 @@ function displayHelp() {
 # Clean configs function
 function clean_configs()
 {    
+    PROJECT_FOLDER=$(pwd)
     cd bootable/newinstaller
     git checkout -- boot/isolinux/isolinux.cfg
     git checkout -- install/grub2/efi/boot/android.cfg
-    cd ../..
+    cd $PROJECT_FOLDER
     cd device/generic/common/
     git checkout -- overlay/frameworks/base/core/res/res/values/config.xml
     git checkout -- overlay/frameworks/base/packages/SettingsProvider/res/values/defaults.xml
-    cd ../../..
+    cd $PROJECT_FOLDER
     cd vendor/$vendor_name
     git checkout -- overlay/common/frameworks/base/core/res/res/values/config.xml
     git checkout -- overlay/common/frameworks/base/packages/SettingsProvider/res/values/defaults.xml
-    cd ../..
+    cd $PROJECT_FOLDER
     cd packages/apps/Launcher3
     if [[ "$BLISS_CLEAR_HOTSEAT_FAVORITES" = "true" ]] || [[ "$USE_AX86_STARTMENU" = "true" ]]; then
         WORKSPACE_LIST=$(find res/xml/ -type f -name "default_workspace*.xml")
@@ -203,26 +204,26 @@ function clean_configs()
         done
     fi
     git checkout -- src/com/android/launcher3/config/FeatureFlags.java
-    cd ../../..
+    cd $PROJECT_FOLDER
     cd packages/apps/Blissify
     git checkout -- res/xml/blissify_button.xml
-    cd ../../..
+    cd $PROJECT_FOLDER
     cd packages/apps/Settings
     git checkout -- res/xml/button_settings.xml
-    cd ../../..
+    cd $PROJECT_FOLDER
     cd kernel/x86/common
     git checkout -- arch/x86/configs/android-x86_64_defconfig
-    cd ../../..
+    cd $PROJECT_FOLDER
     cd kernel/x86/surface
     git checkout -- arch/x86/configs/android-x86_64_defconfig
-    cd ../../..
+    cd $PROJECT_FOLDER
     cd kernel/x86/zenith
     git checkout -- arch/x86/configs/android-x86_64_defconfig
-    cd ../../..
+    cd $PROJECT_FOLDER
     cd frameworks/base 
     git checkout -- core/java/android/util/FeatureFlagUtils.java
     git checkout -- core/res/res/values/config.xml
-    cd ../..
+    cd $PROJECT_FOLDER
     
 }
 
@@ -766,8 +767,15 @@ echo "Useperwindowinputrotation: ${BLISS_PER_WINDOW_INPUT_ROTATION}";
 echo "Usegeneratedvendorinputdefinition: ${INCLUDE_VENDOR_INPUT}";
 echo "UseSystemUIBlureffects: ${BLISS_USE_SYSTEMUI_BLUR}";
 
-jcores=$(nproc --all --ignore=4);
-echo -e "\033[1;34mUsing $jcores cores\033[0m"
+total_cores=$(nproc --all);
+
+# Calculate 1/8th reduction
+cores_1_8=$(( total_cores * 7 / 8 ))
+if [[ $cores_1_8 -lt 1 ]]; then
+  cores_1_8=1
+fi
+ 
+echo -e "\033[1;34mUsing $cores_1_8 cores\033[0m"
 echo -e "\033[1;34mStarting build for: "${vendor_lunch_target}"\033[0m"
 echo -e "\033[1;34mVendor Variant: ${vendor_variant}\033[0m"
 echo -e "\033[1;34mVendor Make Target: ${vendor_make_target}\033[0m"
@@ -776,7 +784,7 @@ lunch ${vendor_lunch_target}
 copy_configs
 add_grub_cmdline_options
 update_apps
-make ${BUILD_EXTRA_PACKAGES} ${vendor_make_target} -j$jcores;
+make ${BUILD_EXTRA_PACKAGES} ${vendor_make_target} -j${cores_1_8};
 
 # Look in out/target/product/x86_64/ for the .iso, .sha256 and Changelog* files,
 # and copy them to a new /iso directory. using the filename of the .iso for the directory name and the .iso file name.

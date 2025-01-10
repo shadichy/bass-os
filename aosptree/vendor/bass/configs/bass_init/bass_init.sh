@@ -359,6 +359,8 @@ function init_bass_rotation_props()
 							set_property persist.debug.per_window_input_rotation "$SET_PER_WINDOW_INPUT_ROTATION"
 							;;
 						SET_SF_ROTATION=*)
+							# Set SurfaceFlinger rotation (0, 90, 180, 270)
+							# 0, 90, 180, 270
 							set_property ro.sf.hwrotation "$SET_SF_ROTATION"
 							;;
 						SET_TOUCHSCREEN_ROTATION=*)
@@ -378,6 +380,7 @@ function init_bass_rotation_props()
 							set_property config.override_forced_orient "$SET_OVERRIDE_FORCED_ORIENT"
 							;;
 						SET_SYS_APP_ROTATION=*)
+							# Forces system app orientation (force_land, middle_port, original)
 							# property: persist.sys.app.rotation has three cases:
 							# 1.force_land: always show with landscape, if a portrait apk, system will scale up it
 							# 2.middle_port: if a portrait apk, will show in the middle of the screen, left and right will show black
@@ -682,6 +685,28 @@ function set_custom_timezone()
 	
 }
 
+init_serial_number()
+{
+	DMIPATH=/sys/class/dmi/id	
+	SERIALNO=$(cat $DMIPATH/product_serial)
+
+	DEFAULT_SERIAL_NUMBERS="System Serial Number:Default string:0123456789:1234567890:123456789:00000000:XXXXXXXX:To be filled by O.E.M.:ABCDEF0123456789:Type1 - 123456789:0:0123456789ABCDEF"
+
+	if echo "$DEFAULT_SERIAL_NUMBERS" | grep -q "$SERIALNO"; then
+		set_property ro.bliss.factory.serialnumber "$SERIALNO"
+		PRODUCT_UUID=$(cat /sys/class/dmi/id/product_uuid)
+		UUID=$(dmidecode -t 4 | grep ID | sed 's/.*ID://;s/ //g')
+		COMBINED_STRING="$PRODUCT_UUID$UUID"
+		FINALSERIALNO=$(echo -n "$COMBINED_STRING" | sha256sum | cut -c1-15)
+	fi
+
+	if [ -n "$FINALSERIALNO" ]; then
+		SERIALNO="GSN-$FINALSERIALNO"
+	fi
+
+	set_property ro.bliss.serialnumber "$SERIALNO"
+}
+
 function init_bass_options()
 {
 	for c in `cat /proc/cmdline`; do
@@ -730,6 +755,7 @@ function init_bass_options()
 							set_property persist.bliss.disable_recents "$FORCE_DISABLE_RECENTS"
 							;;					
 						SET_LOGCAT_DEBUG=*)
+							# Set logcat debug (1)
 							set_property debug.logcat "$SET_LOGCAT_DEBUG"
 							;;
 						SUSPEND_TYPE=*)
@@ -809,6 +835,7 @@ function do_bass_netconsole()
 function do_bass_init()
 {
 	set_lowmem
+	init_serial_number
 	set_usb_mode
 	set_max_logd
 	set_custom_timezone
