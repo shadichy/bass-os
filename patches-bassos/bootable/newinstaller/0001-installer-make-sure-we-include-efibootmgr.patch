@@ -1,0 +1,27 @@
+From 3d6e97451ae81295cdb8ef0b7ebb444a0e0a263b Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Mon, 6 Jan 2025 14:11:39 -0500
+Subject: [PATCH 1/3] installer: make sure we include efibootmgr
+
+---
+ Android.mk | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/Android.mk b/Android.mk
+index 07f0f9be..fc3e43bd 100644
+--- a/Android.mk
++++ b/Android.mk
+@@ -88,8 +88,9 @@ initrdimage: $(INITRD_RAMDISK)
+ INSTALLED_RADIOIMAGE_TARGET += $(INITRD_RAMDISK)
+ INSTALLED_RADIOIMAGE_TARGET += $(PRODUCT_OUT)/ramdisk-recovery.img
+ 
++INSTALLER_BIN := $(TARGET_INSTALLER_OUT)/sbin/efibootmgr
+ INSTALL_RAMDISK := $(PRODUCT_OUT)/install.img
+-$(INSTALL_RAMDISK): $(wildcard $(LOCAL_PATH)/install/*/* $(LOCAL_PATH)/install/*/*/*/*) | $(MKBOOTFS)
++$(INSTALL_RAMDISK): $(wildcard $(LOCAL_PATH)/install/*/* $(LOCAL_PATH)/install/*/*/*/*) $(INSTALLER_BIN) | $(MKBOOTFS)
+ 	$(if $(TARGET_INSTALL_SCRIPTS),mkdir -p $(TARGET_INSTALLER_OUT)/scripts; $(ACP) -p $(TARGET_INSTALL_SCRIPTS) $(TARGET_INSTALLER_OUT)/scripts)
+ 	$(MKBOOTFS) $(dir $(dir $(<D))) $(TARGET_INSTALLER_OUT) | gzip -9 > $@
+ 
+-- 
+2.43.0
+
