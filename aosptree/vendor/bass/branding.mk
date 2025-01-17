@@ -206,6 +206,16 @@ PRODUCT_PACKAGES += \
 
 endif
 
+# Calyx Aurora Store
+ifeq ($(USE_CALYX_AURORA), true)
+PRODUCT_PACKAGES += \
+    fdroid-repo \
+    aurora-store \
+    AuroraStore
+
+endif
+
+
 ifeq ($(USE_LINDROID),true)
     PRODUCT_PROPERTY_OVERRIDES += \
         ro.boot.enable_console=true
