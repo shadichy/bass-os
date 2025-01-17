@@ -5,6 +5,17 @@ first_run=$(getprop persist.bass.first_run)
 ARCH=$(getprop ro.bionic.arch)
 APK_PATH=/vendor/etc/bass_init
 
+function set_property()
+{
+	setprop "$1" "$2"
+	[ -n "$DEBUG" ] && echo "$1"="$2" >> /dev/x86.prop
+}
+
+function set_prop_if_empty()
+{
+	[ -z "$(getprop $1)" ] && set_property "$1" "$2"
+}
+
 set_custom_package_perms()
 {
 	# Set up custom package permissions
@@ -685,15 +696,17 @@ function set_custom_timezone()
 	
 }
 
-init_serial_number()
+# Serial Number - redundant but useful
+function init_serial_number()
 {
 	DMIPATH=/sys/class/dmi/id	
 	SERIALNO=$(cat $DMIPATH/product_serial)
+	setprop ro.bliss.factory.serialnumber "$SERIALNO"
 
 	DEFAULT_SERIAL_NUMBERS="System Serial Number:Default string:0123456789:1234567890:123456789:00000000:XXXXXXXX:To be filled by O.E.M.:ABCDEF0123456789:Type1 - 123456789:0:0123456789ABCDEF"
-
-	if echo "$DEFAULT_SERIAL_NUMBERS" | grep -q "$SERIALNO"; then
-		set_property ro.bliss.factory.serialnumber "$SERIALNO"
+	DEFAULT_SERIAL_NUMBERS=${DEFAULT_SERIAL_NUMBERS//:/$'  '}
+	exists_sn=$(echo ${DEFAULT_SERIAL_NUMBERS} | grep -c "$SERIALNO")
+	if [ $exists_sn -ge 1 ]; then
 		PRODUCT_UUID=$(cat /sys/class/dmi/id/product_uuid)
 		UUID=$(dmidecode -t 4 | grep ID | sed 's/.*ID://;s/ //g')
 		COMBINED_STRING="$PRODUCT_UUID$UUID"
@@ -705,6 +718,8 @@ init_serial_number()
 	fi
 
 	set_property ro.bliss.serialnumber "$SERIALNO"
+	set_property ro.bass.serialnumber "$SERIALNO" 
+	set_property ro.serialno "$SERIALNO"
 }
 
 function init_bass_options()
@@ -835,7 +850,6 @@ function do_bass_netconsole()
 function do_bass_init()
 {
 	set_lowmem
-	init_serial_number
 	set_usb_mode
 	set_max_logd
 	set_custom_timezone
@@ -845,15 +859,8 @@ function do_bass_init()
 
 function do_bass_bootcomplete()
 {
-	# check wifi setup
-	FILE_CHECK=/data/misc/wifi/wpa_supplicant.conf
 
-	if [ ! -f "$FILE_CHECK" ]; then
-	    cp -a /system/etc/wifi/wpa_supplicant.conf $FILE_CHECK
-            chown 1010.1010 $FILE_CHECK
-            chmod 660 $FILE_CHECK
-	fi
-
+	init_serial_number
 	set_custom_package_perms
 	set_custom_settings
 	set_package_opts
