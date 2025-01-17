@@ -1,0 +1,25 @@
+From 6095d548d57ea7dfa7afc6cb4c0a2d457d0b2677 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Sat, 11 Jan 2025 17:11:19 -0500
+Subject: [PATCH 2/3] [bass] Use bass rootfs
+
+---
+ download.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/download.sh b/download.sh
+index 3a18520..2f6d9c2 100755
+--- a/download.sh
++++ b/download.sh
+@@ -1,7 +1,7 @@
+ #!/bin/bash
+ 
+ # URL for the GitHub release page
+-RELEASE_URL="https://github.com/BlissOS/aaropa_rootfs/releases/latest"
++RELEASE_URL="https://github.com/Bliss-Bass/aaropa_rootfs/releases/latest"
+ 
+ # Get the script's directory and change to it
+ SCRIPT_DIR=$(dirname "$0")
+-- 
+2.43.0
+
