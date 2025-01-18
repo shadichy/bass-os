@@ -274,7 +274,7 @@ set_custom_package_perms()
 		fi
 
 		# set launcher
-		SET_SMARTDOCK_DEFAULT=$(getprop persist.glodroid.set_smartdock_default)
+		SET_SMARTDOCK_DEFAULT=$(getprop persist.bass.set_smartdock_default)
 		[ -n "$SET_SMARTDOCK_DEFAULT" ] && pm set-home-activity "cu.axel.smartdock/.activities.LauncherActivity" || pm set-home-activity "com.android.launcher3/.LauncherProvider"
 	
 	fi
