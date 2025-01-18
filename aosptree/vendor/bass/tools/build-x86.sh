@@ -71,6 +71,7 @@ export USE_PCLAUNCHER=false
 export USE_CALYX_AURORA=false
 export USE_LINDROID=false
 export BLISS_CLEAR_DW_HOTSEAT=false
+export ADD_WATERMARK=false
 export USE_DAIJISHOU=false
 export USE_VAPOR_LAUNCHER=false
 export USE_SCREENVIEW=false
@@ -166,6 +167,7 @@ function displayHelp() {
     echo "--usecalyxaurora          Include AuroraStore from CalyxOS"
     echo "--lindroid          Include linux-on-android backend"
     echo "--cleardwhotseat          Enable clear dw hotseat favorites"
+    echo "--watermark          Add watermark to this build"
     echo "--daijishou          Use Daijishou game-mode launcher"
     echo "--vapor          use vapor launcher"
     echo "--sview          use screenview for mock-mirror mode applications"
@@ -244,6 +246,7 @@ else
     fi
     shelldate=$( date +%Y-%m-%d_%H:%M:%S )
     echo "Date: $shelldate: $*" >> .bbconfig/build_arg_history
+    echo "bash build-x86.sh $*" > .bbconfig/last_command
 fi
 
 # Parse arguments
@@ -543,6 +546,10 @@ while [[ $# -gt 0 ]]; do
                BLISS_CLEAR_DW_HOTSEAT=true
                shift
                ;;
+        --watermark)
+               ADD_WATERMARK=true
+               shift
+               ;;
         --daijishou)
                USE_DAIJISHOU=true
                shift
@@ -683,6 +690,7 @@ export USE_PCLAUNCHER=${USE_PCLAUNCHER:-false};
 export USE_CALYX_AURORA=${USE_CALYX_AURORA:-false};
 export USE_LINDROID=${USE_LINDROID:-false};
 export BLISS_CLEAR_DW_HOTSEAT=${BLISS_CLEAR_DW_HOTSEAT:-false};
+export ADD_WATERMARK=${ADD_WATERMARK:-false};
 export USE_DAIJISHOU=${USE_DAIJISHOU:-false};
 export USE_VAPOR_LAUNCHER=${USE_VAPOR_LAUNCHER:-false};
 export USE_SCREENVIEW=${USE_SCREENVIEW:-false};
@@ -776,6 +784,7 @@ echo "IncludeexperimentalPCLauncherfromGooglesDesktopAVD: ${USE_PCLAUNCHER}";
 echo "IncludeAuroraStorefromCalyxOS: ${USE_CALYX_AURORA}";
 echo "Includelinuxonandroidbackend: ${USE_LINDROID}";
 echo "Enablecleardwhotseatfavorites: ${BLISS_CLEAR_DW_HOTSEAT}";
+echo "Addwatermarktothisbuild: ${ADD_WATERMARK}";
 echo "UseDaijishougamemodelauncher: ${USE_DAIJISHOU}";
 echo "Usevaporlauncher: ${USE_VAPOR_LAUNCHER}";
 echo "Usescreenviewformockmirrormodeapplications: ${USE_SCREENVIEW}";
