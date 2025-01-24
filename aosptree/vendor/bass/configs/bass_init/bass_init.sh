@@ -43,6 +43,104 @@ set_custom_package_perms()
 		settings put global force_desktop_mode_on_external_displays "$FORCE_DESKTOP_ON_EXTERNAL"
 	fi
 
+	# ccom.example.screenoverlay
+	exists_screenview=$(pm list com.example.screenoverlay | grep -c com.example.screenoverlay)
+	if [ $exists_screenview -eq 1 ]; then
+		appops set com.example.screenoverlay PROJECT_MEDIA allow
+		pm grant com.example.screenoverlay android.permission.MANAGE_MEDIA_PROJECTION
+		appops set com.example.screenoverlay MANAGE_MEDIA_PROJECTION allow
+		pm grant com.example.screenoverlay android.permission.ACCESS_SURFACE_FLINGER
+		pm grant com.example.screenoverlay android.permission.CAPTURE_SECURE_VIDEO_OUTPUT
+		pm grant com.example.screenoverlay android.permission.SYSTEM_ALERT_WINDOW
+		pm grant com.example.screenoverlay android.permission.INJECT_EVENTS
+		appops set com.example.screenoverlay INJECT_EVENTS allow
+	fi
+
+	# DaoidVNC
+	exists_droidvnc=$(pm list packages net.christianbeier.droidvnc_ng | grep -c net.christianbeier.droidvnc_ng)
+	if [ $exists_droidvnc -eq 1 ]; then
+
+		appops set net.christianbeier.droidvnc_ng PROJECT_MEDIA allow
+		appops set net.christianbeier.droidvnc_ng MANAGE_MEDIA_PROJECTION allow
+		appops set net.christianbeier.droidvnc_ng INJECT_EVENTS allow
+		appops set net.christianbeier.droidvnc_ng FOREGROUND_SERVICE allow
+		appops set net.christianbeier.droidvnc_ng FOREGROUND_SERVICE_MEDIA_PROJECTION allow
+		appops set net.christianbeier.droidvnc_ng FOREGROUND_SERVICE_CONNECTED_DEVICE allow
+		appops set net.christianbeier.droidvnc_ng CHANGE_NETWORK_STATE allow
+		pm grant net.christianbeier.droidvnc_ng android.permission.INTERNET
+		pm grant net.christianbeier.droidvnc_ng android.permission.RECEIVE_BOOT_COMPLETED
+		pm grant net.christianbeier.droidvnc_ng android.permission.WRITE_EXTERNAL_STORAGE
+		pm grant net.christianbeier.droidvnc_ng android.permission.FOREGROUND_SERVICE
+		pm grant net.christianbeier.droidvnc_ng android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION
+		pm grant net.christianbeier.droidvnc_ng android.permission.FOREGROUND_SERVICE_CONNECTED_DEVICE
+		pm grant net.christianbeier.droidvnc_ng android.permission.CHANGE_NETWORK_STATE
+		pm grant net.christianbeier.droidvnc_ng android.permission.WAKE_LOCK
+		pm grant net.christianbeier.droidvnc_ng android.permission.POST_NOTIFICATIONS
+		pm grant net.christianbeier.droidvnc_ng android.permission.ACCESS_NETWORK_STATE
+		pm grant net.christianbeier.droidvnc_ng net.christianbeier.droidvnc_ng.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+		pm grant net.christianbeier.droidvnc_ng android.permission.READ_EXTERNAL_STORAGE
+		pm grant net.christianbeier.droidvnc_ng android.permission.BIND_ACCESSIBILITY_SERVICE
+		pm grant --user $current_user net.christianbeier.droidvnc_ng android.permission.BIND_ACCESSIBILITY_SERVICE
+		appops set net.christianbeier.droidvnc_ng BIND_ACCESSIBILITY_SERVICE allow
+
+		current_acc_pkgs=$(settings get secure enabled_accessibility_services)
+		if [ $(echo "$current_acc_pkgs" | grep -c net.christianbeier.droidvnc_ng) -eq 0 ]; then
+			if [ -n "$current_acc_pkgs" ]; then
+				settings put secure enabled_accessibility_services $current_acc_pkgs:net.christianbeier.droidvnc_ng/.InputService
+			else
+				settings put secure enabled_accessibility_services net.christianbeier.droidvnc_ng/.InputService
+			fi
+		fi
+	fi
+
+	# com.aurora.services
+	exists_auroraservices=$(pm list com.aurora.services | grep -c com.aurora.services)
+	if [ $exists_auroraservices -eq 1 ]; then
+
+		pm grant com.aurora.services android.permission.FOREGROUND_SERVICE
+		appops set com.aurora.services FOREGROUND_SERVICE allow
+		pm grant com.aurora.services android.permission.MANAGE_EXTERNAL_STORAGE
+		appops set com.aurora.services MANAGE_EXTERNAL_STORAGE allow
+		pm grant com.aurora.services android.permission.READ_EXTERNAL_STORAGE
+		appops set com.aurora.services READ_EXTERNAL_STORAGE allow
+		pm grant com.aurora.services android.permission.WRITE_EXTERNAL_STORAGE
+		appops set com.aurora.services WRITE_EXTERNAL_STORAGE allow
+		pm grant com.aurora.services android.permission.QUERY_ALL_PACKAGES
+		appops set com.aurora.services QUERY_ALL_PACKAGES allow
+		pm grant com.aurora.services android.permission.INSTALL_PACKAGES
+		appops set com.aurora.services INSTALL_PACKAGES allow
+		pm grant com.aurora.services android.permission.DELETE_PACKAGES
+		appops set com.aurora.services DELETE_PACKAGES allow
+		pm grant com.aurora.services android.permission.REQUEST_INSTALL_PACKAGES
+		appops set com.aurora.services REQUEST_INSTALL_PACKAGES allow
+		pm grant com.aurora.services android.permission.REQUEST_DELETE_PACKAGES
+		appops set com.aurora.services REQUEST_DELETE_PACKAGES allow
+
+	fi
+
+	# com.bliss.bootsight
+	exists_bootsight=$(pm list packages com.bliss.bootsight | grep -c com.bliss.bootsight)
+	if [ $exists_bootsight -eq 1 ]; then
+		dpm set-active-admin com.bliss.bootsight/android.app.admin.DeviceAdminReceiver
+		if [ ! -f /data/misc/bootsight/default ]; then
+			dpm set-active-admin com.bliss.bootsight/android.app.admin.DeviceAdminReceiver
+			appops set com.bliss.bootsight REQUEST_IGNORE_BATTERY_OPTIMIZATIONS allow
+			pm grant com.bliss.bootsight android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+			pm grant com.bliss.bootsight android.permission.ACCESS_NETWORK_STATE
+			pm grant com.bliss.bootsight android.permission.INTERNET
+			pm grant com.bliss.bootsight android.permission.SYSTEM_ALERT_WINDOW
+			pm grant com.bliss.bootsight android.permission.RECEIVE_BOOT_COMPLETED
+			pm grant com.bliss.bootsight android.permission.READ_PRIVILEGED_PHONE_STATE
+			dumpsys deviceidle whitelist +com.bliss.bootsight
+			# Set config marker
+			mkdir -p /data/misc/bootsight
+			touch /data/misc/bootsight/default
+			chown 1000.1000 /data/misc/bootsight /data/misc/bootsight/*
+			chmod 775 /data/misc/bootsight
+			chmod 664 /data/misc/bootsight/default
+		fi
+	fi
+
 	# GBoard 
 	exists_gboard=$(pm list packages com.google.android.inputmethod.latin | grep -c com.google.android.inputmethod.latin)
 	if [ $exists_gboard -eq 1 ]; then
@@ -56,6 +154,38 @@ set_custom_package_perms()
 			chown 1000.1000 /data/misc/gboard /data/misc/gboard/*
 			chmod 775 /data/misc/gboard
 			chmod 664 /data/misc/gboard/default
+		fi
+	fi
+
+	# Vapor Launcher
+	exists_vaporlauncher=$(pm list packages org.vapor.android | grep -c org.vapor.android)
+	if [ $exists_vaporlauncher -eq 1 ]; then
+		if [ ! -f /data/misc/vlconfig/config ]; then
+			# set device config
+			mkdir -p /data/misc/vlconfig
+			touch /data/misc/vlconfig/config
+			chown 1000.1000 /data/misc/vlconfig /data/misc/vlconfig/*
+			chmod 775 /data/misc/vlconfig
+			chmod 664 /data/misc/vlconfig/config
+
+			pm set-home-activity "org.vapor.android/.AppWorker"
+			am start -a android.intent.action.MAIN -c android.intent.category.HOME
+		fi
+	fi
+
+	# Daijishou Launcher
+	exists_dslauncher=$(pm list packages com.magneticchen.daijishou | grep -c com.magneticchen.daijishou)
+	if [ $exists_dslauncher -eq 1 ]; then
+		if [ ! -f /data/misc/dlconfig/config ]; then
+			# set device config
+			mkdir -p /data/misc/dlconfig
+			touch /data/misc/dlconfig/config
+			chown 1000.1000 /data/misc/dlconfig /data/misc/dlconfig/*
+			chmod 775 /data/misc/dlconfig
+			chmod 664 /data/misc/dlconfig/config
+
+			pm set-home-activity "com.magneticchen.daijishou/.activities.BootstrapActivity"
+			am start -a android.intent.action.MAIN -c android.intent.category.HOME
 		fi
 	fi
 
@@ -82,7 +212,7 @@ set_custom_package_perms()
 		am start -a android.intent.action.MAIN -c android.intent.category.HOME
 
 		if [ -f /data/data/com.bliss.restrictedlauncher/files/whitelist.lst ]; then
-			if [ ! -f /data/misc/rlpconfig/whitelist ]; then
+			if [ ! -f /data/misc/rlconfig/whitelist ]; then
 				echo -e "\ncom.android.printservice.recommendation" >> /data/data/com.bliss.restrictedlauncher/files/whitelist.lst
 				echo -e "com.android.printspooler" >> /data/data/com.bliss.restrictedlauncher/files/whitelist.lst
 				echo -e "com.android.systemui" >> /data/data/com.bliss.restrictedlauncher/files/whitelist.lst
@@ -102,11 +232,11 @@ set_custom_package_perms()
 		if [ ! -f /data/misc/rlpconfig/admin ]; then
 			# set device admin
 			dpm set-device-owner com.bliss.restrictedlauncher.pro/com.bliss.restrictedlauncher.DeviceAdmin
-			mkdir -p /data/misc/rlconfig
-			touch /data/misc/rlconfig/admin
-			chown 1000.1000 /data/misc/rlconfig /data/misc/rlconfig/*
-			chmod 775 /data/misc/rlconfig
-			chmod 664 /data/misc/rlconfig/admin
+			mkdir -p /data/misc/rlpconfig
+			touch /data/misc/rlpconfig/admin
+			chown 1000.1000 /data/misc/rlpconfig /data/misc/rlpconfig/*
+			chmod 775 /data/misc/rlpconfig
+			chmod 664 /data/misc/rlpconfig/admin
 		fi
 		# set overlays enabled
 		settings put secure secure_overlay_settings 1
@@ -124,11 +254,11 @@ set_custom_package_perms()
 				echo -e "com.android.printspooler" >> /data/data/com.bliss.restrictedlauncher.pro/files/whitelist.lst
 				echo -e "com.android.systemui" >> /data/data/com.bliss.restrictedlauncher.pro/files/whitelist.lst
 				echo -e "com.android.packageinstaller" >> /data/data/com.bliss.restrictedlauncher.pro/files/whitelist.lst				
-				mkdir -p /data/misc/rlconfig
-				touch /data/misc/rlconfig/whitelist
-				chown 1000.1000 /data/misc/rlconfig /data/misc/rlconfig/*
-				chmod 775 /data/misc/rlconfig
-				chmod 664 /data/misc/rlconfig/whitelist
+				mkdir -p /data/misc/rlpconfig
+				touch /data/misc/rlpconfig/whitelist
+				chown 1000.1000 /data/misc/rlpconfig /data/misc/rlpconfig/*
+				chmod 775 /data/misc/rlpconfig
+				chmod 664 /data/misc/rlpconfig/whitelist
 			fi
 		fi
 	fi
@@ -232,18 +362,22 @@ set_custom_package_perms()
 
 		if [ ! -f /data/misc/sdconfig/accessibility ] && ! pm list packages | grep -q "com.blissos.setupwizard"; then
 			# set accessibility services
-			eas=$(settings get secure enabled_accessibility_services)
-			if [ -n "$eas" ]; then
-				settings put secure enabled_accessibility_services $eas:cu.axel.smartdock/cu.axel.smartdock.services.DockService
-			else
-				settings put secure enabled_accessibility_services cu.axel.smartdock/cu.axel.smartdock.services.DockService
+			current_acc_pkgs=$(settings get secure enabled_accessibility_services)
+			is_setup_complete=$(settings get secure user_setup_complete)
+			if [[ $is_setup_complete -eq 1 ]] && [[ $(echo "$current_acc_pkgs" | grep -c cu.axel.smartdock) -eq 0 ]]; then
+				if [ -n "$current_acc_pkgs" ]; then
+					settings put secure enabled_accessibility_services $current_acc_pkgs:cu.axel.smartdock/.services.DockService
+				else
+					settings put secure enabled_accessibility_services cu.axel.smartdock/.services.DockService
+				fi
+				mkdir -p /data/misc/sdconfig
+				touch /data/misc/sdconfig/accessibility
+				chown 1000.1000 /data/misc/sdconfig /data/misc/sdconfig/*
+				chmod 775 /data/misc/sdconfig
+				chmod 664 /data/misc/sdconfig/accessibility
 			fi
-			mkdir -p /data/misc/sdconfig
-			touch /data/misc/sdconfig/accessibility
-			chown 1000.1000 /data/misc/sdconfig /data/misc/sdconfig/*
-			chmod 775 /data/misc/sdconfig
-			chmod 664 /data/misc/sdconfig/accessibility
 		fi
+
 		if [ ! -f /data/misc/sdconfig/notification ]; then
 			# set notification listeners
 			enl=$(settings get secure enabled_notification_listeners)
@@ -299,6 +433,36 @@ set_custom_package_perms()
 
 		# set overlays enabled
 		settings put secure secure_overlay_settings 1
+	fi
+
+	# com.aurora.store
+	exists_aurora=$(pm list packages com.aurora.store | grep -c com.aurora.store)
+	if [ $exists_aurora -eq 1 ]; then
+		pm grant com.aurora.store android.permission.INTERNET
+		pm grant com.aurora.store android.permission.ACCESS_NETWORK_STATE
+		pm grant com.aurora.store android.permission.FOREGROUND_SERVICE
+		pm grant com.aurora.store android.permission.FOREGROUND_SERVICE_DATA_SYNC
+		pm grant com.aurora.store android.permission.MANAGE_EXTERNAL_STORAGE
+		pm grant com.aurora.store android.permission.READ_EXTERNAL_STORAGE
+		pm grant com.aurora.store android.permission.WRITE_EXTERNAL_STORAGE
+		pm grant com.aurora.store android.permission.QUERY_ALL_PACKAGES
+		pm grant com.aurora.store android.permission.REQUEST_INSTALL_PACKAGES
+		pm grant com.aurora.store android.permission.REQUEST_DELETE_PACKAGES
+		pm grant com.aurora.store android.permission.ENFORCE_UPDATE_OWNERSHIP
+		pm grant com.aurora.store android.permission.UPDATE_PACKAGES_WITHOUT_USER_ACTION
+		pm grant com.aurora.store android.permission.POST_NOTIFICATIONS
+		pm grant com.aurora.store android.permission.USE_CREDENTIALS
+		appops set com.aurora.store BIND_DEVICE_ADMIN allow
+
+		if [ ! -f /data/misc/auroraconfig/admin ]; then
+			# set device admin
+			dpm set-active-admin --user current com.aurora.store/.data.receiver.DeviceOwnerReceiver
+			mkdir -p /data/misc/auroraconfig
+			touch /data/misc/auroraconfig/admin
+			chown 1000.1000 /data/misc/auroraconfig /data/misc/auroraconfig/*
+			chmod 775 /data/misc/auroraconfig
+			chmod 664 /data/misc/auroraconfig/admin
+		fi
 	fi
 
 	# MicroG: com.google.android.gms
@@ -595,6 +759,7 @@ function set_package_opts()
 	
 }
 
+
 function set_custom_settings()
 {
 	# Set generic device settings
@@ -768,7 +933,17 @@ function init_bass_options()
 							# Force disable recents
 							# options: true, false
 							set_property persist.bliss.disable_recents "$FORCE_DISABLE_RECENTS"
-							;;					
+							;;
+						SET_MOUSE_PRESENTATION=*)
+							# Set mouse presentation
+							# options: 0. 1
+							set_property persist.mouse.presentation "$SET_MOUSE_PRESENTATION"
+							;;
+						SET_RMB=*)
+							# Set right mouse button as back key
+							# options: true, false
+							set_property persist.mouse.right_mouse_as_back "$SET_RMB"
+							;;
 						SET_LOGCAT_DEBUG=*)
 							# Set logcat debug (1)
 							set_property debug.logcat "$SET_LOGCAT_DEBUG"
@@ -850,9 +1025,10 @@ function do_bass_netconsole()
 function do_bass_init()
 {
 	set_lowmem
+	set_multidisplay_options
 	set_usb_mode
 	set_max_logd
-	set_custom_timezone
+	set_custom_timezone	
 	init_bass_rotation_props
 }
 
