@@ -4,9 +4,6 @@ $(call inherit-product-if-exists, $(LOCAL_PATH)/prebuilts/bootsight/bootsight.mk
 # Common Overlays
 DEVICE_PACKAGE_OVERLAYS += vendor/bass/overlay/common
 
-# Allow overlays to be excluded from enforcing RRO
-PRODUCT_ENFORCE_RRO_EXCLUDED_OVERLAYS += vendor/bass/overlay/common
-
 # Define property overrides we want to enforce
 PRODUCT_PROPERTY_OVERRIDES := \
     persist.logd.size=8388608 \

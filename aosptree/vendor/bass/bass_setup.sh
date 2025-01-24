@@ -474,13 +474,14 @@ function copy_configs()
         cp -r vendor/$vendor_name/configs/config_defaults/tablet/dgc/* device/generic/common/
         sed -i 's/config_navBarInteractionMode">1/config_navBarInteractionMode">0/g' device/generic/common/overlay/frameworks/base/core/res/res/values/config.xml
         sed -i 's/config_navBarInteractionMode">2/config_navBarInteractionMode">0/g' device/generic/common/overlay/frameworks/base/core/res/res/values/config.xml
+        sed -i 's/"config_navBarInteractionMode">1/"config_navBarInteractionMode">0/' vendor/$vendor_name/overlay/common/frameworks/base/core/res/res/values/config.xml
         sed -i 's/"config_navBarInteractionMode">2/"config_navBarInteractionMode">0/' vendor/$vendor_name/overlay/common/frameworks/base/core/res/res/values/config.xml
-
     fi
     if [ "$BLISS_GESTURE_NAVIGATION" = "true" ]; then
         sed -i 's/config_navBarInteractionMode">1/config_navBarInteractionMode">2/g' device/generic/common/overlay/frameworks/base/core/res/res/values/config.xml
         sed -i 's/config_navBarInteractionMode">0/config_navBarInteractionMode">2/g' device/generic/common/overlay/frameworks/base/core/res/res/values/config.xml
         sed -i 's/"config_navBarInteractionMode">0/"config_navBarInteractionMode">2/' vendor/$vendor_name/overlay/common/frameworks/base/core/res/res/values/config.xml
+        sed -i 's/"config_navBarInteractionMode">1/"config_navBarInteractionMode">2/' vendor/$vendor_name/overlay/common/frameworks/base/core/res/res/values/config.xml
     fi
 
     if [ "$BLISS_SEPARATE_RECENTS_ACTIVITY" = "true" ]; then
