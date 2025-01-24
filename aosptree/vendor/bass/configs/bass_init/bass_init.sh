@@ -465,6 +465,17 @@ set_custom_package_perms()
 		fi
 	fi
 
+	# com.hardbacknutter.sshd
+	exists_sshd=$(pm list packages com.hardbacknutter.sshd | grep -c com.hardbacknutter.sshd)
+	if [ $exists_sshd -eq 1 ]; then
+		pm grant com.hardbacknutter.sshd android.permission.INTERNET
+		pm grant com.hardbacknutter.sshd android.permission.RECEIVE_BOOT_COMPLETED
+		pm grant com.hardbacknutter.sshd android.permission.FOREGROUND_SERVICE
+		pm grant com.hardbacknutter.sshd android.permission.FOREGROUND_SERVICE_SPECIAL_USE
+		pm grant com.hardbacknutter.sshd android.permission.POST_NOTIFICATIONS
+		pm grant com.hardbacknutter.sshd android.permission.MANAGE_EXTERNAL_STORAGE
+	fi
+
 	# MicroG: com.google.android.gms
 	is_microg=$(dumpsys package com.google.android.gms | grep -m 1 -c org.microg.gms)
 	if [ $is_microg -eq 1 ]; then
