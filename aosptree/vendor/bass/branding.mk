@@ -101,7 +101,9 @@ endif
 ifeq ($(USE_BLISS_SETUPWIZARD), true)
 PRODUCT_PACKAGES += \
     BlissSetupWizard \
-    LineageSetupWizard
+    LineageSetupWizard \
+    LMOSetupWizard \
+    SetupWizard
 
 # SeedVault
 PRODUCT_PACKAGES += \
