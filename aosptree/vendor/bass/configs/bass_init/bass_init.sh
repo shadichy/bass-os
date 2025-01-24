@@ -762,6 +762,68 @@ function set_package_opts()
 								fi
                             done
                             ;;
+						BASS_TABLETUI=1)
+							pm hide cu.axel.smartdock
+							pm hide com.bliss.restrictedlauncher
+							;;
+						BASS_DESKTOPUI=1)
+							pm unhide cu.axel.smartdock
+							pm hide com.bliss.restrictedlauncher
+							# set accessibility services
+							current_acc_pkgs=$(settings get secure enabled_accessibility_services)
+							is_setup_complete=$(settings get secure user_setup_complete)
+							if [[ $is_setup_complete -eq 1 ]] && [[ $(echo "$current_acc_pkgs" | grep -c cu.axel.smartdock) -eq 0 ]]; then
+								if [ -n "$current_acc_pkgs" ]; then
+									settings put secure enabled_accessibility_services $current_acc_pkgs:cu.axel.smartdock/.services.DockService
+								else
+									settings put secure enabled_accessibility_services cu.axel.smartdock/.services.DockService
+								fi
+								mkdir -p /data/misc/sdconfig
+								touch /data/misc/sdconfig/accessibility
+								chown 1000.1000 /data/misc/sdconfig /data/misc/sdconfig/*
+								chmod 775 /data/misc/sdconfig
+								chmod 664 /data/misc/sdconfig/accessibility
+							fi
+							
+							if [ ! -f /data/misc/sdconfig/notification ]; then
+								# set notification listeners
+								enl=$(settings get secure enabled_notification_listeners)
+								if [ -n "$enl" ]; then
+									settings put secure enabled_notification_listeners $enl:cu.axel.smartdock/cu.axel.smartdock.services.NotificationService
+									
+								else
+									settings put secure enabled_notification_listeners cu.axel.smartdock/cu.axel.smartdock.services.NotificationService
+								fi
+								mkdir -p /data/misc/sdconfig
+								touch /data/misc/sdconfig/notification
+								chown 1000.1000 /data/misc/sdconfig /data/misc/sdconfig/*
+								chmod 775 /data/misc/sdconfig
+								chmod 664 /data/misc/sdconfig/notification
+							fi
+							if [ ! -f /data/misc/sdconfig/admin ]; then
+								# set device admin
+								dpm set-active-admin --user current cu.axel.smartdock/android.app.admin.DeviceAdminReceiver
+								mkdir -p /data/misc/sdconfig
+								touch /data/misc/sdconfig/admin
+								chown 1000.1000 /data/misc/sdconfig /data/misc/sdconfig/*
+								chmod 775 /data/misc/sdconfig
+								chmod 664 /data/misc/sdconfig/admin
+							fi
+							;;
+						BASS_KIOSKUI=1)
+							pm hide cu.axel.smartdock
+							pm unhide com.bliss.restrictedlauncher
+
+							if [ ! -f /data/misc/rlpconfig/admin ]; then
+								# set device admin
+								dpm set-device-owner com.bliss.restrictedlauncher.pro/com.bliss.restrictedlauncher.DeviceAdmin
+								mkdir -p /data/misc/rlpconfig
+								touch /data/misc/rlpconfig/admin
+								chown 1000.1000 /data/misc/rlpconfig /data/misc/rlpconfig/*
+								chmod 775 /data/misc/rlpconfig
+								chmod 664 /data/misc/rlpconfig/admin
+							fi
+							;;
                     esac
                 fi
                 ;;
