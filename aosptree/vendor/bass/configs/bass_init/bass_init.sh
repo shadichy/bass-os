@@ -473,6 +473,7 @@ set_custom_package_perms()
 		pm grant com.aurora.store android.permission.FOREGROUND_SERVICE
 		pm grant com.aurora.store android.permission.FOREGROUND_SERVICE_DATA_SYNC
 		pm grant com.aurora.store android.permission.MANAGE_EXTERNAL_STORAGE
+		appops set com.aurora.store MANAGE_EXTERNAL_STORAGE allow
 		pm grant com.aurora.store android.permission.READ_EXTERNAL_STORAGE
 		pm grant com.aurora.store android.permission.WRITE_EXTERNAL_STORAGE
 		pm grant com.aurora.store android.permission.QUERY_ALL_PACKAGES
@@ -482,6 +483,10 @@ set_custom_package_perms()
 		pm grant com.aurora.store android.permission.UPDATE_PACKAGES_WITHOUT_USER_ACTION
 		pm grant com.aurora.store android.permission.POST_NOTIFICATIONS
 		pm grant com.aurora.store android.permission.USE_CREDENTIALS
+		pm grant com.aurora.store android.permission.RECEIVE_BOOT_COMPLETED
+		pm grant com.aurora.store android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+		pm grant com.aurora.store android.permission.WAKE_LOCK
+		pm grant com.aurora.store android.permission.DELETE_PACKAGES
 		appops set com.aurora.store BIND_DEVICE_ADMIN allow
 
 		if [ ! -f /data/misc/auroraconfig/admin ]; then
@@ -504,6 +509,7 @@ set_custom_package_perms()
 		pm grant com.hardbacknutter.sshd android.permission.FOREGROUND_SERVICE_SPECIAL_USE
 		pm grant com.hardbacknutter.sshd android.permission.POST_NOTIFICATIONS
 		pm grant com.hardbacknutter.sshd android.permission.MANAGE_EXTERNAL_STORAGE
+		appops set com.hardbacknutter.sshd MANAGE_EXTERNAL_STORAGE allow
 	fi
 
 	# MicroG: com.google.android.gms
