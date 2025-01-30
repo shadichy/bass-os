@@ -496,6 +496,14 @@ function copy_configs()
         sed -i 's/"ENABLE_DEVICE_SEARCH", true,/"ENABLE_DEVICE_SEARCH", false,/' packages/apps/Launcher3/src/com/android/launcher3/config/FeatureFlags.java
     fi
 
+    if [ "$USE_POINTER_CHOREOGRAPHER" = "true" ]; then
+        sed -i 's/state: DISABLED/state: ENABLED/' vendor/bliss/release/aconfig/ap2a/com.android.input.flags/enable_pointer_choreographer_flag_values.textproto
+        sed -i 's/state: DISABLED/state: ENABLED/' vendor/lineage/release/aconfig/ap2a/com.android.input.flags/enable_pointer_choreographer_flag_values.textproto
+    else
+        sed -i 's/state: ENABLED/state: DISABLED/' vendor/bliss/release/aconfig/ap2a/com.android.input.flags/enable_pointer_choreographer_flag_values.textproto
+        sed -i 's/state: ENABLED/state: DISABLED/' vendor/lineage/release/aconfig/ap2a/com.android.input.flags/enable_pointer_choreographer_flag_values.textproto
+    fi
+
     if [ "$BLISS_CLEAR_HOTSEAT_FAVORITES" = "true" ]; then
         # Look for all filenames with "default_workspace*.xml" in packages/apps/Launcher3/res/xml/ and add them to WORKSPACE_LIST
         WORKSPACE_LIST=$(find packages/apps/Launcher3/res/xml/ -type f -name "default_workspace*.xml")
