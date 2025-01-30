@@ -885,19 +885,16 @@ function set_custom_settings()
 						FORCE_USE_ADB_CLIENT_MODE=3)
 							settings put global adb_enabled 1
 							settings put global adb_wifi_enabled 1 
-							;;						
-						BASSEDW=1)
-							# Enable other PC mode related changes
-							device_config put lse_desktop_experience com.android.window.flags.enable_desktop_windowing true
-							device_config put lse_desktop_experience com.android.window.flags.enable_desktop_windowing_mode true
 							;;
-						BASSDM=1)
+						BASSDM=*)
 							# Enable BASSDM
-							setprop persist.wm.debug.desktop_mode true
+							setprop persist.wm.debug.desktop_mode "$BASSDM"
+							setprop persist.sys.debug.desktop_mode "$BASSDM"
 							;;
-						BASSDM2=1)
+						BASSDM2=*)
 							# Enable BASSDM2
-							setprop persist.wm.debug.desktop_mode_2 true
+							setprop persist.wm.debug.desktop_mode_2 "$BASSDM2"
+							setprop persist.sys.debug.desktop_mode_2 "$BASSDM2"
 							;;
                     esac
                 fi
@@ -1001,10 +998,15 @@ function init_bass_options()
 							# options: true, false
 							set_property persist.bliss.disable_recents "$FORCE_DISABLE_RECENTS"
 							;;
-						SET_MOUSE_PRESENTATION=*)
+						FORCE_MOUSE_PRESENTATION=*)
 							# Set mouse presentation
 							# options: 0. 1
 							set_property persist.mouse.presentation "$SET_MOUSE_PRESENTATION"
+							;;
+						SET_P_CG=*)
+							# Set mouse presentation
+							# options: 0. 1
+							set_property persist.pointer.choreographer "$SET_POINTER_CHOREOGRAPHER"
 							;;
 						SET_RMB=*)
 							# Set right mouse button as back key
@@ -1075,6 +1077,22 @@ function init_bass_options()
 							# Force IME on secondary displays
 							# options: 0, 1
 							set_property ro.boot.bliss.force_ime_on_all_displays "$FORCE_IME_ON_SECONDARY_DISPLAYS"
+							;;
+						DISABLE_MIRROR_DISPLAY=*)
+							# Disable mirror display
+							# options: true, false
+							set_property ro.boot.display_mirror.disable "$DISABLE_MIRROR_DISPLAY"
+							;;
+						DISMISS_USB_ACCESS_DIALOG=*)
+							# Check if the property ro.boot.bliss.dismiss_usb_access_dialog is true
+							# options: 0, 1
+							set_property ro.boot.bliss.dismiss_usb_access_dialog "$DISMISS_USB_ACCESS_DIALOG"
+							;;
+						BASSEDW=*)
+							# Enable other PC mode related changes
+							# Options: true, false
+							device_config put lse_desktop_experience com.android.window.flags.enable_desktop_windowing "$BASSEDW"
+							device_config put lse_desktop_experience com.android.window.flags.enable_desktop_windowing_mode "$BASSEDW"
 							;;
 					esac
 				fi
