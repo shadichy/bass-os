@@ -16,6 +16,169 @@ function set_prop_if_empty()
 	[ -z "$(getprop $1)" ] && set_property "$1" "$2"
 }
 
+function smartdock_perms()
+{
+	# SmartDock
+	exists_smartdock=$(pm list packages cu.axel.smartdock | grep -c cu.axel.smartdock)
+	if [ $exists_smartdock -eq 1 ]; then
+		pm grant cu.axel.smartdock android.permission.SYSTEM_ALERT_WINDOW
+		pm grant cu.axel.smartdock android.permission.GET_TASKS
+		pm grant cu.axel.smartdock android.permission.REORDER_TASKS
+		pm grant cu.axel.smartdock android.permission.REMOVE_TASKS
+		pm grant cu.axel.smartdock android.permission.ACCESS_WIFI_STATE
+		pm grant cu.axel.smartdock android.permission.CHANGE_WIFI_STATE
+		pm grant cu.axel.smartdock android.permission.ACCESS_NETWORK_STATE
+		pm grant cu.axel.smartdock android.permission.ACCESS_COARSE_LOCATION
+		pm grant cu.axel.smartdock android.permission.ACCESS_FINE_LOCATION
+		pm grant cu.axel.smartdock android.permission.READ_EXTERNAL_STORAGE
+		pm grant cu.axel.smartdock android.permission.MANAGE_USERS
+		pm grant cu.axel.smartdock android.permission.BLUETOOTH_ADMIN
+		pm grant cu.axel.smartdock android.permission.BLUETOOTH_CONNECT
+		pm grant cu.axel.smartdock android.permission.BLUETOOTH
+		pm grant cu.axel.smartdock android.permission.REQUEST_DELETE_PACKAGES
+		pm grant cu.axel.smartdock android.permission.ACCESS_SUPERUSER
+		pm grant cu.axel.smartdock android.permission.PACKAGE_USAGE_STATS
+		pm grant cu.axel.smartdock android.permission.QUERY_ALL_PACKAGES
+		pm grant cu.axel.smartdock android.permission.WRITE_SECURE_SETTINGS
+		pm grant --user $current_user cu.axel.smartdock android.permission.WRITE_SECURE_SETTINGS
+		appops set cu.axel.smartdock WRITE_SECURE_SETTINGS allow
+		pm grant cu.axel.smartdock android.permission.WRITE_SETTINGS
+		pm grant --user $current_user cu.axel.smartdock android.permission.WRITE_SETTINGS
+		appops set cu.axel.smartdock WRITE_SETTINGS allow
+		pm grant cu.axel.smartdock android.permission.BIND_ACCESSIBILITY_SERVICE
+		pm grant --user $current_user cu.axel.smartdock android.permission.BIND_ACCESSIBILITY_SERVICE
+		appops set cu.axel.smartdock BIND_ACCESSIBILITY_SERVICE allow
+		pm grant cu.axel.smartdock android.permission.BIND_NOTIFICATION_LISTENER_SERVICE
+		pm grant --user $current_user cu.axel.smartdock android.permission.BIND_NOTIFICATION_LISTENER_SERVICE
+		appops set cu.axel.smartdock BIND_NOTIFICATION_LISTENER_SERVICE allow
+		pm grant cu.axel.smartdock android.permission.BIND_DEVICE_ADMIN
+		pm grant --user $current_user cu.axel.smartdock android.permission.BIND_DEVICE_ADMIN
+		appops set cu.axel.smartdock BIND_DEVICE_ADMIN allow
+		pm grant cu.axel.smartdock android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+		pm grant --user $current_user cu.axel.smartdock android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+
+		# set overlays enabled
+		settings put secure secure_overlay_settings 1
+
+		# allow displaying over other apps if in Go mode
+		settings put system alert_window_bypass_low_ram 1
+
+		if [ ! -f /data/misc/sdconfig/accessibility ] && ! pm list packages | grep -q "com.blissos.setupwizard"; then
+			# set accessibility services
+			current_acc_pkgs=$(settings get secure enabled_accessibility_services)
+			is_setup_complete=$(settings get secure user_setup_complete)
+			if [[ $is_setup_complete -eq 1 ]] && [[ $(echo "$current_acc_pkgs" | grep -c cu.axel.smartdock) -eq 0 ]]; then
+				if [ -n "$current_acc_pkgs" ]; then
+					settings put secure enabled_accessibility_services $current_acc_pkgs:cu.axel.smartdock/.services.DockService
+				else
+					settings put secure enabled_accessibility_services cu.axel.smartdock/.services.DockService
+				fi
+				mkdir -p /data/misc/sdconfig
+				touch /data/misc/sdconfig/accessibility
+				chown 1000.1000 /data/misc/sdconfig /data/misc/sdconfig/*
+				chmod 775 /data/misc/sdconfig
+				chmod 664 /data/misc/sdconfig/accessibility
+			fi
+		fi
+
+		if [ ! -f /data/misc/sdconfig/notification ]; then
+			# set notification listeners
+			enl=$(settings get secure enabled_notification_listeners)
+			if [ -n "$enl" ]; then
+				settings put secure enabled_notification_listeners $enl:cu.axel.smartdock/cu.axel.smartdock.services.NotificationService
+				
+			else
+				settings put secure enabled_notification_listeners cu.axel.smartdock/cu.axel.smartdock.services.NotificationService
+			fi
+			mkdir -p /data/misc/sdconfig
+			touch /data/misc/sdconfig/notification
+			chown 1000.1000 /data/misc/sdconfig /data/misc/sdconfig/*
+			chmod 775 /data/misc/sdconfig
+			chmod 664 /data/misc/sdconfig/notification
+		fi
+		if [ ! -f /data/misc/sdconfig/admin ]; then
+			# set device admin
+			dpm set-active-admin --user current cu.axel.smartdock/android.app.admin.DeviceAdminReceiver
+			mkdir -p /data/misc/sdconfig
+			touch /data/misc/sdconfig/admin
+			chown 1000.1000 /data/misc/sdconfig /data/misc/sdconfig/*
+			chmod 775 /data/misc/sdconfig
+			chmod 664 /data/misc/sdconfig/admin
+		fi
+
+		if [ $(settings get global development_settings_enabled) == 0 ]; then
+			settings put global development_settings_enabled 1
+		fi
+
+		# set launcher
+		SET_SMARTDOCK_DEFAULT=$(getprop persist.bass.set_smartdock_default)
+		[ -n "$SET_SMARTDOCK_DEFAULT" ] && pm set-home-activity "cu.axel.smartdock/.activities.LauncherActivity" || pm set-home-activity "com.android.launcher3/.LauncherProvider"
+		
+	fi
+}
+
+function restricted_perms()
+{
+	# BlissRestrictedLauncher
+	exists_restlauncher=$(pm list packages com.bliss.restrictedlauncher | grep -c com.bliss.restrictedlauncher)
+	if [ $exists_restlauncher -eq 1 ]; then			
+		if [ ! -f /data/misc/rlconfig/admin ]; then
+			# set device admin
+			dpm set-device-owner com.bliss.restrictedlauncher/.DeviceAdmin
+			mkdir -p /data/misc/rlconfig
+			touch /data/misc/rlconfig/admin
+			chown 1000.1000 /data/misc/rlconfig /data/misc/rlconfig/*
+			chmod 775 /data/misc/rlconfig
+			chmod 664 /data/misc/rlconfig/admin
+		fi
+		# set overlays enabled
+		settings put secure secure_overlay_settings 1
+
+		# allow displaying over other apps if in Go mode
+		settings put system alert_window_bypass_low_ram 1
+
+		pm grant com.bliss.restrictedlauncher android.permission.SYSTEM_ALERT_WINDOW
+		pm set-home-activity "com.bliss.restrictedlauncher/.activities.LauncherActivity"
+		am start -a android.intent.action.MAIN -c android.intent.category.HOME
+
+		if [ -f /data/data/com.bliss.restrictedlauncher/files/whitelist.lst ]; then
+			if [ ! -f /data/misc/rlconfig/whitelist ]; then
+				echo -e "\ncom.android.printservice.recommendation" >> /data/data/com.bliss.restrictedlauncher/files/whitelist.lst
+				echo -e "com.android.printspooler" >> /data/data/com.bliss.restrictedlauncher/files/whitelist.lst
+				echo -e "com.android.systemui" >> /data/data/com.bliss.restrictedlauncher/files/whitelist.lst
+				echo -e "com.android.packageinstaller" >> /data/data/com.bliss.restrictedlauncher/files/whitelist.lst				
+				mkdir -p /data/misc/rlconfig
+				touch /data/misc/rlconfig/whitelist
+				chown 1000.1000 /data/misc/rlconfig /data/misc/rlconfig/*
+				chmod 775 /data/misc/rlconfig
+				chmod 664 /data/misc/rlconfig/whitelist
+			fi
+		fi		
+	fi
+}
+
+function rm_rl_admin()
+{
+	# remove RL admin
+	dpm remove-active-admin --user current com.bliss.restrictedlauncher/.DeviceAdmin
+	rm -rf /data/misc/rlconfig/admin
+}
+
+function rm_sd_admin()
+{
+	# remove smartdock admin
+	dpm remove-active-admin --user current cu.axel.smartdock/android.app.admin.DeviceAdminReceiver
+	rm -rf /data/misc/sdconfig/admin
+
+	current_acc_pkgs=$(settings get secure enabled_accessibility_services)
+	if [ $(echo "$current_acc_pkgs" | grep -c cu.axel.smartdock) -eq 1 ]; then
+		# remove :cu.axel.smartdock/.services.DockService from enabled_accessibility_services
+		new_acc_pkgs=$(echo "$current_acc_pkgs" | sed "s/:cu.axel.smartdock\/.services.DockService//g")
+		settings put secure enabled_accessibility_services "$new_acc_pkgs"
+		rm -rf /data/misc/sdconfig/accessibility
+	fi
+}
+
 set_custom_package_perms()
 {
 	# Set up custom package permissions
@@ -189,43 +352,6 @@ set_custom_package_perms()
 		fi
 	fi
 
-	# BlissRestrictedLauncher
-	exists_restlauncher=$(pm list packages com.bliss.restrictedlauncher | grep -c com.bliss.restrictedlauncher)
-	if [ $exists_restlauncher -eq 1 ]; then
-		if [ ! -f /data/misc/rlconfig/admin ]; then
-			# set device admin
-			dpm set-device-owner com.bliss.restrictedlauncher/.DeviceAdmin
-			mkdir -p /data/misc/rlconfig
-			touch /data/misc/rlconfig/admin
-			chown 1000.1000 /data/misc/rlconfig /data/misc/rlconfig/*
-			chmod 775 /data/misc/rlconfig
-			chmod 664 /data/misc/rlconfig/admin
-		fi
-		# set overlays enabled
-		settings put secure secure_overlay_settings 1
-
-		# allow displaying over other apps if in Go mode
-		settings put system alert_window_bypass_low_ram 1
-
-		pm grant com.bliss.restrictedlauncher android.permission.SYSTEM_ALERT_WINDOW
-		pm set-home-activity "com.bliss.restrictedlauncher/.activities.LauncherActivity"
-		am start -a android.intent.action.MAIN -c android.intent.category.HOME
-
-		if [ -f /data/data/com.bliss.restrictedlauncher/files/whitelist.lst ]; then
-			if [ ! -f /data/misc/rlconfig/whitelist ]; then
-				echo -e "\ncom.android.printservice.recommendation" >> /data/data/com.bliss.restrictedlauncher/files/whitelist.lst
-				echo -e "com.android.printspooler" >> /data/data/com.bliss.restrictedlauncher/files/whitelist.lst
-				echo -e "com.android.systemui" >> /data/data/com.bliss.restrictedlauncher/files/whitelist.lst
-				echo -e "com.android.packageinstaller" >> /data/data/com.bliss.restrictedlauncher/files/whitelist.lst				
-				mkdir -p /data/misc/rlconfig
-				touch /data/misc/rlconfig/whitelist
-				chown 1000.1000 /data/misc/rlconfig /data/misc/rlconfig/*
-				chmod 775 /data/misc/rlconfig
-				chmod 664 /data/misc/rlconfig/whitelist
-			fi
-		fi
-	fi
-
 	# BlissRestrictedLauncherPro
 	exists_restlauncherpro=$(pm list packages com.bliss.restrictedlauncher.pro | grep -c com.bliss.restrictedlauncher.pro)
 	if [ $exists_restlauncherpro -eq 1 ]; then
@@ -315,103 +441,7 @@ set_custom_package_perms()
 		am start -a android.intent.action.MAIN -c android.intent.category.HOME
 	fi
 		
-	# SmartDock
-	exists_smartdock=$(pm list packages cu.axel.smartdock | grep -c cu.axel.smartdock)
-	if [ $exists_smartdock -eq 1 ]; then
-		pm grant cu.axel.smartdock android.permission.SYSTEM_ALERT_WINDOW
-		pm grant cu.axel.smartdock android.permission.GET_TASKS
-		pm grant cu.axel.smartdock android.permission.REORDER_TASKS
-		pm grant cu.axel.smartdock android.permission.REMOVE_TASKS
-		pm grant cu.axel.smartdock android.permission.ACCESS_WIFI_STATE
-		pm grant cu.axel.smartdock android.permission.CHANGE_WIFI_STATE
-		pm grant cu.axel.smartdock android.permission.ACCESS_NETWORK_STATE
-		pm grant cu.axel.smartdock android.permission.ACCESS_COARSE_LOCATION
-		pm grant cu.axel.smartdock android.permission.ACCESS_FINE_LOCATION
-		pm grant cu.axel.smartdock android.permission.READ_EXTERNAL_STORAGE
-		pm grant cu.axel.smartdock android.permission.MANAGE_USERS
-		pm grant cu.axel.smartdock android.permission.BLUETOOTH_ADMIN
-		pm grant cu.axel.smartdock android.permission.BLUETOOTH_CONNECT
-		pm grant cu.axel.smartdock android.permission.BLUETOOTH
-		pm grant cu.axel.smartdock android.permission.REQUEST_DELETE_PACKAGES
-		pm grant cu.axel.smartdock android.permission.ACCESS_SUPERUSER
-		pm grant cu.axel.smartdock android.permission.PACKAGE_USAGE_STATS
-		pm grant cu.axel.smartdock android.permission.QUERY_ALL_PACKAGES
-		pm grant cu.axel.smartdock android.permission.WRITE_SECURE_SETTINGS
-		pm grant --user $current_user cu.axel.smartdock android.permission.WRITE_SECURE_SETTINGS
-		appops set cu.axel.smartdock WRITE_SECURE_SETTINGS allow
-		pm grant cu.axel.smartdock android.permission.WRITE_SETTINGS
-		pm grant --user $current_user cu.axel.smartdock android.permission.WRITE_SETTINGS
-		appops set cu.axel.smartdock WRITE_SETTINGS allow
-		pm grant cu.axel.smartdock android.permission.BIND_ACCESSIBILITY_SERVICE
-		pm grant --user $current_user cu.axel.smartdock android.permission.BIND_ACCESSIBILITY_SERVICE
-		appops set cu.axel.smartdock BIND_ACCESSIBILITY_SERVICE allow
-		pm grant cu.axel.smartdock android.permission.BIND_NOTIFICATION_LISTENER_SERVICE
-		pm grant --user $current_user cu.axel.smartdock android.permission.BIND_NOTIFICATION_LISTENER_SERVICE
-		appops set cu.axel.smartdock BIND_NOTIFICATION_LISTENER_SERVICE allow
-		pm grant cu.axel.smartdock android.permission.BIND_DEVICE_ADMIN
-		pm grant --user $current_user cu.axel.smartdock android.permission.BIND_DEVICE_ADMIN
-		appops set cu.axel.smartdock BIND_DEVICE_ADMIN allow
-		pm grant cu.axel.smartdock android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
-		pm grant --user $current_user cu.axel.smartdock android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
-
-		# set overlays enabled
-		settings put secure secure_overlay_settings 1
-
-		# allow displaying over other apps if in Go mode
-		settings put system alert_window_bypass_low_ram 1
-
-		if [ ! -f /data/misc/sdconfig/accessibility ] && ! pm list packages | grep -q "com.blissos.setupwizard"; then
-			# set accessibility services
-			current_acc_pkgs=$(settings get secure enabled_accessibility_services)
-			is_setup_complete=$(settings get secure user_setup_complete)
-			if [[ $is_setup_complete -eq 1 ]] && [[ $(echo "$current_acc_pkgs" | grep -c cu.axel.smartdock) -eq 0 ]]; then
-				if [ -n "$current_acc_pkgs" ]; then
-					settings put secure enabled_accessibility_services $current_acc_pkgs:cu.axel.smartdock/.services.DockService
-				else
-					settings put secure enabled_accessibility_services cu.axel.smartdock/.services.DockService
-				fi
-				mkdir -p /data/misc/sdconfig
-				touch /data/misc/sdconfig/accessibility
-				chown 1000.1000 /data/misc/sdconfig /data/misc/sdconfig/*
-				chmod 775 /data/misc/sdconfig
-				chmod 664 /data/misc/sdconfig/accessibility
-			fi
-		fi
-
-		if [ ! -f /data/misc/sdconfig/notification ]; then
-			# set notification listeners
-			enl=$(settings get secure enabled_notification_listeners)
-			if [ -n "$enl" ]; then
-				settings put secure enabled_notification_listeners $enl:cu.axel.smartdock/cu.axel.smartdock.services.NotificationService
-				
-			else
-				settings put secure enabled_notification_listeners cu.axel.smartdock/cu.axel.smartdock.services.NotificationService
-			fi
-			mkdir -p /data/misc/sdconfig
-			touch /data/misc/sdconfig/notification
-			chown 1000.1000 /data/misc/sdconfig /data/misc/sdconfig/*
-			chmod 775 /data/misc/sdconfig
-			chmod 664 /data/misc/sdconfig/notification
-		fi
-		if [ ! -f /data/misc/sdconfig/admin ]; then
-			# set device admin
-			dpm set-active-admin --user current cu.axel.smartdock/android.app.admin.DeviceAdminReceiver
-			mkdir -p /data/misc/sdconfig
-			touch /data/misc/sdconfig/admin
-			chown 1000.1000 /data/misc/sdconfig /data/misc/sdconfig/*
-			chmod 775 /data/misc/sdconfig
-			chmod 664 /data/misc/sdconfig/admin
-		fi
-
-		if [ $(settings get global development_settings_enabled) == 0 ]; then
-			settings put global development_settings_enabled 1
-		fi
-
-		# set launcher
-		SET_SMARTDOCK_DEFAULT=$(getprop persist.bass.set_smartdock_default)
-		[ -n "$SET_SMARTDOCK_DEFAULT" ] && pm set-home-activity "cu.axel.smartdock/.activities.LauncherActivity" || pm set-home-activity "com.android.launcher3/.LauncherProvider"
 	
-	fi
 
 	# com.farmerbb.taskbar
 	exists_taskbar=$(pm list packages com.farmerbb.taskbar | grep -c com.farmerbb.taskbar)
@@ -763,66 +793,24 @@ function set_package_opts()
                             done
                             ;;
 						BASS_TABLETUI=1)
+							rm_rl_admin
+							rm_sd_admin
 							pm hide cu.axel.smartdock
 							pm hide com.bliss.restrictedlauncher
 							;;
 						BASS_DESKTOPUI=1)
+							rm_rl_admin
 							pm unhide cu.axel.smartdock
+							sleep 1
 							pm hide com.bliss.restrictedlauncher
-							# set accessibility services
-							current_acc_pkgs=$(settings get secure enabled_accessibility_services)
-							is_setup_complete=$(settings get secure user_setup_complete)
-							if [[ $is_setup_complete -eq 1 ]] && [[ $(echo "$current_acc_pkgs" | grep -c cu.axel.smartdock) -eq 0 ]]; then
-								if [ -n "$current_acc_pkgs" ]; then
-									settings put secure enabled_accessibility_services $current_acc_pkgs:cu.axel.smartdock/.services.DockService
-								else
-									settings put secure enabled_accessibility_services cu.axel.smartdock/.services.DockService
-								fi
-								mkdir -p /data/misc/sdconfig
-								touch /data/misc/sdconfig/accessibility
-								chown 1000.1000 /data/misc/sdconfig /data/misc/sdconfig/*
-								chmod 775 /data/misc/sdconfig
-								chmod 664 /data/misc/sdconfig/accessibility
-							fi
-							
-							if [ ! -f /data/misc/sdconfig/notification ]; then
-								# set notification listeners
-								enl=$(settings get secure enabled_notification_listeners)
-								if [ -n "$enl" ]; then
-									settings put secure enabled_notification_listeners $enl:cu.axel.smartdock/cu.axel.smartdock.services.NotificationService
-									
-								else
-									settings put secure enabled_notification_listeners cu.axel.smartdock/cu.axel.smartdock.services.NotificationService
-								fi
-								mkdir -p /data/misc/sdconfig
-								touch /data/misc/sdconfig/notification
-								chown 1000.1000 /data/misc/sdconfig /data/misc/sdconfig/*
-								chmod 775 /data/misc/sdconfig
-								chmod 664 /data/misc/sdconfig/notification
-							fi
-							if [ ! -f /data/misc/sdconfig/admin ]; then
-								# set device admin
-								dpm set-active-admin --user current cu.axel.smartdock/android.app.admin.DeviceAdminReceiver
-								mkdir -p /data/misc/sdconfig
-								touch /data/misc/sdconfig/admin
-								chown 1000.1000 /data/misc/sdconfig /data/misc/sdconfig/*
-								chmod 775 /data/misc/sdconfig
-								chmod 664 /data/misc/sdconfig/admin
-							fi
+							smartdock_perms
 							;;
 						BASS_KIOSKUI=1)
+							rm_sd_admin
 							pm hide cu.axel.smartdock
 							pm unhide com.bliss.restrictedlauncher
-
-							if [ ! -f /data/misc/rlpconfig/admin ]; then
-								# set device admin
-								dpm set-device-owner com.bliss.restrictedlauncher.pro/com.bliss.restrictedlauncher.DeviceAdmin
-								mkdir -p /data/misc/rlpconfig
-								touch /data/misc/rlpconfig/admin
-								chown 1000.1000 /data/misc/rlpconfig /data/misc/rlpconfig/*
-								chmod 775 /data/misc/rlpconfig
-								chmod 664 /data/misc/rlpconfig/admin
-							fi
+							sleep 1
+							restricted_perms
 							;;
                     esac
                 fi
