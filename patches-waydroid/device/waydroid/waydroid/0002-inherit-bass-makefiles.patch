@@ -1,0 +1,26 @@
+From f89b3170094451c437a3e464e6d90e757bd5b27e Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Tue, 4 Feb 2025 10:41:39 -0500
+Subject: [PATCH 2/3] inherit bass makefiles
+
+---
+ device.mk | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/device.mk b/device.mk
+index d54c3c5..a93ea16 100644
+--- a/device.mk
++++ b/device.mk
+@@ -219,4 +219,7 @@ PRODUCT_PACKAGES += \
+ # FOSS Apps
+ ifeq ($(LINEAGE_BUILDTYPE), foss)
+ $(call inherit-product, vendor/foss/foss.mk)
+-endif
+\ No newline at end of file
++endif
++
++$(call inherit-product-if-exists, vendor/agp-apps/agp-apps.mk)
++$(call inherit-product-if-exists, vendor/bass/branding.mk)
+-- 
+2.43.0
+

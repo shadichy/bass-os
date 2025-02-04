@@ -1,0 +1,18 @@
+From 40271927804c6c6f6689cc56774b54608bb9874b Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Tue, 29 Oct 2024 20:03:16 -0400
+Subject: [PATCH 2/3] Disable Lineage bootanimation
+
+Change-Id: I92b269ab0ab4f6989dbfa5c84aaf077595c8f62d
+---
+ bootanimation/{Android.mk => Bootanimation.mk} | 0
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+ rename bootanimation/{Android.mk => Bootanimation.mk} (100%)
+
+diff --git a/bootanimation/Android.mk b/bootanimation/Bootanimation.mk
+similarity index 100%
+rename from bootanimation/Android.mk
+rename to bootanimation/Bootanimation.mk
+-- 
+2.43.0
+

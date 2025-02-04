@@ -1,0 +1,25 @@
+From 40ecffc9e553d4c6ed23cf96875cfad19e585070 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Wed, 5 Feb 2025 21:46:59 -0500
+Subject: [PATCH 3/3] bass: Call bass_build_config
+
+Change-Id: I8feab17245232126d7fd4801f16983fa481bd292
+---
+ build/envsetup.sh | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/build/envsetup.sh b/build/envsetup.sh
+index 3333a458..ea495f87 100644
+--- a/build/envsetup.sh
++++ b/build/envsetup.sh
+@@ -919,6 +919,7 @@ alias mkap='dopush mka'
+ alias cmkap='dopush cmka'
+ 
+ source vendor/bass/bass_setup.sh
++bass_build_config
+ 
+ function repopick() {
+     T=$(gettop)
+-- 
+2.43.0
+

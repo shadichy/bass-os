@@ -1,0 +1,57 @@
+From ce8f597895b1dbafbd7a17cea19ac64364768b16 Mon Sep 17 00:00:00 2001
+From: hmtheboy154 <buingoc67@gmail.com>
+Date: Mon, 22 Jan 2024 21:12:33 +0700
+Subject: [PATCH 3/3] Enable all the VA-API that is available for x86
+
+This include Intel's vaapi & iHD + GalliumVA for other hardware.
+
+Signed-off-by: hmtheboy154 <buingoc67@gmail.com>
+---
+ device.mk                      | 7 ++++++-
+ waydroid_x86/BoardConfig.mk    | 2 ++
+ waydroid_x86_64/BoardConfig.mk | 2 ++
+ 3 files changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/device.mk b/device.mk
+index a93ea16..7d7c6ea 100644
+--- a/device.mk
++++ b/device.mk
+@@ -133,7 +133,12 @@ PRODUCT_COPY_FILES += \
+ ifneq ($(filter %_waydroid_x86 %_waydroid_x86_64,$(TARGET_PRODUCT)),)
+ PRODUCT_PACKAGES += \
+     libffmpeg_omx \
+-    media_codecs_ffmpeg.xml
++    media_codecs_ffmpeg.xml \
++    i965_drv_video \
++    crocus_drv_video \
++    iHD_drv_video \
++    libgallium_drv_video
++
+ 
+ PRODUCT_PROPERTY_OVERRIDES += \
+     media.sf.omx-plugin=libffmpeg_omx.so \
+diff --git a/waydroid_x86/BoardConfig.mk b/waydroid_x86/BoardConfig.mk
+index 39d8150..54a2d77 100644
+--- a/waydroid_x86/BoardConfig.mk
++++ b/waydroid_x86/BoardConfig.mk
+@@ -24,4 +24,6 @@ TARGET_ARCH_VARIANT := x86
+ ifneq ($(TARGET_USE_MESA),false)
+ BOARD_MESA3D_GALLIUM_DRIVERS += i915 iris crocus
+ BOARD_MESA3D_VULKAN_DRIVERS += intel intel_hasvk
++BOARD_MESA3D_GALLIUM_VA := enabled
++BOARD_MESA3D_VIDEO_CODECS := h264dec h264enc h265dec h265enc vc1dec
+ endif
+diff --git a/waydroid_x86_64/BoardConfig.mk b/waydroid_x86_64/BoardConfig.mk
+index 34505a9..fcda88e 100644
+--- a/waydroid_x86_64/BoardConfig.mk
++++ b/waydroid_x86_64/BoardConfig.mk
+@@ -28,4 +28,6 @@ TARGET_2ND_ARCH_VARIANT := x86_64
+ ifneq ($(TARGET_USE_MESA),false)
+ BOARD_MESA3D_GALLIUM_DRIVERS += i915 iris crocus
+ BOARD_MESA3D_VULKAN_DRIVERS += intel intel_hasvk
++BOARD_MESA3D_GALLIUM_VA := enabled
++BOARD_MESA3D_VIDEO_CODECS := h264dec h264enc h265dec h265enc vc1dec
+ endif
+-- 
+2.43.0
+

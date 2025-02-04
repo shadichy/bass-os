@@ -1,0 +1,60 @@
+From 9229ff486c36b6a1e59b7e8d575c82eae50cbcb7 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Sat, 24 Aug 2024 12:43:34 -0400
+Subject: [PATCH] Add FOSS build support
+
+This will add vendor/foss, as well as a CalyxOS microG to the builds to only be included conditionally.
+
+First, you will need to cd into vendor/foss and run the update script (Options: 1:x80_64, 2:arm64-v8a, 3:x86, 4:armeabi-v7a ):
+$ cd vendor/foss
+$ bash update.sh 1
+
+To compile the OS with these options, use the following:
+. build/envsetup.sh && make clean && export LINEAGE_BUILDTYPE=FOSS && export USE_CALYX_MICROG=true && export USE_AURORA_STORE=true && lunch lineage_waydroid_x86_64-userdebug && make systemimage vendorimage -j$(nproc --all)
+---
+ manifest_scripts/manifests-30/02-waydroid.xml |  6 ++++++
+ product.mk                                    | 15 +++++++++++++++
+ 2 files changed, 21 insertions(+)
+
+diff --git a/manifest_scripts/manifests-30/02-waydroid.xml b/manifest_scripts/manifests-30/02-waydroid.xml
+index d9ef332..4017955 100644
+--- a/manifest_scripts/manifests-30/02-waydroid.xml
++++ b/manifest_scripts/manifests-30/02-waydroid.xml
+@@ -30,4 +30,10 @@
+   <!-- VNDK -->
+   <project path="prebuilts/vndk/v29" name="WayDroid/android_prebuilts_vndk_v29" groups="pdk" clone-depth="1" remote="ghub" revision="refs/heads/lineage-18.1" />
+ 
++  <!-- CalyxOS MicroG -->
++  <project path="prebuilts/calyx/microg" name="CalyxOS/platform_prebuilts_calyx_microg" sync-s="true" remote="gitlab" revision="android11-qpr1" />
++
++  <!-- AG FOSS apps -->
++  <project path="vendor/foss" name="android-generic/vendor_foss" sync-s="true" remote="ghub" revision="hmchoice" />
++  
+ </manifest>
+diff --git a/product.mk b/product.mk
+index 9037937..581dd9f 100644
+--- a/product.mk
++++ b/product.mk
+@@ -36,3 +36,18 @@ PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
+ PRODUCT_PACKAGES += \
+     BoringdroidSystemUIApk
+ 
++# Calyx MicroG
++ifeq ($(USE_CALYX_MICROG), true)
++PRODUCT_PACKAGES += \
++    GmsCore \
++    FakeStore \
++    GsfProxy \
++    DejaVuLocationService \
++    MozillaNlpBackend \
++    NominatimNlpBackend \
++    privapp-permissions-microg.xml \
++    default-permissions-microg.xml \
++    whitelist-microg.xml \
++    microg.xml
++
++endif
+\ No newline at end of file
+-- 
+2.34.1
+

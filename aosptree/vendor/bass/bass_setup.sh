@@ -781,6 +781,28 @@ function build_bass_source()
 
 }
 
+# legacy build commands
+function build-x86()
+{
+	args=("$@")
+    bash vendor/$vendor_name/tools/build-x86.sh "${args[@]}"
+
+}
+
+function build-lineage-virtio()
+{
+	args=("$@")
+    bash vendor/$vendor_name/tools/build-lineage-virtio.sh "${args[@]}"
+
+}
+
+function build-waydroid()
+{
+	args=("$@")
+    bash vendor/$vendor_name/tools/build-lineage-waydroid.sh "${args[@]}"
+
+}
+
 function bass_check_project()
 {
     echo -e "${ltblue}Checking project status...${reset}"
