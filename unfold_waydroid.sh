@@ -69,7 +69,7 @@ if [ "$1" != "-s" ]; then
 
     echo -e "${ltgreen}Applying Waydroid Patches...${reset}"
     bash vendor/extra/waydroid-patches/apply-patches.sh
-    
+
     popd
 fi
 
@@ -222,5 +222,8 @@ done
 if [ -f ${LOCAL_PATH}/configs/vendor/waydroid/vendor_config.cfg ]; then
     cp ${LOCAL_PATH}/configs/vendor/waydroid/vendor_config.cfg .config/vendor_config.cfg
 fi
+
+mkdir -p aosptree/images
+ln -s aosptree/images/ images
 
 echo -e "${ltgreen}   Done   ${reset}"
