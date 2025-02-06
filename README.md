@@ -54,7 +54,7 @@ rustup target add \
 - Install additional packages (for building mesa3d, libcamera, and other meson-based components)
 ```bash
 sudo apt-get install -y python3-pip pkg-config python3-dev ninja-build
-sudo pip3 install mako jinja2 ply pyyaml pyelftools meson --break-system-packages
+sudo pip3 install mako jinja2 ply pyyaml pyelftools meson pycparser --break-system-packages
 ```
 
 - Install the `repo` tool
