@@ -1,4 +1,4 @@
-From b494d88ffe21ece99a394ec76530b793cb933ac8 Mon Sep 17 00:00:00 2001
+From f7c216859951f2621e2fdf397e8b0db45de5b93f Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Sat, 12 Oct 2024 18:43:42 -0400
 Subject: [PATCH 1/2] soong: whitelist rustc
@@ -9,17 +9,17 @@ Change-Id: I8bc9f7b8eb81dade49fdf0bcc82a5dcd4889160e
  1 file changed, 1 insertion(+)
 
 diff --git a/ui/build/paths/config.go b/ui/build/paths/config.go
-index 01ebefc54..9afaab0cf 100644
+index 2f25a8ce5..ea84313aa 100644
 --- a/ui/build/paths/config.go
 +++ b/ui/build/paths/config.go
-@@ -132,6 +132,7 @@ var Configuration = map[string]PathConfig{
-         "resize2fs":      Allowed,
+@@ -104,6 +104,7 @@ var Configuration = map[string]PathConfig{
+ 	"openssl":        Allowed,
+ 	"pstree":         Allowed,
  	"rsync":          Allowed,
-         "repo":           Allowed,
-+        "rustc":          Allowed,
-         "sh":             Allowed,
-         "stubby":         Allowed,
- 	"tar":            Allowed,
++	"rustc":          Allowed,
+ 	"sh":             Allowed,
+ 	"stubby":         Allowed,
+ 	"tr":             Allowed,
 -- 
-2.34.1
+2.43.0
 

@@ -1,4 +1,4 @@
-From f7b09f363823ef158965444cbed0db20e7a6851e Mon Sep 17 00:00:00 2001
+From a66f10c294e08f53570e029c2abb8940adc27db0 Mon Sep 17 00:00:00 2001
 From: Jackeagle <jackeagle102@gmail.com>
 Date: Fri, 20 Oct 2023 13:41:46 -0400
 Subject: [PATCH] SystemUI: Implement dynamic Statusbar enabling based on
@@ -10,24 +10,16 @@ Subject: [PATCH] SystemUI: Implement dynamic Statusbar enabling based on
 Change-Id: Ie9c3cdd221d35cbe53d7b0b751e2e9af706c1d93
 Signed-off-by: Jackeagle <jackeagle102@gmail.com>
 ---
- .../statusbar/phone/PhoneStatusBarView.java   | 31 ++++++++++++++++++-
- 1 file changed, 30 insertions(+), 1 deletion(-)
+ .../statusbar/phone/PhoneStatusBarView.java   | 36 ++++++++++++++++++-
+ 1 file changed, 35 insertions(+), 1 deletion(-)
 
 diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBarView.java b/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBarView.java
-index 702133ba7a13..e7324947cc7e 100644
+index b275b3f35fa4..f5fd60c1267f 100644
 --- a/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBarView.java
 +++ b/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBarView.java
-@@ -25,6 +25,7 @@ import android.content.res.Configuration;
- import android.graphics.Insets;
- import android.content.res.Resources;
- import android.graphics.Rect;
-+import android.os.SystemProperties;
- import android.util.AttributeSet;
- import android.util.Log;
- import android.view.DisplayCutout;
-@@ -83,10 +84,19 @@ public class PhoneStatusBarView extends FrameLayout {
- 
-     private boolean mBrightnessControlEnabled;
+@@ -141,6 +141,21 @@ public class PhoneStatusBarView extends FrameLayout implements Callbacks {
+         return false;
+     }
  
 +    // New flag to track whether the status bar is enabled or disabled
 +    private boolean isStatusBarEnabled = true;
@@ -35,17 +27,19 @@ index 702133ba7a13..e7324947cc7e 100644
 +    // Check the system property to disable the status bar by default
 +    boolean disableStatusBarByDefault = SystemProperties.getBoolean("persist.bliss.disable_statusbar", false);
 +
-     public PhoneStatusBarView(Context context, AttributeSet attrs) {
-         super(context, attrs);
-         mContentInsetsProvider = Dependency.get(StatusBarContentInsetsProvider.class);
-         mStatusBarWindowController = Dependency.get(StatusBarWindowController.class);
++    public PhoneStatusBarView(Context context, AttributeSet attrs) {
++        super(context, attrs);
++        mContentInsetsProvider = Dependency.get(StatusBarContentInsetsProvider.class);
++        mStatusBarWindowController = Dependency.get(StatusBarWindowController.class);
 +        if (disableStatusBarByDefault) {
 +            setStatusBarEnabled(false);
 +        }
-     }
- 
++    }
++
      void setTouchEventHandler(Gefingerpoken handler) {
-@@ -125,6 +135,11 @@ public class PhoneStatusBarView extends FrameLayout {
+         mTouchEventHandler = handler;
+     }
+@@ -166,6 +181,11 @@ public class PhoneStatusBarView extends FrameLayout implements Callbacks {
          // Always have Battery meters in the status bar observe the dark/light modes.
          Dependency.get(DarkIconDispatcher.class).addDarkReceiver(mBattery);
          mClockController.addDarkReceiver();
@@ -57,7 +51,7 @@ index 702133ba7a13..e7324947cc7e 100644
          if (updateDisplayParameters()) {
              updateLayoutForCutout();
              if (truncatedStatusBarIconsFix()) {
-@@ -236,7 +251,13 @@ public class PhoneStatusBarView extends FrameLayout {
+@@ -285,7 +305,13 @@ public class PhoneStatusBarView extends FrameLayout implements Callbacks {
              );
              return true;
          }
@@ -72,7 +66,7 @@ index 702133ba7a13..e7324947cc7e 100644
      }
  
      @Override
-@@ -358,4 +379,12 @@ public class PhoneStatusBarView extends FrameLayout {
+@@ -408,4 +434,12 @@ public class PhoneStatusBarView extends FrameLayout implements Callbacks {
      private void updateWindowHeight() {
          mStatusBarWindowController.refreshStatusBarHeight();
      }
@@ -86,5 +80,5 @@ index 702133ba7a13..e7324947cc7e 100644
 +    }
  }
 -- 
-2.34.1
+2.43.0
 
