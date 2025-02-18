@@ -1126,6 +1126,8 @@ function do_bass_bootcomplete()
 	set_custom_settings
 	set_package_opts
 
+	[ -z $first_run ] && setprop persist.bass.first_run $(date +'%Y%m%d%H%M%S')
+
 	post_bootcomplete
 }
 
