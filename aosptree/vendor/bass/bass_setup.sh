@@ -416,19 +416,25 @@ function copy_configs()
         echo -e "Using always on settings. Updating configs now..."
         echo ""
         sed -i 's/def_screen_off_timeout">900000/def_screen_off_timeout">600000000/g' device/generic/common/overlay/frameworks/base/packages/SettingsProvider/res/values/defaults.xml
+        sed -i 's/def_screen_off_timeout">\([0-9]\+\)/def_screen_off_timeout">600000000/g' frameworks/base/packages/SettingsProvider/res/values/defaults.xml
         sed -i 's/def_sleep_timeout">86400000/def_sleep_timeout">-1/g' device/generic/common/overlay/frameworks/base/packages/SettingsProvider/res/values/defaults.xml
+        sed -i 's/def_sleep_timeout">\([0-9]\+\)/def_sleep_timeout">-1/g' frameworks/base/packages/SettingsProvider/res/values/defaults.xml
         sed -i 's/def_screen_off_timeout">900000/def_screen_off_timeout">600000000/g' vendor/$vendor_name/overlay/common/frameworks/base/packages/SettingsProvider/res/values/defaults.xml
         sed -i 's/def_sleep_timeout">86400000/def_sleep_timeout">-1/g' vendor/$vendor_name/overlay/common/frameworks/base/packages/SettingsProvider/res/values/defaults.xml
         sed -i 's/def_lockscreen_disabled">false/def_lockscreen_disabled">true/g' device/generic/common/overlay/frameworks/base/packages/SettingsProvider/res/values/defaults.xml
+        sed -i 's/def_lockscreen_disabled">false/def_lockscreen_disabled">true/g' frameworks/base/packages/SettingsProvider/res/values/defaults.xml
         
         echo -e "Configs updated"
     else
         echo -e "Not using always on settings. Updating configs now..."
         sed -i 's/def_screen_off_timeout">600000000/def_screen_off_timeout">900000/g' device/generic/common/overlay/frameworks/base/packages/SettingsProvider/res/values/defaults.xml
+        sed -i 's/def_screen_off_timeout">\([0-9]\+\)/def_screen_off_timeout">900000/g' frameworks/base/packages/SettingsProvider/res/values/defaults.xml
         sed -i 's/def_sleep_timeout">-1/def_sleep_timeout">86400000/g' device/generic/common/overlay/frameworks/base/packages/SettingsProvider/res/values/defaults.xml
+        sed -i 's/def_sleep_timeout">\([0-9]\+\)/def_sleep_timeout">86400000/g' frameworks/base/packages/SettingsProvider/res/values/defaults.xml
         sed -i 's/def_screen_off_timeout">600000000/def_screen_off_timeout">900000/g' vendor/$vendor_name/overlay/common/frameworks/base/packages/SettingsProvider/res/values/defaults.xml
         sed -i 's/def_sleep_timeout">-1/def_sleep_timeout">86400000/g' vendor/$vendor_name/overlay/common/frameworks/base/packages/SettingsProvider/res/values/defaults.xml
         sed -i 's/def_lockscreen_disabled">true/def_lockscreen_disabled">false/g' device/generic/common/overlay/frameworks/base/packages/SettingsProvider/res/values/defaults.xml
+        sed -i 's/def_lockscreen_disabled">true/def_lockscreen_disabled">false/g' frameworks/base/packages/SettingsProvider/res/values/defaults.xml
         
         echo -e "Configs updated"
     fi
