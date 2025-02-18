@@ -932,10 +932,10 @@ function init_serial_number()
 	SERIALNO=$(cat $DMIPATH/product_serial)
 	setprop ro.bliss.factory.serialnumber "$SERIALNO"
 
-	DEFAULT_SERIAL_NUMBERS="System Serial Number:Default string:0123456789:1234567890:123456789:00000000:XXXXXXXX:To be filled by O.E.M.:ABCDEF0123456789:Type1 - 123456789:0:0123456789ABCDEF"
+	DEFAULT_SERIAL_NUMBERS="System Serial Number:Default string:0123456789:1234567890:123456789:00000000:XXXXXXXX:To be filled by O.E.M.:To Be Filled By O.E.M.:ABCDEF0123456789:Type1 - 123456789:0:0123456789ABCDEF:unknown:N/A:FFFFFFFF:ffffffff"
 	DEFAULT_SERIAL_NUMBERS=${DEFAULT_SERIAL_NUMBERS//:/$'  '}
 	exists_sn=$(echo ${DEFAULT_SERIAL_NUMBERS} | grep -c "$SERIALNO")
-	if [ $exists_sn -ge 1 ]; then
+	if [[ $exists_sn -ge 1 ]] || [[ -z "$SERIALNO" ]]; then
 		PRODUCT_UUID=$(cat /sys/class/dmi/id/product_uuid)
 		UUID=$(dmidecode -t 4 | grep ID | sed 's/.*ID://;s/ //g')
 		COMBINED_STRING="$PRODUCT_UUID$UUID"
