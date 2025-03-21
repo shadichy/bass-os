@@ -241,6 +241,16 @@ PRODUCT_COPY_FILES += \
     vendor/bass/configs/watermark/watermark.conf:system/etc/setup.conf
 endif
 
+ifeq ($(ADDON_WALLPAPER),true)
+# Wallpaper addon for Bliss Bass test builds
+#
+# Usage: 
+# $ adb push wallpaper.png /sdcard/Downloads/
+# $ adb shell changewallpaper /sdcard/Downloads/wallpaper.png
+PRODUCT_COPY_FILES += \
+    vendor/bass/prebuilts/wallpaperchanger/wallpaperchanger.dex:system/etc/wallpaperchanger.dex \
+    vendor/bass/prebuilts/wallpaperchanger/changewallpaper:system/xbin/changewallpaper
+endif
 
 ifeq ($(ADD_VNCFLINGER),true)
 PRODUCT_PACKAGES += \
