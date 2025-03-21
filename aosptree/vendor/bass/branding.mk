@@ -34,6 +34,15 @@ PRODUCT_PACKAGES += \
     whitelist-com.bliss.bootsight.xml \
     com.bliss.bootsight-default-permissions.xml
 
+ifneq ($(REMOVE_TERMUX_X11_SCRIPT),true)
+# Add Termux-x11 script
+#
+# Usage:
+# $ install-termux-x11
+PRODUCT_COPY_FILES += \
+    vendor/bass/prebuilts/termux-x11-xfce4/lib/install:system/xbin/install-termux-x11 
+endif
+
 ifeq ($(USE_PER_DISPLAY_FOCUS),true)
 
 PRODUCT_PACKAGES += \
