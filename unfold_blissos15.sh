@@ -34,7 +34,7 @@ git submodule update --init --recursive
 
 echo -e "${ltblue}Init repo tree using AOSP manifest ${reset}"
 pushd aosptree
-repo init -u https://github.com/BlissOS/platform_manifest.git -b arcadia-x86 --git-lfs
+repo init -u https://github.com/BlissROMs-x86/manifest.git -b arcadia-x86 --git-lfs
 cd .repo/manifests
 rm default.xml
 cp ${LOCAL_PATH}/manifests/blissos15-static.xml bliss.xml
