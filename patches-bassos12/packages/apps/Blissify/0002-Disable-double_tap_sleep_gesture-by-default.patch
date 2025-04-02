@@ -1,0 +1,25 @@
+From f7b860e882c3288ae60604db04c414780f604529 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Fri, 17 Jan 2025 11:42:31 -0500
+Subject: [PATCH 2/2] Disable double_tap_sleep_gesture by default
+
+---
+ res/xml/blissify_gestures.xml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/res/xml/blissify_gestures.xml b/res/xml/blissify_gestures.xml
+index 0bcc4a31..d3bb1944 100644
+--- a/res/xml/blissify_gestures.xml
++++ b/res/xml/blissify_gestures.xml
+@@ -47,7 +47,7 @@
+             android:key="double_tap_sleep_gesture"
+             android:title="@string/double_tap_to_sleep_title"
+             android:summary="@string/double_tap_to_sleep_summary"
+-            android:defaultValue="true" />
++            android:defaultValue="false" />
+ 
+     </PreferenceCategory>
+ 
+-- 
+2.43.0
+

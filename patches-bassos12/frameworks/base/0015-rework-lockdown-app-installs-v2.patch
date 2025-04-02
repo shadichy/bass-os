@@ -1,0 +1,26 @@
+From ee52db784bc5e891c8787a8aba1356b9831233f5 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Fri, 7 Jun 2024 10:20:18 -0400
+Subject: [PATCH] rework lockdown app installs v2
+
+---
+ .../com/android/packageinstaller/PackageInstallerActivity.java | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/packages/PackageInstaller/src/com/android/packageinstaller/PackageInstallerActivity.java b/packages/PackageInstaller/src/com/android/packageinstaller/PackageInstallerActivity.java
+index d74a8f4426f8..147096c02de4 100644
+--- a/packages/PackageInstaller/src/com/android/packageinstaller/PackageInstallerActivity.java
++++ b/packages/PackageInstaller/src/com/android/packageinstaller/PackageInstallerActivity.java
+@@ -465,7 +465,8 @@ public class PackageInstallerActivity extends AlertActivity {
+             return;
+         }
+ 
+-        if (mAllowUnknownSources || !isInstallRequestFromUnknownSource(getIntent())) {
++        if (mAllowUnknownSources || !isInstallRequestFromUnknownSource(getIntent()) || 
++                !SystemProperties.get("ro.boot.bliss.bootmode").equals("lockdown")) {
+             if (mLocalLOGV) Log.i(TAG, "install allowed");
+             initiateInstall();
+         } else {
+-- 
+2.43.0
+

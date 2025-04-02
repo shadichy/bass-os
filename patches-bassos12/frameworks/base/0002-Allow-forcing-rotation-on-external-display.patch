@@ -1,4 +1,4 @@
-From 3f78fa80ab478dda864d508d0bb115770fe8036a Mon Sep 17 00:00:00 2001
+From 8579b172d5644f655a3ae772bae2e053981f17a5 Mon Sep 17 00:00:00 2001
 From: electrikjesus <electrikjesus@gmail.com>
 Date: Sat, 20 Jan 2024 14:43:24 -0500
 Subject: [PATCH] Allow forcing rotation on external display
@@ -13,12 +13,12 @@ Check if the property ro.boot.android.force_rotation_on_external_displays is set
  1 file changed, 9 insertions(+)
 
 diff --git a/services/core/java/com/android/server/display/DisplayManagerService.java b/services/core/java/com/android/server/display/DisplayManagerService.java
-index a24752d078c8..93c0a1a493dd 100644
+index b394d6b49d65..697339ff7041 100644
 --- a/services/core/java/com/android/server/display/DisplayManagerService.java
 +++ b/services/core/java/com/android/server/display/DisplayManagerService.java
-@@ -699,6 +699,15 @@ public final class DisplayManagerService extends SystemService {
+@@ -537,6 +537,15 @@ public final class DisplayManagerService extends SystemService {
                  }
-                 final DisplayPowerControllerInterface dpc = mDisplayPowerControllers.get(
+                 final DisplayPowerController dpc = mDisplayPowerControllers.get(
                          logicalDisplay.getDisplayIdLocked());
 +                
 +                // Check if the property ro.boot.android.force_rotation_on_external_displays is set and use that for external displays
@@ -33,5 +33,5 @@ index a24752d078c8..93c0a1a493dd 100644
                      return;
                  }
 -- 
-2.34.1
+2.43.0
 

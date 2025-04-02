@@ -1,0 +1,26 @@
+From fa5322f0ee80f0988881307e39158f7849c8791c Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Sun, 12 Jan 2025 15:21:45 -0500
+Subject: [PATCH] [bass] only download rootfs when needed
+
+---
+ vendorsetup.sh | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/vendorsetup.sh b/vendorsetup.sh
+index 804f919..89d2597 100755
+--- a/vendorsetup.sh
++++ b/vendorsetup.sh
+@@ -13,4 +13,7 @@
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ #
+-bash bootable/aaropa/download.sh
++
++if [ ! -f bootable/aaropa/iso/install.sfs ] || [ ! -f bootable/aaropa/iso/[BOOT]/1-Boot-NoEmul.img ] ; then
++    bash bootable/aaropa/download.sh
++fi
+\ No newline at end of file
+-- 
+2.43.0
+

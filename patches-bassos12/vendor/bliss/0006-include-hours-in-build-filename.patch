@@ -1,14 +1,14 @@
-From 057fbea3667197e708793471e0151ef5e5e5ee0b Mon Sep 17 00:00:00 2001
+From 04074a9302ffbea94298264701316b7d3c0f94ad Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Sat, 1 Jun 2024 22:23:12 -0400
-Subject: [PATCH 6/6] include hours in build filename
+Subject: [PATCH] include hours in build filename
 
 ---
  config/versions.mk | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/config/versions.mk b/config/versions.mk
-index 6cad282a..40c1acce 100644
+index 5dc0eb39..994614b8 100644
 --- a/config/versions.mk
 +++ b/config/versions.mk
 @@ -52,7 +52,7 @@ BLISS_TYPE_NAME := $(RELEASE_OS_TITLE)$(BLISS_SPECIAL_VARIANT)
@@ -19,7 +19,7 @@ index 6cad282a..40c1acce 100644
 +    BLISS_BUILD_ZIP := $(BLISS_TYPE_NAME)-v$(VERSION)-$(BLISS_BUILD)-$(BLISS_BUILDTYPE)-$(BLISS_BUILD_VARIANT)-$(shell date +%Y%m%d%H)
  endif
  
- BLISS_DEVICE := $(BLISS_BUILD)
+ # Set Security Patch Level
 -- 
-2.34.1
+2.43.0
 

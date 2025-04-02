@@ -1,0 +1,25 @@
+From ce4762c63a559615fde8f17f3a741c086bd2fdbb Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Mon, 31 Mar 2025 16:13:52 -0400
+Subject: [PATCH 1/2] prefs: explicitly enable taskbar by default
+
+---
+ res/xml/blissify_button.xml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/res/xml/blissify_button.xml b/res/xml/blissify_button.xml
+index b230899c..c2e9c18d 100644
+--- a/res/xml/blissify_button.xml
++++ b/res/xml/blissify_button.xml
+@@ -19,7 +19,7 @@
+     android:title="@string/blissify_buttons_title">
+ 
+     <SwitchPreference
+-        android:key="enable_taskbar"
++        android:key="enable_taskbar" android:defaultValue="true"
+         android:title="@string/enable_taskbar_title"
+         android:summary="@string/enable_taskbar_summary" />
+ 
+-- 
+2.43.0
+
