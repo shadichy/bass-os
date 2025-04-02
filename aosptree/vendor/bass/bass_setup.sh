@@ -538,6 +538,7 @@ function copy_configs()
     else
         sed -i 's/"ENABLE_TASKBAR", true,/"ENABLE_TASKBAR", false,/' packages/apps/Launcher3/src/com/android/launcher3/config/FeatureFlags.java
         sed -i 's/android:key="enable_taskbar" android:defaultValue="true"/android:key="enable_taskbar" android:defaultValue="false"/' packages/apps/Settings/res/xml/button_settings.xml || sed -i 's/android:key="enable_taskbar"/android:key="enable_taskbar" android:defaultValue="false"/' packages/apps/Settings/res/xml/button_settings.xml
+        sed -i 's/android:key="enable_taskbar" android:defaultValue="true"/android:key="enable_taskbar" android:defaultValue="false"/' packages/apps/Settings/Blissify/res/xml/blissify_button.xml || sed -i 's/android:key="enable_taskbar"/android:key="enable_taskbar" android:defaultValue="false"/' packages/apps/Settings/Blissify/res/xml/blissify_button.xml
     fi
 
     if [ "$USE_AX86_STARTMENU" = "true" ]; then
@@ -545,6 +546,7 @@ function copy_configs()
         # enable Launcher3 Taskbar
         sed -i 's/"ENABLE_TASKBAR", false,/"ENABLE_TASKBAR", true,/' packages/apps/Launcher3/src/com/android/launcher3/config/FeatureFlags.java
         sed -i 's/android:key="enable_taskbar" android:defaultValue="false"/android:key="enable_taskbar" android:defaultValue="true"/' packages/apps/Settings/res/xml/button_settings.xml || sed -i 's/android:key="enable_taskbar"/android:key="enable_taskbar" android:defaultValue="true"/' packages/apps/Settings/res/xml/button_settings.xml
+        sed -i 's/android:key="enable_taskbar" android:defaultValue="false"/android:key="enable_taskbar" android:defaultValue="true"/' packages/apps/Settings/Blissify/res/xml/blissify_button.xml || sed -i 's/android:key="enable_taskbar"/android:key="enable_taskbar" android:defaultValue="true"/' packages/apps/Settings/Blissify/res/xml/blissify_button.xml
     
         # Add an entry to packages/apps/Launcher3/res/xml/default_workspace*.xml files for the ax86 startmenu
         WORKSPACE_LIST=$(find packages/apps/Launcher3/res/xml/ -type f -name "default_workspace*.xml")

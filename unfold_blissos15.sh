@@ -214,8 +214,8 @@ for vendor_patch in ${vendor_patches} ; do
 done
 
 # copy vendor configs
-if [ -f ${LOCAL_PATH}/configs/vendor/bliss_os/vendor_config.cfg ]; then
-    cp ${LOCAL_PATH}/configs/vendor/bliss_os/vendor_config.cfg .config/vendor_config.cfg
+if [ -f ${LOCAL_PATH}/configs/vendor/bliss_os_15/vendor_config.cfg ]; then
+    cp ${LOCAL_PATH}/configs/vendor/bliss_os_15/vendor_config.cfg .config/vendor_config.cfg
 fi
 
 echo -e "${ltgreen}   Done   ${reset}"

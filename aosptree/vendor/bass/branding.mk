@@ -174,14 +174,16 @@ ifeq ($(BLISS_PER_WINDOW_INPUT_ROTATION), true)
 endif
 
 ifneq ($(TARGET_BUILD_VARIANT),user)
-    ifneq ($(BLISS_BUILD_SECURE_ADB),true)
-        # Disable ADB authentication
-        PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
-            ro.adb.secure=0 
-    else
+    ifeq ($(BLISS_BUILD_SECURE_ADB),true)
         # Enable ADB authentication
         PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
             ro.adb.secure=1
+    endif
+    ifeq ($(BLISS_BUILD_INSECURE_ADB),true)
+        WITH_ADB_INSECURE := true
+        # Disable ADB authentication
+        PRODUCT_SYSTEM_DEFAULT_PROPERTIES += \
+            ro.adb.secure=0
     endif
 else
 # Enable ADB authentication
