@@ -264,6 +264,7 @@ function clean_configs()
     cd frameworks/base 
     git checkout -- core/java/android/util/FeatureFlagUtils.java
     git checkout -- core/res/res/values/config.xml
+    git checkout -- packages/SettingsProvider/res/values/defaults.xml
     cd $PROJECT_FOLDER
     
 }
