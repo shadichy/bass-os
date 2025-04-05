@@ -1,7 +1,7 @@
-From 8ea00312fd3840c0225327e40a81816decb95514 Mon Sep 17 00:00:00 2001
+From 59a358991e0230014f2aaf9b5f6857b160672b8e Mon Sep 17 00:00:00 2001
 From: electrikjesus <electrikjesus@gmail.com>
 Date: Sat, 24 Feb 2024 12:01:59 -0500
-Subject: [PATCH 06/18] Revert "Make "windows" key to act as "home" key"
+Subject: [PATCH 05/34] Revert "Make "windows" key to act as "home" key"
 
 This reverts commit 5bc2c3d520e958493c9b4d5624457403267c9689.
 
@@ -11,7 +11,7 @@ This will be reworked to be based on a property we can control from frameworks/n
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/data/keyboards/Generic.kl b/data/keyboards/Generic.kl
-index 6d3453038443..31092536bac5 100644
+index 08434fb07beb..d6c38348f284 100644
 --- a/data/keyboards/Generic.kl
 +++ b/data/keyboards/Generic.kl
 @@ -144,8 +144,8 @@ key 121   NUMPAD_COMMA
@@ -26,5 +26,5 @@ index 6d3453038443..31092536bac5 100644
  key 128   MEDIA_STOP
  # key 129 "KEY_AGAIN"
 -- 
-2.34.1
+2.43.0
 

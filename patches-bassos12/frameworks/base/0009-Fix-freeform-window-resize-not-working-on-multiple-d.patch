@@ -1,7 +1,7 @@
-From f6d7e6cd376bc5ecd9c4a3b131b918e53222946a Mon Sep 17 00:00:00 2001
+From 8cd9af7e4024cc4011f9f8d8bf9cde70feca91a1 Mon Sep 17 00:00:00 2001
 From: nift4 <nift4@protonmail.com>
 Date: Sun, 28 Aug 2022 19:19:32 +0200
-Subject: [PATCH 16/18] Fix freeform window resize not working on multiple
+Subject: [PATCH 09/34] Fix freeform window resize not working on multiple
  displays
 
 mInputSurface is never getting recreated, so it still has old display as
@@ -23,10 +23,10 @@ Change-Id: I10bdf890cb7615cc6d26cd72b75b817a7edcd492
  1 file changed, 5 insertions(+)
 
 diff --git a/services/core/java/com/android/server/wm/TaskPositioningController.java b/services/core/java/com/android/server/wm/TaskPositioningController.java
-index 55a3decdca08..d1236686e991 100644
+index 525420e045b5..a9f9dd5901fd 100644
 --- a/services/core/java/com/android/server/wm/TaskPositioningController.java
 +++ b/services/core/java/com/android/server/wm/TaskPositioningController.java
-@@ -232,6 +232,11 @@ class TaskPositioningController {
+@@ -214,6 +214,11 @@ class TaskPositioningController {
              synchronized (mService.mGlobalLock) {
                  cleanUpTaskPositioner();
                  mPositioningDisplay = null;
@@ -39,5 +39,5 @@ index 55a3decdca08..d1236686e991 100644
          });
      }
 -- 
-2.34.1
+2.43.0
 

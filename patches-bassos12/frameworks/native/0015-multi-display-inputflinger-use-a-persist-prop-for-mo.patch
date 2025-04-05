@@ -1,0 +1,26 @@
+From ec7b1867665c13c1143a6f4b01ddcf0411029cd5 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Fri, 20 Dec 2024 11:43:55 -0500
+Subject: [PATCH 15/17] multi-display: inputflinger: use a persist prop for
+ mouse presentation
+
+---
+ services/inputflinger/reader/mapper/CursorInputMapper.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/services/inputflinger/reader/mapper/CursorInputMapper.cpp b/services/inputflinger/reader/mapper/CursorInputMapper.cpp
+index 0ac6dfe2d2..68c1862d50 100644
+--- a/services/inputflinger/reader/mapper/CursorInputMapper.cpp
++++ b/services/inputflinger/reader/mapper/CursorInputMapper.cpp
+@@ -527,7 +527,7 @@ void CursorInputMapper::sync(nsecs_t when, nsecs_t readTime) {
+         pointerCoords.setAxisValue(AMOTION_EVENT_AXIS_RELATIVE_Y, deltaY);
+ 
+ 	    char mMousePresentation[PROPERTY_VALUE_MAX] = {0};
+-        property_get("sys.mouse.presentation", mMousePresentation, "0");
++        property_get("persist.mouse.presentation", mMousePresentation, "0");
+         if (strcmp(mMousePresentation, "1") == 0) {
+             displayId = mDisplayId;
+             float minX, minY, maxX, maxY;
+-- 
+2.43.0
+

@@ -1,0 +1,99 @@
+From fc3061ed72734437b93dd2164105968ff57b1591 Mon Sep 17 00:00:00 2001
+From: electrikjesus <electrikjesus@gmail.com>
+Date: Mon, 13 May 2024 11:58:05 -0400
+Subject: [PATCH 10/17] inputMapper: allow specifying what display we want to
+ rotate touch for
+
+When using ro.boot.hwrotation, we might want to specify what display we are targeting, so we define two new properties for that:
+ro.boot.only_rotate_primary_touch=true
+or:
+ro.boot.only_rotate_secondary_touch=true
+---
+ .../reader/mapper/MultiTouchInputMapper.cpp   | 69 +++++++++++++++----
+ 1 file changed, 56 insertions(+), 13 deletions(-)
+
+diff --git a/services/inputflinger/reader/mapper/MultiTouchInputMapper.cpp b/services/inputflinger/reader/mapper/MultiTouchInputMapper.cpp
+index a7b7cd3a9a..31b3b432e0 100644
+--- a/services/inputflinger/reader/mapper/MultiTouchInputMapper.cpp
++++ b/services/inputflinger/reader/mapper/MultiTouchInputMapper.cpp
+@@ -368,21 +368,64 @@ void MultiTouchInputMapper::configureRawPointerAxes() {
+     getAbsoluteAxisInfo(ABS_MT_TRACKING_ID, &mRawPointerAxes.trackingId);
+     getAbsoluteAxisInfo(ABS_MT_SLOT, &mRawPointerAxes.slot);
+ 
+-    switch (property_get_int32("ro.boot.hwrotation", 0)) {
+-    case 90:
+-        mRawPointerAxes.hwrotation = DISPLAY_ORIENTATION_90;
+-        break;
+-    case 180:
+-        mRawPointerAxes.hwrotation = DISPLAY_ORIENTATION_180;
+-        break;
+-    case 270:
+-        mRawPointerAxes.hwrotation = DISPLAY_ORIENTATION_270;
+-        break;
+-    default:
+-        mRawPointerAxes.hwrotation = DISPLAY_ORIENTATION_0;
+-        break;
++    bool isExternalDisplay = getDeviceContext().isExternal();
++
++    char mOnlyRotatePrimaryTouch[PROPERTY_VALUE_MAX] = {0};
++    property_get("ro.boot.only_rotate_primary_touch", mOnlyRotatePrimaryTouch, "false");
++    char mOnlyRotateSecondaryTouch[PROPERTY_VALUE_MAX] = {0};
++    property_get("ro.boot.only_rotate_secondary_touch", mOnlyRotateSecondaryTouch, "false");
++    if (strcmp(mOnlyRotatePrimaryTouch, "true") == 0) {
++        if (!isExternalDisplay) {
++            switch (property_get_int32("ro.boot.hwrotation", 0)) {
++            case 90:
++                mRawPointerAxes.hwrotation = DISPLAY_ORIENTATION_90;
++                break;
++            case 180:
++                mRawPointerAxes.hwrotation = DISPLAY_ORIENTATION_180;
++                break;
++            case 270:
++                mRawPointerAxes.hwrotation = DISPLAY_ORIENTATION_270;
++                break;
++            default:
++                mRawPointerAxes.hwrotation = DISPLAY_ORIENTATION_0;
++                break;
++            }
++        }
++    } else if (strcmp(mOnlyRotateSecondaryTouch, "true") == 0) {
++        if (isExternalDisplay) {
++            switch (property_get_int32("ro.boot.hwrotation", 0)) {
++            case 90:
++                mRawPointerAxes.hwrotation = DISPLAY_ORIENTATION_90;
++                break;
++            case 180:
++                mRawPointerAxes.hwrotation = DISPLAY_ORIENTATION_180;
++                break;
++            case 270:
++                mRawPointerAxes.hwrotation = DISPLAY_ORIENTATION_270;
++                break;
++            default:
++                mRawPointerAxes.hwrotation = DISPLAY_ORIENTATION_0;
++                break;
++            }
++        }
++    } else {
++        switch (property_get_int32("ro.boot.hwrotation", 0)) {
++        case 90:
++            mRawPointerAxes.hwrotation = DISPLAY_ORIENTATION_90;
++            break;
++        case 180:
++            mRawPointerAxes.hwrotation = DISPLAY_ORIENTATION_180;
++            break;
++        case 270:
++            mRawPointerAxes.hwrotation = DISPLAY_ORIENTATION_270;
++            break;
++        default:
++            mRawPointerAxes.hwrotation = DISPLAY_ORIENTATION_0;
++            break;
++        }
+     }
+ 
++
+     if (mRawPointerAxes.trackingId.valid && mRawPointerAxes.slot.valid &&
+         mRawPointerAxes.slot.minValue == 0 && mRawPointerAxes.slot.maxValue > 0) {
+         size_t slotCount = mRawPointerAxes.slot.maxValue + 1;
+-- 
+2.43.0
+

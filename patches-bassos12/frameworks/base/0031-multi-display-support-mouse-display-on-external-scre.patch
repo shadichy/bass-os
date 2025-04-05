@@ -1,0 +1,173 @@
+From c2a5294d65e4d061b1f3e22b838626ee38f3c57f Mon Sep 17 00:00:00 2001
+From: dzy <dzy@rock-chips.com>
+Date: Tue, 23 Nov 2021 09:57:03 +0800
+Subject: [PATCH 31/34] multi-display:support mouse display on external screen.
+
+Change-Id: I5dd95a9ec669f94bb6da8775c2ff856fe5f078bf
+---
+ libs/input/MouseCursorController.cpp          |  6 ++
+ libs/input/MouseCursorController.h            |  5 +-
+ libs/input/PointerController.cpp              | 14 +++++
+ libs/input/PointerController.h                |  7 +++
+ ...droid_server_input_InputManagerService.cpp | 55 ++++++++++++++++++-
+ 5 files changed, 85 insertions(+), 2 deletions(-)
+
+diff --git a/libs/input/MouseCursorController.cpp b/libs/input/MouseCursorController.cpp
+index 45da008c3e8e..a7e02d9ef630 100644
+--- a/libs/input/MouseCursorController.cpp
++++ b/libs/input/MouseCursorController.cpp
+@@ -155,6 +155,12 @@ int32_t MouseCursorController::getDisplayId() const {
+     return mLocked.viewport.displayId;
+ }
+ 
++void MouseCursorController::setDisplayId(int32_t id) {
++    std::scoped_lock lock(mLock);
++    mLocked.pointerSprite->setDisplayId(id);
++}
++
++
+ void MouseCursorController::fade(PointerControllerInterface::Transition transition) {
+     std::scoped_lock lock(mLock);
+ 
+diff --git a/libs/input/MouseCursorController.h b/libs/input/MouseCursorController.h
+index c0ab58bd2e7e..d5fb443a3487 100644
+--- a/libs/input/MouseCursorController.h
++++ b/libs/input/MouseCursorController.h
+@@ -50,6 +50,7 @@ public:
+     void setPosition(float x, float y);
+     void getPosition(float* outX, float* outY) const;
+     int32_t getDisplayId() const;
++    void setDisplayId(int32_t id);
+     void fade(PointerControllerInterface::Transition transition);
+     void unfade(PointerControllerInterface::Transition transition);
+     void setDisplayViewport(const DisplayViewport& viewport, bool getAdditionalMouseResources);
+@@ -64,7 +65,9 @@ public:
+     bool doAnimations(nsecs_t timestamp);
+ 
+     bool resourcesLoaded();
+-
++    inline const DisplayViewport& getViewportLocked() {
++                       return mLocked.viewport;}
++   
+ private:
+     mutable std::mutex mLock;
+ 
+diff --git a/libs/input/PointerController.cpp b/libs/input/PointerController.cpp
+index 8f04cfb70469..b06ce96c4b4e 100644
+--- a/libs/input/PointerController.cpp
++++ b/libs/input/PointerController.cpp
+@@ -127,6 +127,20 @@ void PointerController::setPresentation(Presentation presentation) {
+     }
+ }
+ 
++void PointerController::setDisplayId(int32_t id) {
++    std::scoped_lock lock(mLock);
++    mCursorController.setDisplayId(id);
++    
++}
++
++
++int32_t PointerController::getDisplayId() {
++    std::scoped_lock lock(mLock);
++    return mCursorController.getDisplayId();
++
++}
++
++
+ void PointerController::setSpots(const PointerCoords* spotCoords, const uint32_t* spotIdToIndex,
+                                  BitSet32 spotIdBits, int32_t displayId) {
+     std::scoped_lock lock(mLock);
+diff --git a/libs/input/PointerController.h b/libs/input/PointerController.h
+index 97567bab202b..28f66e2f5107 100644
+--- a/libs/input/PointerController.h
++++ b/libs/input/PointerController.h
+@@ -72,6 +72,13 @@ public:
+     void reloadPointerResources();
+     void onDisplayViewportsUpdated(std::vector<DisplayViewport>& viewports);
+ 
++    void setDisplayId(int32_t id);
++    int32_t getDisplayId();
++
++    const DisplayViewport& getViewportLocked() {
++                       return mCursorController.getViewportLocked();
++                            }
++
+ private:
+     friend PointerControllerContext::LooperCallback;
+     friend PointerControllerContext::MessageHandler;
+diff --git a/services/core/jni/com_android_server_input_InputManagerService.cpp b/services/core/jni/com_android_server_input_InputManagerService.cpp
+index 7040fdae04f8..11cb66137da8 100644
+--- a/services/core/jni/com_android_server_input_InputManagerService.cpp
++++ b/services/core/jni/com_android_server_input_InputManagerService.cpp
+@@ -292,7 +292,7 @@ public:
+     void requestPointerCapture(const sp<IBinder>& windowToken, bool enabled);
+     void setCustomPointerIcon(const SpriteIcon& icon);
+     void setMotionClassifierEnabled(bool enabled);
+-
++    virtual int32_t notifyDisplayIdChanged();
+     /* --- InputReaderPolicyInterface implementation --- */
+ 
+     void getReaderConfiguration(InputReaderConfiguration* outConfig) override;
+@@ -1230,6 +1230,59 @@ TouchAffineTransformation NativeInputManager::getTouchAffineTransformation(
+     return transform;
+ }
+ 
++int32_t NativeInputManager::notifyDisplayIdChanged() REQUIRES(mLock) {
++    //sp<PointerController> controller = mLocked.pointerController.promote();
++    std::shared_ptr<PointerController> controller = mLocked.pointerController.lock();
++    int32_t mDisplayId=controller->getDisplayId();
++    uint8_t physicalPortSize=0;
++    DisplayViewport mViewport=controller->getViewportLocked();
++    //uint8_t mPhysicalPort=mViewport.physicalPort.value();
++    ALOGV("====all viewports size=%d current viewport=%s ",(int32_t)mLocked.viewports.size(),mViewport.toString().c_str());
++    for (const DisplayViewport& v : mLocked.viewports) {
++        if (v.physicalPort!=std::nullopt) {
++           physicalPortSize++;
++        }
++    }
++    ALOGV("physical port size=%d",physicalPortSize);
++    if(physicalPortSize==1){
++       ALOGV("physicalPort size =1,return display id %d",mDisplayId);
++       return mDisplayId;
++    }
++    std::vector<DisplayViewport> viewports;
++
++    for (const DisplayViewport& v : mLocked.viewports) {
++       ALOGV("viewport=%s",v.toString().c_str());
++       if(mViewport.displayId!=v.displayId){
++         viewports.push_back(v);
++       }
++    }
++    if(viewports.size()==0){
++      return mDisplayId;
++    }
++    if(viewports.size()==1){
++      controller->setDisplayId(viewports.front().displayId);
++      controller->setDisplayViewport(viewports.front());
++      mDisplayId=viewports.front().displayId;																     return mDisplayId;
++    }
++    if(viewports.back().displayId<=mViewport.displayId){
++      controller->setDisplayId(viewports.front().displayId);
++      controller->setDisplayViewport(viewports.front());
++      mDisplayId=viewports.front().displayId;
++      return mDisplayId;
++    }
++    for (const DisplayViewport& v : viewports) {
++       ALOGV("viewport=%s",v.toString().c_str());
++       if(v.displayId>mViewport.displayId){
++	  controller->setDisplayId(v.displayId);
++	  controller->setDisplayViewport(v);
++	  mDisplayId=v.displayId;
++	  break;
++       }
++
++    }
++    return mDisplayId; 
++}
++
+ bool NativeInputManager::filterInputEvent(const InputEvent* inputEvent, uint32_t policyFlags) {
+     ATRACE_CALL();
+     jobject inputEventObj;
+-- 
+2.43.0
+

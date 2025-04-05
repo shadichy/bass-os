@@ -1,7 +1,7 @@
-From d895f7819c920176c6bcd084b805a3ec4d33cbdf Mon Sep 17 00:00:00 2001
+From 9a4d85c29fbc744906563d6a09350171cd5b551c Mon Sep 17 00:00:00 2001
 From: electrikjesus <electrikjesus@gmail.com>
 Date: Sat, 27 Jan 2024 10:14:05 -0500
-Subject: [PATCH 03/18] DisplayLayout: Add a method to force navbar on
+Subject: [PATCH 02/34] DisplayLayout: Add a method to force navbar on
  secondary displays
 
 Allow a system property to override this for desktop mode navigation to work on secondary displays.
@@ -14,10 +14,10 @@ fix conditional for secondary display navbar
  1 file changed, 15 insertions(+), 9 deletions(-)
 
 diff --git a/libs/WindowManager/Shell/src/com/android/wm/shell/common/DisplayLayout.java b/libs/WindowManager/Shell/src/com/android/wm/shell/common/DisplayLayout.java
-index 5972413f6c0f..43c8c50a49f3 100644
+index 6d7b1b2e6dde..7c55c56be92c 100644
 --- a/libs/WindowManager/Shell/src/com/android/wm/shell/common/DisplayLayout.java
 +++ b/libs/WindowManager/Shell/src/com/android/wm/shell/common/DisplayLayout.java
-@@ -507,15 +507,21 @@ public class DisplayLayout {
+@@ -499,15 +499,21 @@ public class DisplayLayout {
              }
              return context.getResources().getBoolean(R.bool.config_showNavigationBar);
          } else {
@@ -49,5 +49,5 @@ index 5972413f6c0f..43c8c50a49f3 100644
      }
  
 -- 
-2.34.1
+2.43.0
 

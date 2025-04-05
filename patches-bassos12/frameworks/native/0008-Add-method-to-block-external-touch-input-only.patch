@@ -1,0 +1,41 @@
+From c657b7eb34d1b384de39068852f28620e9bfab73 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Tue, 11 Jun 2024 20:48:57 -0400
+Subject: [PATCH 08/17] Add method to block external touch input only
+
+Uses ro.boot.force.ignore_external_touch
+---
+ services/inputflinger/reader/InputDevice.cpp | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/services/inputflinger/reader/InputDevice.cpp b/services/inputflinger/reader/InputDevice.cpp
+index 7a0766a83e..09e3552ce1 100644
+--- a/services/inputflinger/reader/InputDevice.cpp
++++ b/services/inputflinger/reader/InputDevice.cpp
+@@ -267,6 +267,10 @@ void InputDevice::configure(nsecs_t when, const InputReaderConfiguration* config
+     char mIgnoreExternalInput[PROPERTY_VALUE_MAX] = {0};
+     property_get("ro.boot.force.ignore_external_input", mIgnoreExternalInput, "0");
+ 
++    // Allow blocking external touch input
++    char mIgnoreExternalTouch[PROPERTY_VALUE_MAX] = {0};
++    property_get("ro.boot.force.ignore_external_touch", mIgnoreExternalTouch, "0");
++
+     if (!isIgnored()) {
+         if (!changes) { // first time only
+             mConfiguration.clear();
+@@ -361,6 +365,12 @@ void InputDevice::configure(nsecs_t when, const InputReaderConfiguration* config
+                 if (mIsExternal) {
+                     enabled = false;
+                 }
++            } else if (strcmp(mIgnoreExternalTouch, "1") == 0) {
++                if (mIsExternal) {
++                    if ((mClasses.test(InputDeviceClass::TOUCH)) || (mClasses.test(InputDeviceClass::TOUCH_MT))) {
++                        enabled = false;
++                    }
++                }
+             }
+ 
+             if (changes) {
+-- 
+2.43.0
+

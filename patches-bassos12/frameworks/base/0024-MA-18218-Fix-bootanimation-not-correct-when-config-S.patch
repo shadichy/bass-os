@@ -1,0 +1,40 @@
+From 142d88a1057ad98c6f573e36d169963c09b9ddfd Mon Sep 17 00:00:00 2001
+From: Jessie Hao <juan.hao@nxp.com>
+Date: Thu, 5 Nov 2020 15:54:46 +0800
+Subject: [PATCH 24/34] MA-18218 Fix bootanimation not correct when config
+ SF_PRIMARY_DISPLAY_ORIENTATION
+
+When config SF_PRIMARY_DISPLAY_ORIENTATION to 90 or 270,bootanimation display
+area is not correct at the beginning and it will be ok after displayReady in
+SystemServer. The viewport/frame is not correct just after surfaceflinger
+setupNewDisplayDevice. displayReady will setProjection and make viewport/frame
+to correct one. Here call setDisplayProjection in bootanimation to avoid this
+issue.
+
+Change-Id: I254fb0c519a559b6b660dbfa9e8064a559e1d596
+Signed-off-by: Jessie Hao <juan.hao@nxp.com>
+Reviewed-on: http://androidsource.ap.freescale.net/project/13939
+Reviewed-by: guoyin.chen <guoyin.chen@nxp.com>
+Reviewed-by: Xuegang Liu <xuegang.liu@nxp.com>
+Reviewed-on: http://androidsource.ap.freescale.net/project/17010
+Reviewed-on: http://androidsource.ap.freescale.net/project/17206
+---
+ cmds/bootanimation/BootAnimation.cpp | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/cmds/bootanimation/BootAnimation.cpp b/cmds/bootanimation/BootAnimation.cpp
+index 6c8cab7783b6..cea68333032e 100644
+--- a/cmds/bootanimation/BootAnimation.cpp
++++ b/cmds/bootanimation/BootAnimation.cpp
+@@ -512,6 +512,8 @@ status_t BootAnimation::readyToRun() {
+             resolution.getWidth(), resolution.getHeight(), PIXEL_FORMAT_RGB_565);
+ 
+     SurfaceComposerClient::Transaction t;
++    Rect displayRect(resolution.getWidth(),resolution.getHeight());
++    t.setDisplayProjection(mDisplayToken, ui::ROTATION_0, displayRect, displayRect);
+ 
+     // this guest property specifies multi-display IDs to show the boot animation
+     // multiple ids can be set with comma (,) as separator, for example:
+-- 
+2.43.0
+

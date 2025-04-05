@@ -1,0 +1,107 @@
+From 4311cf7e4f358298e8fee61815ed1ab86e75a534 Mon Sep 17 00:00:00 2001
+From: dzy <dzy@rock-chips.com>
+Date: Mon, 13 Feb 2023 17:47:36 +0800
+Subject: [PATCH 13/17] multi-display:inputflinger service support mouse
+ display on external screen.
+
+Tips:
+  Must setprop sys.mouse.presentation 1
+  Depend on commit:frameworks/base(60d9f87,"Multi-display:support mouse...")
+
+Source: https://github.com/TinkerBoard2-Android/frameworks-native/commit/d3f542f1089c76b3c4b5b4c9d215867c3715ed46
+
+Change-Id: I421eadd92ff82c2bc402858ee67fc10597d75ce0
+---
+ .../inputflinger/include/InputReaderBase.h     |  1 +
+ .../reader/mapper/CursorInputMapper.cpp        | 18 +++++++++++++++++-
+ .../reader/mapper/CursorInputMapper.h          |  2 ++
+ .../inputflinger/tests/InputReader_test.cpp    |  5 +++++
+ 4 files changed, 25 insertions(+), 1 deletion(-)
+
+diff --git a/services/inputflinger/include/InputReaderBase.h b/services/inputflinger/include/InputReaderBase.h
+index 605f06fa50..63b5ca2f1a 100644
+--- a/services/inputflinger/include/InputReaderBase.h
++++ b/services/inputflinger/include/InputReaderBase.h
+@@ -394,6 +394,7 @@ public:
+     /* Gets the affine calibration associated with the specified device. */
+     virtual TouchAffineTransformation getTouchAffineTransformation(
+             const std::string& inputDeviceDescriptor, int32_t surfaceRotation) = 0;
++    virtual int32_t notifyDisplayIdChanged() = 0;
+ };
+ 
+ } // namespace android
+diff --git a/services/inputflinger/reader/mapper/CursorInputMapper.cpp b/services/inputflinger/reader/mapper/CursorInputMapper.cpp
+index a38788cf05..84977e4270 100644
+--- a/services/inputflinger/reader/mapper/CursorInputMapper.cpp
++++ b/services/inputflinger/reader/mapper/CursorInputMapper.cpp
+@@ -24,6 +24,7 @@
+ #include "CursorScrollAccumulator.h"
+ #include "PointerControllerInterface.h"
+ #include "TouchCursorInputMapperCommon.h"
++#include <cutils/properties.h>
+ 
+ namespace android {
+ 
+@@ -362,6 +363,7 @@ void CursorInputMapper::dumpParameters(std::string& dump) {
+ void CursorInputMapper::reset(nsecs_t when) {
+     mButtonState = 0;
+     mDownTime = 0;
++    mDisplayId=0;
+ 
+     mPointerVelocityControl.reset();
+     mWheelXVelocityControl.reset();
+@@ -523,7 +525,21 @@ void CursorInputMapper::sync(nsecs_t when, nsecs_t readTime) {
+         pointerCoords.setAxisValue(AMOTION_EVENT_AXIS_Y, yCursorPosition);
+         pointerCoords.setAxisValue(AMOTION_EVENT_AXIS_RELATIVE_X, deltaX);
+         pointerCoords.setAxisValue(AMOTION_EVENT_AXIS_RELATIVE_Y, deltaY);
+-        displayId = mPointerController->getDisplayId();
++
++	    char mMousePresentation[PROPERTY_VALUE_MAX] = {0};
++        property_get("sys.mouse.presentation", mMousePresentation, "0");
++        if (strcmp(mMousePresentation, "1") == 0) {
++            displayId = mDisplayId;
++            float minX, minY, maxX, maxY;
++            if (mPointerController->getBounds(&minX, &minY, &maxX, &maxY)) {
++                if(xCursorPosition==minX||xCursorPosition==maxX||yCursorPosition==minY||yCursorPosition==maxY){
++                    displayId=getPolicy()->notifyDisplayIdChanged();
++                    mDisplayId=displayId;
++                }
++            }
++        }else{
++            displayId = mPointerController->getDisplayId();
++        }
+     } else {
+         // Pointer capture and navigation modes
+         pointerCoords.setAxisValue(AMOTION_EVENT_AXIS_X, deltaX);
+diff --git a/services/inputflinger/reader/mapper/CursorInputMapper.h b/services/inputflinger/reader/mapper/CursorInputMapper.h
+index 9b7807736f..1d2fa3d532 100644
+--- a/services/inputflinger/reader/mapper/CursorInputMapper.h
++++ b/services/inputflinger/reader/mapper/CursorInputMapper.h
+@@ -140,6 +140,8 @@ private:
+     float mVWheelScale;
+     float mHWheelScale;
+ 
++    int32_t mDisplayId;
++
+     // Velocity controls for mouse pointer and wheel movements.
+     // The controls for X and Y wheel movements are separate to keep them decoupled.
+     VelocityControl mPointerVelocityControl;
+diff --git a/services/inputflinger/tests/InputReader_test.cpp b/services/inputflinger/tests/InputReader_test.cpp
+index b419d9ab3d..bec39105a9 100644
+--- a/services/inputflinger/tests/InputReader_test.cpp
++++ b/services/inputflinger/tests/InputReader_test.cpp
+@@ -303,6 +303,11 @@ public:
+         return mInputDevices;
+     }
+ 
++    int32_t notifyDisplayIdChanged(){
++        return 0;
++    }
++
++
+     TouchAffineTransformation getTouchAffineTransformation(const std::string& inputDeviceDescriptor,
+             int32_t surfaceRotation) {
+         return transform;
+-- 
+2.43.0
+

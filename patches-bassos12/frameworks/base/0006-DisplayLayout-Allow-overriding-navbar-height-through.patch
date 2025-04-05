@@ -1,7 +1,7 @@
-From ec76e7d32b873de3bfc45b8c40be1f94eede242f Mon Sep 17 00:00:00 2001
+From 12518f8083fa8348d5b398e32f1e459035ae6546 Mon Sep 17 00:00:00 2001
 From: electrikjesus <electrikjesus@gmail.com>
 Date: Tue, 19 Mar 2024 21:20:07 -0400
-Subject: [PATCH 07/18] DisplayLayout: Allow overriding navbar height through
+Subject: [PATCH 06/34] DisplayLayout: Allow overriding navbar height through
  properties
 
 Use ro.boot.force.navbar_height_override=(integer)
@@ -10,10 +10,10 @@ Use ro.boot.force.navbar_height_override=(integer)
  1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/libs/WindowManager/Shell/src/com/android/wm/shell/common/DisplayLayout.java b/libs/WindowManager/Shell/src/com/android/wm/shell/common/DisplayLayout.java
-index b9c4553656ec..07126efbe069 100644
+index d10063a3003b..224956ef30ad 100644
 --- a/libs/WindowManager/Shell/src/com/android/wm/shell/common/DisplayLayout.java
 +++ b/libs/WindowManager/Shell/src/com/android/wm/shell/common/DisplayLayout.java
-@@ -224,7 +224,13 @@ public class DisplayLayout {
+@@ -222,7 +222,13 @@ public class DisplayLayout {
          if (mHasStatusBar) {
              convertNonDecorInsetsToStableInsets(res, mStableInsets, mCutout, mHasStatusBar);
          }
@@ -29,5 +29,5 @@ index b9c4553656ec..07126efbe069 100644
  
      /**
 -- 
-2.34.1
+2.43.0
 

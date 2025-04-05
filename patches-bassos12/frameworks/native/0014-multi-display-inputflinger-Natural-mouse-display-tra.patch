@@ -1,0 +1,38 @@
+From 9dac91f4f23d453fa931a0621d7ca2bcea7e9328 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Thu, 14 Nov 2024 09:08:37 -0500
+Subject: [PATCH 14/17] multi-display: inputflinger: Natural mouse display
+ transition updates
+
+Remember Y position and swap minX/maxX when switching.
+This gives us a more natural cursor movement when switching displays
+
+Requires: frameworks/native: multi-display:inputflinger service support mouse display on external screen
+---
+ services/inputflinger/reader/mapper/CursorInputMapper.cpp | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
+
+diff --git a/services/inputflinger/reader/mapper/CursorInputMapper.cpp b/services/inputflinger/reader/mapper/CursorInputMapper.cpp
+index 84977e4270..0ac6dfe2d2 100644
+--- a/services/inputflinger/reader/mapper/CursorInputMapper.cpp
++++ b/services/inputflinger/reader/mapper/CursorInputMapper.cpp
+@@ -532,9 +532,15 @@ void CursorInputMapper::sync(nsecs_t when, nsecs_t readTime) {
+             displayId = mDisplayId;
+             float minX, minY, maxX, maxY;
+             if (mPointerController->getBounds(&minX, &minY, &maxX, &maxY)) {
+-                if(xCursorPosition==minX||xCursorPosition==maxX||yCursorPosition==minY||yCursorPosition==maxY){
++                float originalY = yCursorPosition; // remember the original y position
++                if(xCursorPosition==minX){
+                     displayId=getPolicy()->notifyDisplayIdChanged();
+                     mDisplayId=displayId;
++                    mPointerController->setPosition(maxX, originalY);
++                } else if(xCursorPosition==maxX){
++                    displayId=getPolicy()->notifyDisplayIdChanged();
++                    mDisplayId=displayId;
++                    mPointerController->setPosition(minX, originalY);
+                 }
+             }
+         }else{
+-- 
+2.43.0
+

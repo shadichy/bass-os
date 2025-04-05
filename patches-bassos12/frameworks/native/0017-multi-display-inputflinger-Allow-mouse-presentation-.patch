@@ -1,0 +1,81 @@
+From 847faec0193a01d20759bbf22a55cf3c328e5758 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Thu, 6 Mar 2025 17:07:40 -0500
+Subject: [PATCH 17/17] multi-display: inputflinger: Allow mouse presentation
+ on touchpad with gesture
+
+Bring over changes from CursorInputMapper for mouse presentation so that we can also use it with the touchpad.
+
+Requires using 2-finger swipe gesture to switch to the next display once the pointer reaches the edge of the display.
+---
+ .../reader/mapper/TouchInputMapper.cpp        | 26 ++++++++++++++++++-
+ .../reader/mapper/TouchInputMapper.h          |  2 ++
+ 2 files changed, 27 insertions(+), 1 deletion(-)
+
+diff --git a/services/inputflinger/reader/mapper/TouchInputMapper.cpp b/services/inputflinger/reader/mapper/TouchInputMapper.cpp
+index e69f5f18be..365a18399f 100644
+--- a/services/inputflinger/reader/mapper/TouchInputMapper.cpp
++++ b/services/inputflinger/reader/mapper/TouchInputMapper.cpp
+@@ -25,6 +25,7 @@
+ #include "CursorScrollAccumulator.h"
+ #include "TouchButtonAccumulator.h"
+ #include "TouchCursorInputMapperCommon.h"
++#include <cutils/properties.h>
+ 
+ namespace android {
+ 
+@@ -1443,6 +1444,7 @@ void TouchInputMapper::reset(nsecs_t when) {
+     mHavePointerIds = false;
+     mCurrentMotionAborted = false;
+     mDownTime = 0;
++    mDisplayId = 0;
+ 
+     mCurrentVirtualKey.down = false;
+ 
+@@ -2639,7 +2641,29 @@ void TouchInputMapper::dispatchPointerGestures(nsecs_t when, nsecs_t readTime, u
+         pointerCoords.setAxisValue(AMOTION_EVENT_AXIS_X, x);
+         pointerCoords.setAxisValue(AMOTION_EVENT_AXIS_Y, y);
+ 
+-        const int32_t displayId = mPointerController->getDisplayId();
++        int32_t displayId = ADISPLAY_ID_NONE;
++
++        char mMousePresentation[PROPERTY_VALUE_MAX] = {0};
++        property_get("persist.mouse.presentation", mMousePresentation, "0");
++        if (strcmp(mMousePresentation, "1") == 0) {
++            displayId = mDisplayId;
++            float minX, minY, maxX, maxY;
++            if (mPointerController->getBounds(&minX, &minY, &maxX, &maxY)) {
++                float originalY = y; // remember the original y position
++                if(x==minX){
++                    displayId=getPolicy()->notifyDisplayIdChanged();
++                    mDisplayId=displayId;
++                    mPointerController->setPosition(maxX, originalY);
++                } else if(x==maxX){
++                    displayId=getPolicy()->notifyDisplayIdChanged();
++                    mDisplayId=displayId;
++                    mPointerController->setPosition(minX, originalY);
++                }
++            }
++        }else{
++            displayId = mPointerController->getDisplayId();
++        }
++
+         NotifyMotionArgs args(getContext()->getNextId(), when, readTime, getDeviceId(), mSource,
+                               displayId, policyFlags, AMOTION_EVENT_ACTION_HOVER_MOVE, 0, flags,
+                               metaState, buttonState, MotionClassification::NONE,
+diff --git a/services/inputflinger/reader/mapper/TouchInputMapper.h b/services/inputflinger/reader/mapper/TouchInputMapper.h
+index 4c98c1322c..a3f7a60f84 100644
+--- a/services/inputflinger/reader/mapper/TouchInputMapper.h
++++ b/services/inputflinger/reader/mapper/TouchInputMapper.h
+@@ -449,6 +449,8 @@ private:
+     // requested orientation, so it will depend on whether the device is orientation aware.
+     int32_t mSurfaceOrientation;
+ 
++    int32_t mDisplayId;
++
+     // Translation and scaling factors, orientation-independent.
+     float mXTranslate;
+     float mXScale;
+-- 
+2.43.0
+

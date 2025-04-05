@@ -1,7 +1,7 @@
 From 126ec1827539920a204a196e236a31b026b1c7f3 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Wed, 15 Nov 2023 13:41:06 -0500
-Subject: [PATCH] Remove Android is starting string from boot sequence
+Subject: [PATCH 16/34] Remove Android is starting string from boot sequence
 
 ---
  core/res/res/values/strings.xml | 8 ++++----

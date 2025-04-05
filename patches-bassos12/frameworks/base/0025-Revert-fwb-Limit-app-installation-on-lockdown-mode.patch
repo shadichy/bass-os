@@ -1,0 +1,25 @@
+From d25a90b508464bd111e792f105829b636998dc0b Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Wed, 3 Jul 2024 17:47:38 -0400
+Subject: [PATCH 25/34] Revert "fwb: Limit app installation on lockdown mode"
+
+This reverts commit 3086fe0148f270f32b3ffe4035e27483974a78ea.
+---
+ .../com/android/packageinstaller/PackageInstallerActivity.java   | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/packages/PackageInstaller/src/com/android/packageinstaller/PackageInstallerActivity.java b/packages/PackageInstaller/src/com/android/packageinstaller/PackageInstallerActivity.java
+index 147096c02de4..ccbd274f6d77 100644
+--- a/packages/PackageInstaller/src/com/android/packageinstaller/PackageInstallerActivity.java
++++ b/packages/PackageInstaller/src/com/android/packageinstaller/PackageInstallerActivity.java
+@@ -44,7 +44,6 @@ import android.content.pm.PackageManager.NameNotFoundException;
+ import android.net.Uri;
+ import android.os.Bundle;
+ import android.os.Process;
+-import android.os.SystemProperties;
+ import android.os.UserManager;
+ import android.provider.Settings;
+ import android.util.Log;
+-- 
+2.43.0
+

@@ -1,0 +1,36 @@
+From 9b10575680cbf5866643028f8739e8f7bca825e2 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Tue, 31 Dec 2024 15:51:04 -0500
+Subject: [PATCH 34/34] DisplayPolicy: allow overriding navbar display via prop
+
+---
+ services/core/java/com/android/server/wm/DisplayPolicy.java | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/services/core/java/com/android/server/wm/DisplayPolicy.java b/services/core/java/com/android/server/wm/DisplayPolicy.java
+index 00ec09e7a4a3..f9119d6b8a45 100644
+--- a/services/core/java/com/android/server/wm/DisplayPolicy.java
++++ b/services/core/java/com/android/server/wm/DisplayPolicy.java
+@@ -244,6 +244,8 @@ public class DisplayPolicy {
+ 
+     // Check the system property to disable the status bar by default
+     private boolean disableStatusBarByDefault = SystemProperties.getBoolean("persist.bliss.disable_statusbar", false);
++    // Check the system property to disable the navigation bar by default
++    private boolean disableNavbarByDefault = SystemProperties.getBoolean("persist.bliss.disable_navigation_bar", false);
+ 
+     StatusBarManagerInternal getStatusBarManagerInternal() {
+         synchronized (mServiceAcquireLock) {
+@@ -2776,6 +2778,10 @@ public class DisplayPolicy {
+             return;
+         }
+ 
++        if (disableNavbarByDefault && swipeTarget == mNavigationBar) {
++            return;
++        }
++
+         final @InsetsType int restorePositionTypes =
+                 (controlTarget.getRequestedVisibility(ITYPE_NAVIGATION_BAR)
+                         ? Type.navigationBars() : 0)
+-- 
+2.43.0
+

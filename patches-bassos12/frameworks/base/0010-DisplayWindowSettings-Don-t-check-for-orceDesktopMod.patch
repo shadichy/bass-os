@@ -1,7 +1,7 @@
-From 1ad89b8c33d7f528c75e126af33797878df88e47 Mon Sep 17 00:00:00 2001
+From 6c3a7d9046e3907c7d2e5e27a225d6f940d47ff7 Mon Sep 17 00:00:00 2001
 From: Erfan Abdi <erfangplus@gmail.com>
 Date: Thu, 5 Jan 2023 02:49:41 +0330
-Subject: [PATCH 17/18] =?UTF-8?q?DisplayWindowSettings:=20Don=E2=80=99t=20?=
+Subject: [PATCH 10/34] =?UTF-8?q?DisplayWindowSettings:=20Don=E2=80=99t=20?=
  =?UTF-8?q?check=20for=20orceDesktopMode=20for=20freeform?=
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -13,7 +13,7 @@ Change-Id: I2f3e8739efcf77ba560c65dcbc7e3f3bdd57ef04
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/services/core/java/com/android/server/wm/DisplayWindowSettings.java b/services/core/java/com/android/server/wm/DisplayWindowSettings.java
-index e2d216fc65e4..0e767f913543 100644
+index f2ef9b978f88..faf6f7ceb5a6 100644
 --- a/services/core/java/com/android/server/wm/DisplayWindowSettings.java
 +++ b/services/core/java/com/android/server/wm/DisplayWindowSettings.java
 @@ -133,7 +133,7 @@ class DisplayWindowSettings {
@@ -26,5 +26,5 @@ index e2d216fc65e4..0e767f913543 100644
                      : WindowConfiguration.WINDOWING_MODE_FULLSCREEN;
          }
 -- 
-2.34.1
+2.43.0
 

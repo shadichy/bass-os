@@ -1,7 +1,7 @@
 From 87275f42bd408713a361ffc60d002588afcc9a2d Mon Sep 17 00:00:00 2001
 From: electrikjesus <electrikjesus@gmail.com>
 Date: Thu, 16 Nov 2023 14:00:37 -0500
-Subject: [PATCH] Use spaces instead of "..." for device start overlay
+Subject: [PATCH 17/34] Use spaces instead of "..." for device start overlay
 
 ---
  core/res/res/values/strings.xml | 8 ++++----

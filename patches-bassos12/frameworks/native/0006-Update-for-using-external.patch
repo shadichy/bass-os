@@ -1,0 +1,25 @@
+From 20fe2d9c2271c77305406664d0e7d759ad4b4558 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Tue, 11 Jun 2024 16:04:39 -0400
+Subject: [PATCH 06/17] Update for using external
+
+---
+ services/inputflinger/reader/InputDevice.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/services/inputflinger/reader/InputDevice.cpp b/services/inputflinger/reader/InputDevice.cpp
+index 015e542c4a..4c07738821 100644
+--- a/services/inputflinger/reader/InputDevice.cpp
++++ b/services/inputflinger/reader/InputDevice.cpp
+@@ -267,7 +267,7 @@ void InputDevice::configure(nsecs_t when, const InputReaderConfiguration* config
+     char mIgnoreExternalInput[PROPERTY_VALUE_MAX] = {0};
+     property_get("ro.boot.force.ignore_external_input", mIgnoreExternalInput, "0");
+ 
+-    if (!isIgnored() && ((strcmp(mIgnoreExternalInput, "1") == 0) && mIsExternal)) {
++    if (!isIgnored() || !((strcmp(mIgnoreExternalInput, "1") == 0) && (mIsExternal == true))) {
+         if (!changes) { // first time only
+             mConfiguration.clear();
+             for_each_subdevice([this](InputDeviceContext& context) {
+-- 
+2.43.0
+

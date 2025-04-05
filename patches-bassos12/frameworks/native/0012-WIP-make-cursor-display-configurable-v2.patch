@@ -1,0 +1,37 @@
+From 75d9445d7c9710793f45f5c86510da8780a00868 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Tue, 12 Nov 2024 17:07:44 -0500
+Subject: [PATCH 12/17] [WIP] make cursor display configurable (v2)
+
+---
+ services/inputflinger/reader/InputReader.cpp | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/services/inputflinger/reader/InputReader.cpp b/services/inputflinger/reader/InputReader.cpp
+index df38742644..3053e43732 100644
+--- a/services/inputflinger/reader/InputReader.cpp
++++ b/services/inputflinger/reader/InputReader.cpp
+@@ -31,7 +31,7 @@
+ #include <unistd.h>
+ #include <utils/Errors.h>
+ #include <utils/Thread.h>
+-
++#include <cutils/properties.h>
+ #include "InputDevice.h"
+ 
+ using android::base::StringPrintf;
+@@ -460,6 +460,11 @@ void InputReader::updatePointerDisplayLocked() {
+ 
+     std::optional<DisplayViewport> viewport =
+             mConfig.getDisplayViewportById(mConfig.defaultPointerDisplayId);
++
++    int32_t mOverrideDisplayId = property_get_int32("sys.override.cursor_display_id", -1);
++    if (mOverrideDisplayId != -1) {
++        viewport = mConfig.getDisplayViewportById(mOverrideDisplayId);
++    }
+     if (!viewport) {
+         ALOGW("Can't find the designated viewport with ID %" PRId32 " to update cursor input "
+               "mapper. Fall back to default display",
+-- 
+2.43.0
+

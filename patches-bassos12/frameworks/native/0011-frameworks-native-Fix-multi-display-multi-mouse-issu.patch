@@ -1,0 +1,52 @@
+From 89b5f69f5be6c8ad1f9ff3447d844b90e1e40a43 Mon Sep 17 00:00:00 2001
+From: zhenyiwu <zhenyiwu@amd.com>
+Date: Tue, 11 Jul 2023 12:09:21 +0800
+Subject: [PATCH 11/17] frameworks/native: Fix multi-display multi-mouse issue
+
+The inputflinger can not handle multi USB mouse for multi display
+use case.
+An attempt was made to append the input-port-associations.xml
+configuration file to vendor/etc/ with official documentation,
+but can not handle multi USB mouse for multi display use case.
+
+The reason is that USB mouse can be multiple, and the associated
+diaplay ID can be multiple,but PointerController is singleton unique
+and only one viewport and one display id are saved in PointerController
+So in the case of multiple USB mouse, although the associated display
+id is saved in each USB mouse, the target display id and the target
+viewport are judged according to the viewport and display id saved in
+PointerController,so only one USB mouse can be mapped to one display
+other USB mouse can't be mapped to display.
+
+So need to remove the code that determines the display id based on the
+controller,and set an associated display id for each CursorInputMapper.
+Correct the viewport saved in PointerController based on the associated
+viewport before handling mouse events.
+
+Bug: None
+Test: atest inputflinger_tests
+Change-Id: I907d0e7675df02c1edb42060a3e8fe535feac137
+---
+ services/inputflinger/reader/mapper/CursorInputMapper.cpp | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/services/inputflinger/reader/mapper/CursorInputMapper.cpp b/services/inputflinger/reader/mapper/CursorInputMapper.cpp
+index 32f414388e..a38788cf05 100644
+--- a/services/inputflinger/reader/mapper/CursorInputMapper.cpp
++++ b/services/inputflinger/reader/mapper/CursorInputMapper.cpp
+@@ -400,7 +400,11 @@ void CursorInputMapper::process(const RawEvent* rawEvent) {
+     mCursorMotionAccumulator.process(rawEvent);
+     mCursorPositionAccumulator.process(rawEvent);
+     mCursorScrollAccumulator.process(rawEvent);
+-
++    if (auto viewport = mDeviceContext.getAssociatedViewport(); viewport) {
++        if (viewport->displayId != mPointerController->getDisplayId()) {
++            mPointerController->setDisplayViewport(*viewport);
++        }
++    }
+     if (rawEvent->type == EV_SYN && rawEvent->code == SYN_REPORT) {
+         sync(rawEvent->when, rawEvent->readTime);
+     }
+-- 
+2.43.0
+

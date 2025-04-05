@@ -1,0 +1,30 @@
+From 400fb97b5a0b6d0fafd95c3fd7cb33ca7b077acf Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Tue, 11 Jun 2024 10:39:06 -0400
+Subject: [PATCH 05/17] InputDevice: Allow to ignore external display input
+
+Uses ro.boot.force.ignore_external_input as the property switch
+---
+ services/inputflinger/reader/InputDevice.cpp | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/services/inputflinger/reader/InputDevice.cpp b/services/inputflinger/reader/InputDevice.cpp
+index 4908ee5242..015e542c4a 100644
+--- a/services/inputflinger/reader/InputDevice.cpp
++++ b/services/inputflinger/reader/InputDevice.cpp
+@@ -263,7 +263,11 @@ void InputDevice::configure(nsecs_t when, const InputReaderConfiguration* config
+     
+     mHasMic = mClasses.test(InputDeviceClass::MIC);
+ 
+-    if (!isIgnored()) {
++    // Allow blocking external device inpt
++    char mIgnoreExternalInput[PROPERTY_VALUE_MAX] = {0};
++    property_get("ro.boot.force.ignore_external_input", mIgnoreExternalInput, "0");
++
++    if (!isIgnored() && ((strcmp(mIgnoreExternalInput, "1") == 0) && mIsExternal)) {
+         if (!changes) { // first time only
+             mConfiguration.clear();
+             for_each_subdevice([this](InputDeviceContext& context) {
+-- 
+2.43.0
+

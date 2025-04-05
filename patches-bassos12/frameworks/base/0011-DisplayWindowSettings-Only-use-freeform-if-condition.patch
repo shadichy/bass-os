@@ -1,7 +1,7 @@
-From a7d2f6d48eb6fbe564d03458ecf1e7a2777a7c58 Mon Sep 17 00:00:00 2001
+From 34802f6decd5d2ab209fbd2967b514fcb98c3c60 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Tue, 16 Jan 2024 15:05:43 -0500
-Subject: [PATCH 18/18] DisplayWindowSettings: Only use freeform if conditions
+Subject: [PATCH 11/34] DisplayWindowSettings: Only use freeform if conditions
  are met
 
 Check for two features that override windowing mode:
@@ -15,7 +15,7 @@ This lets us control it using PC_MODE cmdline override
  1 file changed, 12 insertions(+), 4 deletions(-)
 
 diff --git a/services/core/java/com/android/server/wm/DisplayWindowSettings.java b/services/core/java/com/android/server/wm/DisplayWindowSettings.java
-index 0e767f913543..739f9e716840 100644
+index faf6f7ceb5a6..faed54a652fa 100644
 --- a/services/core/java/com/android/server/wm/DisplayWindowSettings.java
 +++ b/services/core/java/com/android/server/wm/DisplayWindowSettings.java
 @@ -38,6 +38,7 @@ import android.view.WindowManager.DisplayImePolicy;
@@ -49,5 +49,5 @@ index 0e767f913543..739f9e716840 100644
          return windowingMode;
      }
 -- 
-2.34.1
+2.43.0
 

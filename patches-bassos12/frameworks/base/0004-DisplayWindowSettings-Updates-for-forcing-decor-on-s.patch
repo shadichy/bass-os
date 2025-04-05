@@ -1,7 +1,7 @@
-From e22f438ead20d00a9a0025dbf46b31d959e1cbc3 Mon Sep 17 00:00:00 2001
+From 7ee028ae3d13775c1bd13f3bedd8016bfccedcf7 Mon Sep 17 00:00:00 2001
 From: electrikjesus <electrikjesus@gmail.com>
 Date: Sat, 27 Jan 2024 10:32:48 -0500
-Subject: [PATCH 05/18] DisplayWindowSettings: Updates for forcing decor on
+Subject: [PATCH 04/34] DisplayWindowSettings: Updates for forcing decor on
  secondary displays
 
 ---
@@ -9,10 +9,10 @@ Subject: [PATCH 05/18] DisplayWindowSettings: Updates for forcing decor on
  1 file changed, 9 insertions(+)
 
 diff --git a/services/core/java/com/android/server/wm/DisplayWindowSettings.java b/services/core/java/com/android/server/wm/DisplayWindowSettings.java
-index c8bb2cc798b4..e2d216fc65e4 100644
+index 5ea2e6c395e4..f2ef9b978f88 100644
 --- a/services/core/java/com/android/server/wm/DisplayWindowSettings.java
 +++ b/services/core/java/com/android/server/wm/DisplayWindowSettings.java
-@@ -212,6 +212,15 @@ class DisplayWindowSettings {
+@@ -209,6 +209,15 @@ class DisplayWindowSettings {
          if (dc.getDisplayId() == Display.DEFAULT_DISPLAY) {
              // Default display should show system decors.
              return true;
@@ -29,5 +29,5 @@ index c8bb2cc798b4..e2d216fc65e4 100644
  
          final DisplayInfo displayInfo = dc.getDisplayInfo();
 -- 
-2.34.1
+2.43.0
 

@@ -1,0 +1,26 @@
+From 4ce6024941abdba6b02253831257902fddd88e29 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Fri, 20 Dec 2024 11:47:01 -0500
+Subject: [PATCH 16/17] multi-display: inputflinger: use a persist prop for
+ cursor display override
+
+---
+ services/inputflinger/reader/InputReader.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/services/inputflinger/reader/InputReader.cpp b/services/inputflinger/reader/InputReader.cpp
+index 3053e43732..90718f4119 100644
+--- a/services/inputflinger/reader/InputReader.cpp
++++ b/services/inputflinger/reader/InputReader.cpp
+@@ -461,7 +461,7 @@ void InputReader::updatePointerDisplayLocked() {
+     std::optional<DisplayViewport> viewport =
+             mConfig.getDisplayViewportById(mConfig.defaultPointerDisplayId);
+ 
+-    int32_t mOverrideDisplayId = property_get_int32("sys.override.cursor_display_id", -1);
++    int32_t mOverrideDisplayId = property_get_int32("persist.override.cursor_display_id", -1);
+     if (mOverrideDisplayId != -1) {
+         viewport = mConfig.getDisplayViewportById(mOverrideDisplayId);
+     }
+-- 
+2.43.0
+
