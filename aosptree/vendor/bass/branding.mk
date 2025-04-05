@@ -40,7 +40,13 @@ ifneq ($(REMOVE_TERMUX_X11_SCRIPT),true)
 # Usage:
 # $ install-termux-x11
 PRODUCT_COPY_FILES += \
-    vendor/bass/prebuilts/termux-x11-xfce4/lib/install:system/xbin/install-termux-x11 
+    vendor/bass/prebuilts/termux-x11-xfce4/lib/install:system/bin/install-termux-x11 
+endif
+
+ifneq ($(REMOVE_LOG_MONSTER),true)
+# Add logmonster script
+PRODUCT_COPY_FILES += \
+    vendor/bass/prebuilts/log_monster/log_monster.sh:system/bin/logmonster.sh
 endif
 
 ifeq ($(USE_PER_DISPLAY_FOCUS),true)
@@ -258,7 +264,7 @@ ifeq ($(ADDON_WALLPAPER),true)
 # $ adb shell changewallpaper /sdcard/Downloads/wallpaper.png
 PRODUCT_COPY_FILES += \
     vendor/bass/prebuilts/wallpaperchanger/wallpaperchanger.dex:system/etc/wallpaperchanger.dex \
-    vendor/bass/prebuilts/wallpaperchanger/changewallpaper:system/xbin/changewallpaper
+    vendor/bass/prebuilts/wallpaperchanger/changewallpaper:system/bin/changewallpaper
 endif
 
 ifeq ($(ADD_VNCFLINGER),true)
