@@ -34,6 +34,21 @@ PRODUCT_PACKAGES += \
     whitelist-com.bliss.bootsight.xml \
     com.bliss.bootsight-default-permissions.xml
 
+ifneq ($(REMOVE_TERMUX_X11_SCRIPT),true)
+# Add Termux-x11 script
+#
+# Usage:
+# $ install-termux-x11
+PRODUCT_COPY_FILES += \
+    vendor/bass/prebuilts/termux-x11-xfce4/lib/install:system/bin/install-termux-x11 
+endif
+
+ifneq ($(REMOVE_LOG_MONSTER),true)
+# Add logmonster script
+PRODUCT_COPY_FILES += \
+    vendor/bass/prebuilts/log_monster/log_monster.sh:system/bin/logmonster.sh
+endif
+
 ifeq ($(USE_PER_DISPLAY_FOCUS),true)
 
 PRODUCT_PACKAGES += \
@@ -243,6 +258,16 @@ PRODUCT_COPY_FILES += \
     vendor/bass/configs/watermark/watermark.conf:system/etc/setup.conf
 endif
 
+ifeq ($(ADDON_WALLPAPER),true)
+# Wallpaper addon for Bliss Bass test builds
+#
+# Usage: 
+# $ adb push wallpaper.png /sdcard/Downloads/
+# $ adb shell changewallpaper /sdcard/Downloads/wallpaper.png
+PRODUCT_COPY_FILES += \
+    vendor/bass/prebuilts/wallpaperchanger/wallpaperchanger.dex:system/etc/wallpaperchanger.dex \
+    vendor/bass/prebuilts/wallpaperchanger/changewallpaper:system/bin/changewallpaper
+endif
 
 ifeq ($(ADD_VNCFLINGER),true)
 PRODUCT_PACKAGES += \

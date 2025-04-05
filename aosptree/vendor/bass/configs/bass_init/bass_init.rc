@@ -1,3 +1,10 @@
+service logmonster /system/bin/logwrapper /system/bin/logmonster.sh all /sdcard/Documents
+    user root
+    group root
+    seclabel u:r:init:s0
+    disabled
+    oneshot
+
 on post-fs
     exec u:r:init:s0 -- /system/bin/logwrapper /system/bin/sh /vendor/etc/bass_init/bass_init.sh init
 
