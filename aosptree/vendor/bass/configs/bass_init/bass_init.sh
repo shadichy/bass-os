@@ -187,14 +187,26 @@ set_custom_package_perms()
 
 	# com.bliss.bootconfig
 	exists_bootconfig=$(pm list packages com.bliss.bootconfig | grep -c com.bliss.bootconfig)
-	config_file=$(getprop ro.boot.bootctl_bootcfg)
+	config_file=$(getprop ro.boot.bootctrl_bootcfg)
+	if [ -z "$config_file" ]; then
+		config_file=$(cat /proc/cmdline | grep -o "androidboot.bootctrl_bootcfg=[^ ]*" | cut -d '=' -f 2)
+		set_property ro.boot.bootctrl_bootcfg $config_file
+	fi
 	if [ $exists_bootconfig -eq 1 ]; then
 		# Set up custom package permissions
 		bootcfg_uid=$(cat /data/system/packages.list | grep com.bliss.bootconfig | cut -d ' ' -f 2)
 		
 		chown $bootcfg_uid:$bootcfg_uid ${config_file}
 		cat /proc/cmdline > /data/data/com.bliss.bootconfig/files/proc_cmdline
-		
+
+		if [ ! -f /data/misc/bootconfig/set ]; then
+			# Set config marker
+			mkdir -p /data/misc/bootconfig
+			touch /data/misc/bootconfig/set
+			chown 1000.1000 /data/misc/bootconfig /data/misc/bootconfig/*
+			chmod 775 /data/misc/bootconfig
+			chmod 664 /data/misc/bootconfig/set
+		fi
 	fi
 
 	# KioskLauncher
