@@ -292,9 +292,5 @@ endif
 $(foreach f,$(wildcard $(LOCAL_PATH)/templates/product/media/*),\
     $(eval PRODUCT_COPY_FILES += $(f):$(TARGET_COPY_OUT_PRODUCT)/media/$(notdir $f)))
 
-# Copy boot options to system
-$(foreach f,$(wildcard $(LOCAL_PATH)/includes/aaropa_calamares/src/modules/options/*.yaml),\
-    $(eval PRODUCT_COPY_FILES += $(f):$(TARGET_COPY_OUT_SYSTEM)/etc/boot_$(notdir $f)))
-
 
 include $(LOCAL_PATH)/tmp/bass_build_config.mk
