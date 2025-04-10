@@ -1,0 +1,24 @@
+From 6e4d8b7a9b35312a91ca78701d9f549aba8abe12 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Sat, 5 Apr 2025 12:48:17 -0400
+Subject: [PATCH] PackageInstaller: inport missing SystemProperties
+
+---
+ .../com/android/packageinstaller/PackageInstallerActivity.java   | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/packages/PackageInstaller/src/com/android/packageinstaller/PackageInstallerActivity.java b/packages/PackageInstaller/src/com/android/packageinstaller/PackageInstallerActivity.java
+index ccbd274f6d77..147096c02de4 100644
+--- a/packages/PackageInstaller/src/com/android/packageinstaller/PackageInstallerActivity.java
++++ b/packages/PackageInstaller/src/com/android/packageinstaller/PackageInstallerActivity.java
+@@ -44,6 +44,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
+ import android.net.Uri;
+ import android.os.Bundle;
+ import android.os.Process;
++import android.os.SystemProperties;
+ import android.os.UserManager;
+ import android.provider.Settings;
+ import android.util.Log;
+-- 
+2.43.0
+
