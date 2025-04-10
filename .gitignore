@@ -7,6 +7,8 @@ aosptree/vendor/bass/addons
 aosptree/vendor/bass/tmp
 !aosptree/vendor/bass/tmp/build_config
 aosptree/vendor/bass/configs/watermark/create_watermark/**
+aosptree/vendor/bass/includes/aaropa_calamares/
+!aosptree/vendor/bass/includes/aaropa_calamares/src/modules/options/options.yaml
 logs/*
 manifests/private*.xml
 private/manifests/*
