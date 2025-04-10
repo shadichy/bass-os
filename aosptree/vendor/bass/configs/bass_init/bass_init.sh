@@ -726,6 +726,19 @@ function set_usb_mode()
 							fi
         					set_property persist.usb.debug "$FORCE_USE_ADB_MASS_STORAGE"
 							;;
+						SET_USB_CONFIG=*)
+							# Set USB config
+							# Options:
+							# none
+							# adb 
+							# accessory
+							# accessory,adb
+							# audio_source
+							# audio_source,adb
+							# accessory,audio_source
+							# accessory,audio_source,adb
+							set_property persist.sys.usb.config "$SET_USB_CONFIG"
+							;;
 					esac
 				fi
 				;;
