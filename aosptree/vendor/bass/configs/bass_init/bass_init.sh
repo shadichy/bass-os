@@ -1013,12 +1013,12 @@ function init_bass_options()
 						FORCE_MOUSE_PRESENTATION=*)
 							# Set mouse presentation
 							# options: 0. 1
-							set_property persist.mouse.presentation "$SET_MOUSE_PRESENTATION"
+							set_property persist.mouse.presentation "$FORCE_MOUSE_PRESENTATION"
 							;;
 						SET_P_CG=*)
 							# Set mouse presentation
 							# options: 0. 1
-							set_property persist.pointer.choreographer "$SET_POINTER_CHOREOGRAPHER"
+							set_property persist.pointer.choreographer "$SET_P_CG"
 							;;
 						SET_RMB=*)
 							# Set right mouse button as back key
@@ -1078,7 +1078,7 @@ function init_bass_options()
 						BOOT_FACTORY_TEST=*)
 							# Boot into factory test mode
 							# options: 0, 1
-							set_property ro.factorytest "$BOOT_FACTORY_MODE"
+							set_property ro.factorytest "$BOOT_FACTORY_TEST"
 							;;
 						FORCE_NAVBAR_ON_SECONDARY_DISPLAYS=*)
 							# Force navigation bar on secondary displays
