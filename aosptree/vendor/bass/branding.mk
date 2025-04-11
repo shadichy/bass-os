@@ -11,11 +11,17 @@ PRODUCT_PROPERTY_OVERRIDES := \
     persist.logd.size.system="4M" \
     persist.logd.size.crash="1M"
 
+
+ifneq ($(NO_BASS_BRANDING_INCLUDED),true)
 # Bootanimation
 TARGET_SCREEN_WIDTH ?= 800
 TARGET_SCREEN_HEIGHT ?= 800
 PRODUCT_PACKAGES += \
     bootanimation.zip
+
+DEVICE_PACKAGE_OVERLAYS += vendor/bass/overlay/branding
+
+endif
 
 # packages we like
 PRODUCT_PACKAGES += \
