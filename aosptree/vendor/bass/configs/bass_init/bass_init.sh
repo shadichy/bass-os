@@ -193,17 +193,21 @@ set_boot_config_perms()
 		bootcfg_uid=$(cat /data/system/packages.list | grep com.bliss.bootconfig | cut -d ' ' -f 2)
 		
 		chown $bootcfg_uid:$bootcfg_uid ${config_file}
+
+		if [ ! -d /data/data/com.bliss.bootconfig/files ]; then
+			mkdir -p /data/data/com.bliss.bootconfig/files
+			chown $bootcfg_uid:$bootcfg_uid /data/data/com.bliss.bootconfig/files
+		fi
+
 		cat /proc/cmdline > /data/data/com.bliss.bootconfig/files/proc_cmdline
 		chown $bootcfg_uid:$bootcfg_uid /data/data/com.bliss.bootconfig/files/proc_cmdline
 
-		if [ ! -f /data/misc/bootconfig/set ]; then
-			# Set config marker
-			mkdir -p /data/misc/bootconfig
-			touch /data/misc/bootconfig/set
-			chown 1000.1000 /data/misc/bootconfig /data/misc/bootconfig/*
-			chmod 775 /data/misc/bootconfig
-			chmod 664 /data/misc/bootconfig/set
-		fi
+		# Set config marker
+		mkdir -p /data/misc/bootconfig
+		echo ${date +%s} > /data/misc/bootconfig/set
+		chown 1000:1000 /data/misc/bootconfig /data/misc/bootconfig/*
+		chmod 775 /data/misc/bootconfig
+		chmod 664 /data/misc/bootconfig/set
 	fi
 }
 
