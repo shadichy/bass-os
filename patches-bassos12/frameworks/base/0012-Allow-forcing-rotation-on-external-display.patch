@@ -1,7 +1,7 @@
 From 8579b172d5644f655a3ae772bae2e053981f17a5 Mon Sep 17 00:00:00 2001
 From: electrikjesus <electrikjesus@gmail.com>
 Date: Sat, 20 Jan 2024 14:43:24 -0500
-Subject: [PATCH 12/34] Allow forcing rotation on external display
+Subject: [PATCH 12/35] Allow forcing rotation on external display
 
 Check if the property ro.boot.android.force_rotation_on_external_displays is set and use that for external displays
 0=0

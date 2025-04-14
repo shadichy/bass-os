@@ -1,7 +1,7 @@
 From 950f4127080e7c61c46bf20b3e5dbbaca1f08e6b Mon Sep 17 00:00:00 2001
 From: Govinda Wasserman <gwasserman@google.com>
 Date: Wed, 15 Dec 2021 15:44:15 -0500
-Subject: [PATCH 20/34] Fix PhoneStateMonitor crash
+Subject: [PATCH 20/35] Fix PhoneStateMonitor crash
 
 Fixes an issue where PhoneStateMonitor could crash if the task stack
 changed and the new running task had a null top activity.

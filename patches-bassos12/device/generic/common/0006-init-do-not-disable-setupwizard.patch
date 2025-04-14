@@ -1,0 +1,24 @@
+From dc85fd39c70a17945b44aabf1beb46458b985c01 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Mon, 7 Apr 2025 13:48:44 -0400
+Subject: [PATCH 06/13] init: do not disable setupwizard
+
+---
+ init.x86.rc | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/init.x86.rc b/init.x86.rc
+index 08fb562..2c920e5 100644
+--- a/init.x86.rc
++++ b/init.x86.rc
+@@ -72,7 +72,6 @@ on boot
+ 
+     # merge from system.prop
+     setprop ro.config.sync yes
+-    setprop app.setupwizard.disable 0
+     setprop ro.alarm.volume.adjustable true
+     setprop ro.simulated.phone false
+     # disable red frame boarder in eng build
+-- 
+2.43.0
+

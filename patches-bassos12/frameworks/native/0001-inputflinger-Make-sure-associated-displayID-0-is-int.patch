@@ -1,7 +1,7 @@
 From f14ff97607f1d97ec5d21659b616a44426f8c3c3 Mon Sep 17 00:00:00 2001
 From: Erfan Abdi <erfangplus@gmail.com>
 Date: Thu, 16 May 2024 22:02:32 +0330
-Subject: [PATCH 01/17] inputflinger: Make sure associated displayID 0 is
+Subject: [PATCH 01/20] inputflinger: Make sure associated displayID 0 is
  internal
 
 Change-Id: If5cd221576d3b8d332bd5949fb9fadf248296f30

@@ -1,0 +1,38 @@
+From 1dde116b5b47c72b1c75822f0affda6d123bb03e Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Sun, 13 Apr 2025 20:33:47 -0400
+Subject: [PATCH 10/10] [bass] support SUPERVANILLA build flag
+
+---
+ config/telephony.mk | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/config/telephony.mk b/config/telephony.mk
+index e511ca33..cd58ece8 100644
+--- a/config/telephony.mk
++++ b/config/telephony.mk
+@@ -6,6 +6,8 @@ PRODUCT_COPY_FILES += \
+ PRODUCT_PACKAGES += \
+     apns-conf.xml
+ 
++ifneq ($(BLISS_SUPER_VANILLA),true)
++
+ # Telephony packages
+ PRODUCT_PACKAGES += \
+     Stk \
+@@ -13,6 +15,12 @@ PRODUCT_PACKAGES += \
+     Dialer \
+     messaging
+ 
++endif
++
++# Telephony packages
++PRODUCT_PACKAGES += \
++    Stk
++
+ # Default ringtone
+ PRODUCT_PRODUCT_PROPERTIES += \
+     ro.config.ringtone=Orion.ogg
+-- 
+2.43.0
+

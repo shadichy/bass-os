@@ -1,7 +1,7 @@
 From ee52db784bc5e891c8787a8aba1356b9831233f5 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Fri, 7 Jun 2024 10:20:18 -0400
-Subject: [PATCH 18/34] rework lockdown app installs v2
+Subject: [PATCH 18/35] rework lockdown app installs v2
 
 ---
  .../com/android/packageinstaller/PackageInstallerActivity.java | 3 ++-

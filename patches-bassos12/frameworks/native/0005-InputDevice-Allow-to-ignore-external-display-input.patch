@@ -1,7 +1,7 @@
 From 400fb97b5a0b6d0fafd95c3fd7cb33ca7b077acf Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Tue, 11 Jun 2024 10:39:06 -0400
-Subject: [PATCH 05/17] InputDevice: Allow to ignore external display input
+Subject: [PATCH 05/20] InputDevice: Allow to ignore external display input
 
 Uses ro.boot.force.ignore_external_input as the property switch
 ---

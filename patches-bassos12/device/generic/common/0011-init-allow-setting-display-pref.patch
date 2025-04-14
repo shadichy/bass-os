@@ -1,0 +1,61 @@
+From cfc8a0d47da58187d7087616edcc3966e89a6a53 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Thu, 10 Apr 2025 13:03:19 -0400
+Subject: [PATCH 11/13] init: allow setting display pref
+
+requires drm_celadon or drm_minigbm_celadon
+---
+ init.sh | 37 +++++++++++++++++++++++++++++++------
+ 1 file changed, 31 insertions(+), 6 deletions(-)
+
+diff --git a/init.sh b/init.sh
+index 4436e48..064897a 100644
+--- a/init.sh
++++ b/init.sh
+@@ -507,12 +507,37 @@ function init_hal_hwcomposer()
+ 	esac
+ 
+ 	if [[ "$HWC" == "drm_celadon" || "$HWC" == "drm_minigbm_celadon" ]]; then
+-		set_property vendor.hwcomposer.planes.enabling $MULTI_PLANE
+-		set_property vendor.hwcomposer.planes.num $MULTI_PLANE_NUM
+-		set_property vendor.hwcomposer.preferred.mode.limit $HWC_PREFER_MODE
+-		set_property vendor.hwcomposer.connector.id $CONNECTOR_ID
+-		set_property vendor.hwcomposer.mode.id $MODE_ID
+-		set_property vendor.hwcomposer.connector.multi_refresh_rate $MULTI_REFRESH_RATE
++		if [ -f /data/data/com.bliss.multidisplaysettings/shared_prefs/com.bliss.multidisplaysettings_preferences.xml ]; then
++			xml=$(cat /data/data/com.bliss.multidisplaysettings/shared_prefs/com.bliss.multidisplaysettings_preferences.xml)
++
++			function get_string() {
++			local key=$1
++			echo "$xml" | awk -F'[<>]' '/<string name="'$key'">/{print $3}'
++			}
++
++			function get_boolean() {
++			local key=$1
++			local value=$(echo "$xml" | awk -F'"' '/<boolean name="'$key'"/{print $4}')
++			[[ "$value" == "true" ]] && echo 1 || echo 0
++			}
++
++
++			vendor_hwcomposer_mode_id=$(get_string vendor.hwcomposer.mode.id)
++			vendor_hwcomposer_connector_id=$(get_string vendor.hwcomposer.connector.id)
++			vendor_hwcomposer_planes_num=$(get_string vendor.hwcomposer.planes.num)
++
++			vendor_hwcomposer_preferred_mode_limit=$(get_boolean vendor.hwcomposer.preferred.mode.limit)
++			vendor_hwcomposer_connector_multi_refresh_rate=$(get_boolean vendor.hwcomposer.multi_refresh_rate)
++			vendor_hwcomposer_planes_enabling=$(get_boolean vendor.hwcomposer.planes.enabling)
++
++		fi
++
++		set_property vendor.hwcomposer.mode.id ${MODE_ID:-$vendor_hwcomposer_mode_id}
++		set_property vendor.hwcomposer.connector.id ${CONNECTOR_ID:-$vendor_hwcomposer_connector_id}
++		set_property vendor.hwcomposer.planes.num ${MULTI_PLANE_NUM:-$vendor_hwcomposer_planes_num}
++		set_property vendor.hwcomposer.preferred.mode.limit ${HWC_PREFER_MODE:-$vendor_hwcomposer_preferred_mode_limit}
++		set_property vendor.hwcomposer.connector.multi_refresh_rate ${MULTI_REFRESH_RATE:-$vendor_hwcomposer_connector_multi_refresh_rate}
++		set_property vendor.hwcomposer.planes.enabling ${MULTI_PLANE:-$vendor_hwcomposer_planes_enabling}
+ 	fi
+ }
+ 
+-- 
+2.43.0
+

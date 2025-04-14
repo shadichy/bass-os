@@ -1,0 +1,33 @@
+From 61c2a5693712c1dd5678d5ff8cecb662d8d4a07a Mon Sep 17 00:00:00 2001
+From: Jackeagle <jackeagle102@gmail.com>
+Date: Wed, 27 Nov 2024 05:33:10 -0500
+Subject: [PATCH 2/2] Settings: Fix crash when opening Third Party Licenses
+
+---
+ src/com/android/settings/SettingsLicenseActivity.java | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/src/com/android/settings/SettingsLicenseActivity.java b/src/com/android/settings/SettingsLicenseActivity.java
+index 57b1f5c6cb..c3c9ed398a 100644
+--- a/src/com/android/settings/SettingsLicenseActivity.java
++++ b/src/com/android/settings/SettingsLicenseActivity.java
+@@ -97,11 +97,14 @@ public class SettingsLicenseActivity extends FragmentActivity implements
+         final Intent intent = new Intent(Intent.ACTION_VIEW);
+         intent.setDataAndType(uri, "text/html");
+         intent.putExtra(Intent.EXTRA_TITLE, getString(R.string.settings_license_activity_title));
++
++        // Ensure proper URI permissions
+         if (ContentResolver.SCHEME_CONTENT.equals(uri.getScheme())) {
+             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+         }
+-        intent.addCategory(Intent.CATEGORY_DEFAULT);
+-        intent.setPackage("com.android.htmlviewer");
++
++        // Explicitly target HTMLViewerActivity
++        intent.setClassName("com.android.htmlviewer", "com.android.htmlviewer.HTMLViewerActivity");
+ 
+         try {
+             startActivity(intent);
+-- 
+2.43.0
+

@@ -1,7 +1,7 @@
 From 348ce229c1be5d7c40f03416eefb88a30537a13f Mon Sep 17 00:00:00 2001
 From: Jackeagle <jackeagle102@gmail.com>
 Date: Fri, 20 Oct 2023 13:41:46 -0400
-Subject: [PATCH 14/34] SystemUI: Implement dynamic Statusbar enabling based on
+Subject: [PATCH 14/35] SystemUI: Implement dynamic Statusbar enabling based on
  system property
 
 - Also Disable Touch Events to prevent QS Pull down implementation

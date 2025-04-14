@@ -1,7 +1,7 @@
 From d25a90b508464bd111e792f105829b636998dc0b Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Wed, 3 Jul 2024 17:47:38 -0400
-Subject: [PATCH 25/34] Revert "fwb: Limit app installation on lockdown mode"
+Subject: [PATCH 25/35] Revert "fwb: Limit app installation on lockdown mode"
 
 This reverts commit 3086fe0148f270f32b3ffe4035e27483974a78ea.
 ---

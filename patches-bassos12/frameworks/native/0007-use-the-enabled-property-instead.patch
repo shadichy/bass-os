@@ -1,7 +1,7 @@
 From 3e9a5569cf54c142578d95afffa6d670eb50b2d3 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Tue, 11 Jun 2024 16:30:10 -0400
-Subject: [PATCH 07/17] use the enabled property instead
+Subject: [PATCH 07/20] use the enabled property instead
 
 ---
  services/inputflinger/reader/InputDevice.cpp | 6 +++++-

@@ -1,7 +1,7 @@
 From 9dac91f4f23d453fa931a0621d7ca2bcea7e9328 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Thu, 14 Nov 2024 09:08:37 -0500
-Subject: [PATCH 14/17] multi-display: inputflinger: Natural mouse display
+Subject: [PATCH 14/20] multi-display: inputflinger: Natural mouse display
  transition updates
 
 Remember Y position and swap minX/maxX when switching.

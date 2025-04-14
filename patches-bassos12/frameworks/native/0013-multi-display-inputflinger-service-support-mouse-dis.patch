@@ -1,7 +1,7 @@
 From 4311cf7e4f358298e8fee61815ed1ab86e75a534 Mon Sep 17 00:00:00 2001
 From: dzy <dzy@rock-chips.com>
 Date: Mon, 13 Feb 2023 17:47:36 +0800
-Subject: [PATCH 13/17] multi-display:inputflinger service support mouse
+Subject: [PATCH 13/20] multi-display:inputflinger service support mouse
  display on external screen.
 
 Tips:

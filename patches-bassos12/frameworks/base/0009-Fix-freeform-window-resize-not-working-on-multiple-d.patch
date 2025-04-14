@@ -1,7 +1,7 @@
 From 8cd9af7e4024cc4011f9f8d8bf9cde70feca91a1 Mon Sep 17 00:00:00 2001
 From: nift4 <nift4@protonmail.com>
 Date: Sun, 28 Aug 2022 19:19:32 +0200
-Subject: [PATCH 09/34] Fix freeform window resize not working on multiple
+Subject: [PATCH 09/35] Fix freeform window resize not working on multiple
  displays
 
 mInputSurface is never getting recreated, so it still has old display as

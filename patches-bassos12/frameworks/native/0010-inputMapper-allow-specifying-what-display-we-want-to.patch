@@ -1,7 +1,7 @@
 From fc3061ed72734437b93dd2164105968ff57b1591 Mon Sep 17 00:00:00 2001
 From: electrikjesus <electrikjesus@gmail.com>
 Date: Mon, 13 May 2024 11:58:05 -0400
-Subject: [PATCH 10/17] inputMapper: allow specifying what display we want to
+Subject: [PATCH 10/20] inputMapper: allow specifying what display we want to
  rotate touch for
 
 When using ro.boot.hwrotation, we might want to specify what display we are targeting, so we define two new properties for that:

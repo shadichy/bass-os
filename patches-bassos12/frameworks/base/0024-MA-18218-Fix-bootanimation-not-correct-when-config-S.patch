@@ -1,7 +1,7 @@
 From 142d88a1057ad98c6f573e36d169963c09b9ddfd Mon Sep 17 00:00:00 2001
 From: Jessie Hao <juan.hao@nxp.com>
 Date: Thu, 5 Nov 2020 15:54:46 +0800
-Subject: [PATCH 24/34] MA-18218 Fix bootanimation not correct when config
+Subject: [PATCH 24/35] MA-18218 Fix bootanimation not correct when config
  SF_PRIMARY_DISPLAY_ORIENTATION
 
 When config SF_PRIMARY_DISPLAY_ORIENTATION to 90 or 270,bootanimation display

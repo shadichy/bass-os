@@ -1,7 +1,7 @@
 From 59a358991e0230014f2aaf9b5f6857b160672b8e Mon Sep 17 00:00:00 2001
 From: electrikjesus <electrikjesus@gmail.com>
 Date: Sat, 24 Feb 2024 12:01:59 -0500
-Subject: [PATCH 05/34] Revert "Make "windows" key to act as "home" key"
+Subject: [PATCH 05/35] Revert "Make "windows" key to act as "home" key"
 
 This reverts commit 5bc2c3d520e958493c9b4d5624457403267c9689.
 

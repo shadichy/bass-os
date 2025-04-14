@@ -1,0 +1,30 @@
+From 11cc275d5eb446855c93c801229d28782c8371c3 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Wed, 9 Apr 2025 18:32:46 -0400
+Subject: [PATCH 09/13] Revert "unbreak system /dev/uinput and /dev/input*
+ access from the SteamDeck sensor hal change"
+
+This reverts commit a75c60c4a7f3f356b0563529b5f24ee306cd3ecc.
+---
+ ueventd.x86.rc | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/ueventd.x86.rc b/ueventd.x86.rc
+index 8e80460..f2cfd01 100644
+--- a/ueventd.x86.rc
++++ b/ueventd.x86.rc
+@@ -20,5 +20,9 @@
+ /sys/devices/virtual/thermal/thermal_zone*      trip_point_1_temp    0644 system system
+ /dev/acpi_thermal_rel                                                0600 system system
+ 
+-# add hidraw devices to the uhid group
+-/dev/hidraw*      0660 uhid uhid
++# allow binderized sensor hal access input devices
++# note that binderize cannot happen until all sensor hals are ready
++/dev/input/event* 0660 system system
++/dev/hidraw*      0660 system system
++# steamdeck virtual controller built into deck sensor hal
++/dev/uinput       0660 system system
+-- 
+2.43.0
+

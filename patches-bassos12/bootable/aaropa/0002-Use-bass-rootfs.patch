@@ -1,7 +1,7 @@
-From 6095d548d57ea7dfa7afc6cb4c0a2d457d0b2677 Mon Sep 17 00:00:00 2001
+From 505f8858b506c21001e219e023ef60b4d73b55db Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Sat, 11 Jan 2025 17:11:19 -0500
-Subject: [PATCH 2/3] [bass] Use bass rootfs
+Subject: [PATCH 2/5] Use bass rootfs
 
 ---
  download.sh | 2 +-

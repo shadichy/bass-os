@@ -1,0 +1,33 @@
+From 4f1821b90c260a48f9d0707144157bb45a7e952d Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Sun, 13 Apr 2025 20:35:10 -0400
+Subject: [PATCH] [bass] add SUPERVANILLA build flag support
+
+---
+ bliss_prebuilts.mk | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/bliss_prebuilts.mk b/bliss_prebuilts.mk
+index 974631b..0fec999 100644
+--- a/bliss_prebuilts.mk
++++ b/bliss_prebuilts.mk
+@@ -1,7 +1,13 @@
+ include $(call first-makefiles-under,$(LOCAL_PATH))
+ 
++ifneq ($(BLISS_SUPER_VANILLA),true)
++
+ PRODUCT_PACKAGES += \
+      yetCalc \
+      AboutBliss \
+-     Phonograph \
+-     Jellyfish
++     Phonograph
++
++endif
++
++PRODUCT_PACKAGES += \
++     Jellyfish
+\ No newline at end of file
+-- 
+2.43.0
+

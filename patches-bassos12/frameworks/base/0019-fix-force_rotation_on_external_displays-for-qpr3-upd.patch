@@ -1,7 +1,7 @@
 From bf8700d21166b907525171ee1c5ee713af29cbc3 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Sat, 4 Jan 2025 16:00:45 -0500
-Subject: [PATCH 19/34] fix: force_rotation_on_external_displays for qpr3
+Subject: [PATCH 19/35] fix: force_rotation_on_external_displays for qpr3
  updates
 
 ---

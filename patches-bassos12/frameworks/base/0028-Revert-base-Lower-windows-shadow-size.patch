@@ -1,7 +1,7 @@
 From 14cf11fec3932bb57eb46c6e9a8ab27b46d211a5 Mon Sep 17 00:00:00 2001
 From: Erfan Abdi <erfangplus@gmail.com>
 Date: Thu, 9 Sep 2021 15:12:51 +0800
-Subject: [PATCH 28/34] Revert "base: Lower windows shadow size"
+Subject: [PATCH 28/35] Revert "base: Lower windows shadow size"
 
 This reverts commit 441dcbbcac87df85ced932c5eff35fbe80f0b7cb.
 ---

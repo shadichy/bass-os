@@ -1,7 +1,7 @@
-From 6f036a2bcfe9f5dad286c9aa0247afea854798dd Mon Sep 17 00:00:00 2001
+From 65b862f5e3d0ae01dec7c799506e494fb7c30376 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Tue, 31 Dec 2024 15:07:34 -0500
-Subject: [PATCH 33/34] DisplayPolicy: allow overriding statusbar display via
+Subject: [PATCH 31/35] DisplayPolicy: allow overriding statusbar display via
  prop
 
 ---

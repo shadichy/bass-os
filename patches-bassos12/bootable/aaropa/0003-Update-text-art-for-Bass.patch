@@ -1,14 +1,14 @@
-From f956247857491e403d18439817e387580dfd4534 Mon Sep 17 00:00:00 2001
+From 29a5fa4747347350f41580c1535f5b79c91ceb72 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Tue, 14 Jan 2025 09:19:22 -0500
-Subject: [PATCH 3/3] Update text art for Bass
+Subject: [PATCH 3/5] Update text art for Bass
 
 ---
  initrd/init | 22 +++++++---------------
  1 file changed, 7 insertions(+), 15 deletions(-)
 
 diff --git a/initrd/init b/initrd/init
-index 8dd67ef..0d6f848 100755
+index 435982b..e65f43b 100755
 --- a/initrd/init
 +++ b/initrd/init
 @@ -17,21 +17,13 @@ export PATH

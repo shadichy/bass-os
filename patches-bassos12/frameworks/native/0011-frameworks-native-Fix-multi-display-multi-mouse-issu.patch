@@ -1,7 +1,7 @@
 From 89b5f69f5be6c8ad1f9ff3447d844b90e1e40a43 Mon Sep 17 00:00:00 2001
 From: zhenyiwu <zhenyiwu@amd.com>
 Date: Tue, 11 Jul 2023 12:09:21 +0800
-Subject: [PATCH 11/17] frameworks/native: Fix multi-display multi-mouse issue
+Subject: [PATCH 11/20] frameworks/native: Fix multi-display multi-mouse issue
 
 The inputflinger can not handle multi USB mouse for multi display
 use case.

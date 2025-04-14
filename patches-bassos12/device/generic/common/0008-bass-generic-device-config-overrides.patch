@@ -1,0 +1,115 @@
+From eef9fbbf87968b4e6f5dae3a4fb7011e8279055e Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Mon, 7 Apr 2025 13:59:21 -0400
+Subject: [PATCH 08/13] [bass] generic device config overrides
+
+---
+ device.mk | 67 ++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 66 insertions(+), 1 deletion(-)
+
+diff --git a/device.mk b/device.mk
+index 39c8b88..0cd9b5d 100644
+--- a/device.mk
++++ b/device.mk
+@@ -62,6 +62,49 @@ PRODUCT_PROPERTY_OVERRIDES := \
+     external_storage.casefold.enabled=1 \
+     external_storage.projid.enabled=1
+ 
++# LMKd
++ifneq ($(IS_GO_VERSION),true)
++PRODUCT_PRODUCT_PROPERTIES += \
++    ro.lmk.critical_upgrade=true \
++    ro.lmk.use_minfree_levels=true \
++    ro.lmk.use_psi=true \
++    ro.lmk.use_new_strategy=false
++else
++# LMKd
++PRODUCT_PRODUCT_PROPERTIES += \
++    ro.lmk.critical_upgrade=true \
++    ro.lmk.use_psi=true \
++    ro.lmk.use_new_strategy=false
++    
++    # We want to be able to set this via kernel cli
++    # ro.lmk.use_minfree_levels=true
++endif
++
++# Disable support of one-handed mode
++PRODUCT_PRODUCT_PROPERTIES += \
++    ro.support_one_handed_mode=false
++
++# Go mode tweaks
++ifeq ($(IS_GO_VERSION),true)
++PRODUCT_PRODUCT_PROPERTIES += \
++    supplicant_scan_interval=200
++
++# Set Bliss specific identifier for Android Go enabled products
++PRODUCT_TYPE := go
++
++# Dex
++PRODUCT_ALWAYS_PREOPT_EXTRACTED_APK := true
++
++# Boot image
++PRODUCT_USE_PROFILE_FOR_BOOT_IMAGE := true
++PRODUCT_DEX_PREOPT_BOOT_IMAGE_PROFILE_LOCATION := frameworks/base/config/boot-image-profile.txt
++
++endif
++
++# Watchdog
++PRODUCT_PROPERTY_OVERRIDES += \
++    ro.hw_timeout_multiplier=3
++
+ PRODUCT_COPY_FILES := \
+     $(if $(wildcard $(PRODUCT_DIR)init.rc),$(PRODUCT_DIR)init.rc:root/init.rc) \
+     $(if $(wildcard $(PRODUCT_DIR)init.sh),$(PRODUCT_DIR),$(LOCAL_PATH)/)init.sh:system/etc/init.sh \
+@@ -100,6 +143,17 @@ PRODUCT_COPY_FILES += \
+     frameworks/native/data/etc/android.hardware.audio.low_latency.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.audio.low_latency.xml \
+     frameworks/native/data/etc/android.hardware.bluetooth.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.bluetooth.xml \
+     frameworks/native/data/etc/android.hardware.bluetooth_le.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.bluetooth_le.xml \
++    frameworks/native/data/etc/android.hardware.camera.ar.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.ar.xml \
++    frameworks/native/data/etc/android.hardware.camera.autofocus.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.autofocus.xml \
++    frameworks/native/data/etc/android.hardware.camera.concurrent.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.concurrent.xml \
++    frameworks/native/data/etc/android.hardware.camera.external.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.external.xml \
++    frameworks/native/data/etc/android.hardware.camera.flash-autofocus.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.flash-autofocus.xml \
++    frameworks/native/data/etc/android.hardware.camera.front.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.front.xml \
++    frameworks/native/data/etc/android.hardware.camera.full.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.full.xml \
++    frameworks/native/data/etc/android.hardware.camera.manual_postprocessing.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.manual_postprocessing.xml \
++    frameworks/native/data/etc/android.hardware.camera.manual_sensor.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.manual_sensor.xml \
++    frameworks/native/data/etc/android.hardware.camera.raw.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.raw.xml \
++    frameworks/native/data/etc/android.hardware.camera.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.camera.xml \
+     frameworks/native/data/etc/android.hardware.ethernet.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.ethernet.xml \
+     frameworks/native/data/etc/android.hardware.fingerprint.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.fingerprint.xml \
+     frameworks/native/data/etc/android.hardware.gamepad.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.gamepad.xml \
+@@ -257,6 +311,8 @@ $(call inherit-product, build/target/product/go_defaults.mk)
+ BLISS_SPECIAL_VARIANT := -Go
+ PRODUCT_TYPE := go
+ DONT_UNCOMPRESS_PRIV_APPS_DEXS := true
++MALLOC_SVELTE := true
++$(call inherit-product-if-exists, frameworks/base/data/sounds/AudioPackageGo.mk)
+ endif
+ 
+ # Surface specific
+@@ -302,11 +358,20 @@ $(call inherit-product-if-exists, vendor/boringdroid/boringdroid.mk)
+ # Add Bass Toolkit
+ $(call inherit-product-if-exists, vendor/bass/branding.mk)
+ 
++
++ifneq ($(or $(USE_BLISS_KIOSK_LAUNCHER), $(USE_BLISS_RESTRICTED_LAUNCHER)),true)
+ # Enable MultiWindow
+ PRODUCT_PROPERTY_OVERRIDES += \
+-    persist.sys.debug.multi_window=true \
++    persist.sys.debug.multi_window=true
++
++ifeq ($(USE_DESKTOP_MODE_ON_SECONDARY_DISPLAY),true)
++PRODUCT_PROPERTY_OVERRIDES += \
+     persist.sys.debug.desktop_mode=true
+ 
++endif # USE_DESKTOP_MODE_ON_SECONDARY_DISPLAY
++
++endif
++
+ # DRM service opt-in
+ PRODUCT_VENDOR_PROPERTIES += drm.service.enabled=true
+ 
+-- 
+2.43.0
+

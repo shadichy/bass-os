@@ -1,7 +1,7 @@
 From 6b30b5acfcdd8292dfa4df5a439818c7d97deb89 Mon Sep 17 00:00:00 2001
 From: Erfan Abdi <erfangplus@gmail.com>
 Date: Thu, 2 May 2024 19:38:02 +0330
-Subject: [PATCH 03/17] force all inputs as internal
+Subject: [PATCH 03/20] force all inputs as internal
 
 Change-Id: I9a0100b078595dba3e16c96cd8c7f2fc1b0316cd
 ---

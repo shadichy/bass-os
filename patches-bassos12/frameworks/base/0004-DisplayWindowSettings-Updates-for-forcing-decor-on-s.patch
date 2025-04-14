@@ -1,7 +1,7 @@
 From 7ee028ae3d13775c1bd13f3bedd8016bfccedcf7 Mon Sep 17 00:00:00 2001
 From: electrikjesus <electrikjesus@gmail.com>
 Date: Sat, 27 Jan 2024 10:32:48 -0500
-Subject: [PATCH 04/34] DisplayWindowSettings: Updates for forcing decor on
+Subject: [PATCH 04/35] DisplayWindowSettings: Updates for forcing decor on
  secondary displays
 
 ---

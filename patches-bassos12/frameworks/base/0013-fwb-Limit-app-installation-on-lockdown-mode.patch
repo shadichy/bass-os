@@ -1,7 +1,7 @@
 From 7483f001fe54ecc0ee676766f2b7c53c2a36f2c3 Mon Sep 17 00:00:00 2001
 From: Erfan Abdi <erfangplus@gmail.com>
 Date: Sun, 20 Feb 2022 10:02:50 +0100
-Subject: [PATCH 13/34] fwb: Limit app installation on lockdown mode
+Subject: [PATCH 13/35] fwb: Limit app installation on lockdown mode
 
 Change-Id: I2b8a791a25d47b127f54b48df4a07d8a5ec94a7c
 ---

@@ -1,0 +1,26 @@
+From 8c5756fcdf97c60bca54d0707865eb72436e8b70 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Tue, 8 Apr 2025 12:37:54 -0400
+Subject: [PATCH 34/35] fix formatting for notifyDisplayIdChanged
+
+---
+ .../core/jni/com_android_server_input_InputManagerService.cpp  | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/services/core/jni/com_android_server_input_InputManagerService.cpp b/services/core/jni/com_android_server_input_InputManagerService.cpp
+index 11cb66137da8..58e237a47309 100644
+--- a/services/core/jni/com_android_server_input_InputManagerService.cpp
++++ b/services/core/jni/com_android_server_input_InputManagerService.cpp
+@@ -1262,7 +1262,8 @@ int32_t NativeInputManager::notifyDisplayIdChanged() REQUIRES(mLock) {
+     if(viewports.size()==1){
+       controller->setDisplayId(viewports.front().displayId);
+       controller->setDisplayViewport(viewports.front());
+-      mDisplayId=viewports.front().displayId;																     return mDisplayId;
++      mDisplayId=viewports.front().displayId;																     
++      return mDisplayId;
+     }
+     if(viewports.back().displayId<=mViewport.displayId){
+       controller->setDisplayId(viewports.front().displayId);
+-- 
+2.43.0
+

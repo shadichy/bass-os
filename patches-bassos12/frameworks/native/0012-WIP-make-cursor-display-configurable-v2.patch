@@ -1,7 +1,7 @@
 From 75d9445d7c9710793f45f5c86510da8780a00868 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Tue, 12 Nov 2024 17:07:44 -0500
-Subject: [PATCH 12/17] [WIP] make cursor display configurable (v2)
+Subject: [PATCH 12/20] [WIP] make cursor display configurable (v2)
 
 ---
  services/inputflinger/reader/InputReader.cpp | 7 ++++++-

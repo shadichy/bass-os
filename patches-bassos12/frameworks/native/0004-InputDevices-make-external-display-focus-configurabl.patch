@@ -1,7 +1,7 @@
 From 99ad11f010ba8800fbb598dd79379e12b65c0b83 Mon Sep 17 00:00:00 2001
 From: electrikjesus <electrikjesus@gmail.com>
 Date: Thu, 2 May 2024 12:44:23 -0400
-Subject: [PATCH 04/17] InputDevices: make external display focus configurable
+Subject: [PATCH 04/20] InputDevices: make external display focus configurable
 
 ro.boot.force.disable_external_display_focus=1
 ---

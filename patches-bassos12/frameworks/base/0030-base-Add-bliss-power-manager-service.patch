@@ -1,7 +1,7 @@
-From fa834ff5d6c4932252daf7bb905c2b36e457d6c4 Mon Sep 17 00:00:00 2001
+From f4e4f1eda07b1c84b6579b49ae9db7de94edf766 Mon Sep 17 00:00:00 2001
 From: Erfan Abdi <erfangplus@gmail.com>
 Date: Sat, 25 Nov 2023 03:56:31 +0000
-Subject: [PATCH 32/34] base: Add bliss power manager service
+Subject: [PATCH 30/35] base: Add bliss power manager service
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit

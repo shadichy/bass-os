@@ -1,0 +1,60 @@
+From 0ba068ac64c7a8c42cf33b39f9a147494f3d8b3f Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Tue, 8 Apr 2025 09:17:11 -0400
+Subject: [PATCH 09/10] [bass] add production build flags
+
+---
+ config/common.mk   | 12 ++++++++++++
+ config/versions.mk | 15 +++++++++++++++
+ 2 files changed, 27 insertions(+)
+
+diff --git a/config/common.mk b/config/common.mk
+index 9de326f7..2a17e2c5 100644
+--- a/config/common.mk
++++ b/config/common.mk
+@@ -239,3 +239,15 @@ ifeq ($(TARGET_SUPPORTS_QUICK_TAP),true)
+ PRODUCT_COPY_FILES += \
+     vendor/bliss/prebuilt/common/etc/sysconfig/quick_tap.xml:$(TARGET_COPY_OUT_PRODUCT)/etc/sysconfig/quick_tap.xml
+ endif
++
++ifneq ($(BLISS_PRODUCTION_BUILD),true)
++# Watermark for Bliss Bass test builds
++# Fields are:
++# text%fontsize%deltax%deltay%shadowcolor%color%shadowradius%shadowdx%shadowdy
++# For more info, see:
++# frameworks/base/services/core/java/com/android/server/wm/Watermark.java
++# and to configure the watermark, see:
++# vendor/bliss/config/watermark/create_watermark/README.md (access required)
++PRODUCT_COPY_FILES += \
++    vendor/bliss/config/watermark/watermark.conf:system/etc/setup.conf
++endif
+\ No newline at end of file
+diff --git a/config/versions.mk b/config/versions.mk
+index 994614b8..99b2075e 100644
+--- a/config/versions.mk
++++ b/config/versions.mk
+@@ -5,6 +5,21 @@ BLISS_VERSION_MINOR = 9.3
+ BLISS_CODENAME = Arcadia
+ #BLISS_VERSION_MAINTENANCE = Beta
+ 
++ifeq ($(BLISS_PRODUCTION_BUILD),true)
++# Flavor and signing
++
++# If vendor/bliss/config/signing/releasekey exists, then we can apply the properties
++PRODUCT_PROPERTY_OVERRIDES += \
++    ro.bliss.releasetype=RELEASE \
++
++SIGNING_KEYS := vendor/bliss/config/signing
++
++PRODUCT_DEFAULT_DEV_CERTIFICATE := vendor/bliss/config/signing/releasekey
++PRODUCT_OTA_PUBLIC_KEYS := vendor/bliss/config/signing/platform
++PRODUCT_EXTRA_RECOVERY_KEYS := vendor/bliss/config/signing/platform
++
++endif
++
+ ifneq ($(SIGNING_KEYS),)
+     PRODUCT_DEFAULT_DEV_CERTIFICATE := $(SIGNING_KEYS)/releasekey
+ endif
+-- 
+2.43.0
+

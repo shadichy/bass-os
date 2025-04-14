@@ -1,0 +1,60 @@
+From 99de1543366f88d0305e15627ec83811eaf47d2e Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Mon, 14 Apr 2025 16:15:55 -0400
+Subject: [PATCH 2/2] [bass] add supervanilla splits
+
+---
+ target/product/handheld_product.mk  | 13 ++++++++++---
+ target/product/telephony_product.mk |  5 +++++
+ 2 files changed, 15 insertions(+), 3 deletions(-)
+
+diff --git a/target/product/handheld_product.mk b/target/product/handheld_product.mk
+index fa231cb2f..1efe63c95 100644
+--- a/target/product/handheld_product.mk
++++ b/target/product/handheld_product.mk
+@@ -20,15 +20,22 @@
+ # does, use base_product.mk).
+ $(call inherit-product, $(SRC_TARGET_DIR)/product/media_product.mk)
+ 
++ifneq ($(BLISS_SUPER_VANILLA),true)
++
+ # /product packages
+ PRODUCT_PACKAGES += \
+-    Browser2 \
+     Calendar \
+-    Camera2 \
+     Contacts \
++    Music
++
++endif
++
++# /product packages
++PRODUCT_PACKAGES += \
++    Browser2 \
++    Camera2 \
+     DeskClock \
+     Gallery2 \
+-    Music \
+     OneTimeInitializer \
+     preinstalled-packages-platform-handheld-product.xml \
+     QuickSearchBox \
+diff --git a/target/product/telephony_product.mk b/target/product/telephony_product.mk
+index 18374d4b2..f90d470b0 100644
+--- a/target/product/telephony_product.mk
++++ b/target/product/telephony_product.mk
+@@ -18,6 +18,11 @@
+ # hardware, and install to the product partition.
+ 
+ # /product packages
++
++ifneq ($(BLISS_SUPER_VANILLA),true)
++
+ PRODUCT_PACKAGES += \
+     Dialer \
+     ImsServiceEntitlement \
++
++endif
+\ No newline at end of file
+-- 
+2.43.0
+

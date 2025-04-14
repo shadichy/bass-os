@@ -1,7 +1,7 @@
 From 3104c9b62883aab871d98728f30a9aa709d06ba9 Mon Sep 17 00:00:00 2001
 From: Erfan Abdi <erfangplus@gmail.com>
 Date: Fri, 17 May 2024 06:09:28 +0330
-Subject: [PATCH 02/17] inputflinger: Separate devices per location
+Subject: [PATCH 02/20] inputflinger: Separate devices per location
 
 Change-Id: I2242bf26e71ec0d94e49e06e45151691c622032f
 ---

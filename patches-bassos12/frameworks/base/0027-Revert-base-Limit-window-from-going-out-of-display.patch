@@ -1,7 +1,7 @@
 From 9efa8307d4f43bdb24855375514b0a6382dcc600 Mon Sep 17 00:00:00 2001
 From: Erfan Abdi <erfangplus@gmail.com>
 Date: Thu, 9 Sep 2021 15:12:20 +0800
-Subject: [PATCH 27/34] Revert "base: Limit window from going out of display"
+Subject: [PATCH 27/35] Revert "base: Limit window from going out of display"
 
 This reverts commit 6d35ec9f9be9ab2a547a09dcb6ee8094bb0b8f78.
 ---

@@ -1,7 +1,7 @@
 From 8261120685a3ce8c1f06545c276cd4b23917fa4e Mon Sep 17 00:00:00 2001
 From: Gary Bisson <gary.bisson@boundarydevices.com>
 Date: Fri, 24 Apr 2020 19:15:34 +0200
-Subject: [PATCH 09/17] InputReader: add hwrotation management
+Subject: [PATCH 09/20] InputReader: add hwrotation management
 
 Only in case ro.boot.hwrotation is set from cmdline.
 

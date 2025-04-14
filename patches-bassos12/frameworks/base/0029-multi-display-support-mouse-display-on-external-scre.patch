@@ -1,7 +1,7 @@
-From c2a5294d65e4d061b1f3e22b838626ee38f3c57f Mon Sep 17 00:00:00 2001
+From 719a5ab3383e699861bb25dfb24ffeb31f565ac1 Mon Sep 17 00:00:00 2001
 From: dzy <dzy@rock-chips.com>
 Date: Tue, 23 Nov 2021 09:57:03 +0800
-Subject: [PATCH 31/34] multi-display:support mouse display on external screen.
+Subject: [PATCH 29/35] multi-display:support mouse display on external screen.
 
 Change-Id: I5dd95a9ec669f94bb6da8775c2ff856fe5f078bf
 ---

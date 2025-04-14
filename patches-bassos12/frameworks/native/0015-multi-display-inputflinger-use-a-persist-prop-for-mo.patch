@@ -1,7 +1,7 @@
 From ec7b1867665c13c1143a6f4b01ddcf0411029cd5 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Fri, 20 Dec 2024 11:43:55 -0500
-Subject: [PATCH 15/17] multi-display: inputflinger: use a persist prop for
+Subject: [PATCH 15/20] multi-display: inputflinger: use a persist prop for
  mouse presentation
 
 ---

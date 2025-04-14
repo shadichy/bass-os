@@ -1,0 +1,39 @@
+From 88501a397a327c058b96fb384c4e489c98425a3a Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Mon, 14 Apr 2025 16:20:39 -0400
+Subject: [PATCH 35/35] Allow us to override config_perDisplayFocusEnabled via
+ prop
+
+uses androidboot.per_display_focus_enabled
+---
+ .../inputmethod/MultiClientInputMethodManagerService.java   | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/services/core/java/com/android/server/inputmethod/MultiClientInputMethodManagerService.java b/services/core/java/com/android/server/inputmethod/MultiClientInputMethodManagerService.java
+index 3df2740e8138..b6fb07669c12 100644
+--- a/services/core/java/com/android/server/inputmethod/MultiClientInputMethodManagerService.java
++++ b/services/core/java/com/android/server/inputmethod/MultiClientInputMethodManagerService.java
+@@ -55,6 +55,7 @@ import android.os.IBinder;
+ import android.os.RemoteException;
+ import android.os.ResultReceiver;
+ import android.os.ShellCallback;
++import android.os.SystemProperties;
+ import android.os.UserHandle;
+ import android.provider.Settings;
+ import android.text.TextUtils;
+@@ -538,8 +539,11 @@ public final class MultiClientInputMethodManagerService {
+                     break;
+                 }
+                 case SystemService.PHASE_BOOT_COMPLETED: {
+-                    final boolean perDisplayFocusEnabled = mContext.getResources().getBoolean(
++                    boolean perDisplayFocusEnabled = mContext.getResources().getBoolean(
+                             com.android.internal.R.bool.config_perDisplayFocusEnabled);
++                    if (SystemProperties.getBoolean("ro.boot.per_display_focus_enabled", false)) {
++                        perDisplayFocusEnabled = true;
++                    }
+                     if (!perDisplayFocusEnabled) {
+                         final Bundle extras = new Bundle();
+                         extras.putBoolean(Notification.EXTRA_ALLOW_DURING_SETUP, true);
+-- 
+2.43.0
+

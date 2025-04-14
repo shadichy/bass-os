@@ -1,7 +1,7 @@
 From 4df7e89e249407841742c24b433be5a8b7a4b541 Mon Sep 17 00:00:00 2001
 From: Alessandro Astone <ales.astone@gmail.com>
 Date: Mon, 29 Aug 2022 01:50:24 +0200
-Subject: [PATCH 26/34] Revert "Render shadows in the client by default"
+Subject: [PATCH 26/35] Revert "Render shadows in the client by default"
 
 This reverts commit ba6f8909a4f42674b326390c38ad8c69f5f817ac.
 ---
