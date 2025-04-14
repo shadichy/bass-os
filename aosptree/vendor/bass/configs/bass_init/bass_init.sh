@@ -179,12 +179,8 @@ function rm_sd_admin()
 	fi
 }
 
-set_custom_package_perms()
+set_boot_config_perms()
 {
-	# set custom package permissions
-
-	current_user="0"
-
 	# com.bliss.bootconfig
 	exists_bootconfig=$(pm list packages com.bliss.bootconfig | grep -c com.bliss.bootconfig)
 	config_file=$(getprop ro.boot.bootctrl_bootcfg)
@@ -198,6 +194,7 @@ set_custom_package_perms()
 		
 		chown $bootcfg_uid:$bootcfg_uid ${config_file}
 		cat /proc/cmdline > /data/data/com.bliss.bootconfig/files/proc_cmdline
+		chown $bootcfg_uid:$bootcfg_uid /data/data/com.bliss.bootconfig/files/proc_cmdline
 
 		if [ ! -f /data/misc/bootconfig/set ]; then
 			# Set config marker
@@ -208,6 +205,13 @@ set_custom_package_perms()
 			chmod 664 /data/misc/bootconfig/set
 		fi
 	fi
+}
+
+set_custom_package_perms()
+{
+	# set custom package permissions
+
+	current_user="0"
 
 	# KioskLauncher
 	exists_kiosk=$(pm list packages org.blissos.kiosklauncher | grep -c org.blissos.kiosklauncher)
@@ -1164,7 +1168,7 @@ function do_bass_bootcomplete()
 	set_custom_settings
 
 	[ -z $first_run ] && setprop persist.bass.first_run $(date +'%Y%m%d%H%M%S')
-
+	set_boot_config_perms
 	post_bootcomplete
 }
 

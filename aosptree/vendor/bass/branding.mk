@@ -55,6 +55,12 @@ PRODUCT_COPY_FILES += \
     vendor/bass/prebuilts/log_monster/log_monster.sh:system/bin/logmonster.sh
 endif
 
+ifeq ($(USE_BLISS_BOOT_CONFIG),true)
+PRODUCT_PACKAGES += \
+    com.bliss.bootconfig
+
+endif
+
 ifeq ($(USE_PER_DISPLAY_FOCUS),true)
 
 PRODUCT_PACKAGES += \
