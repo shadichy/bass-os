@@ -173,7 +173,7 @@ function rm_sd_admin()
 	current_acc_pkgs=$(settings get secure enabled_accessibility_services)
 	if [ $(echo "$current_acc_pkgs" | grep -c cu.axel.smartdock) -eq 1 ]; then
 		# remove :cu.axel.smartdock/.services.DockService from enabled_accessibility_services
-		new_acc_pkgs=$(echo "$current_acc_pkgs" | sed "s/:cu.axel.smartdock\/.services.DockService//g")
+		new_acc_pkgs=$(echo "$current_acc_pkgs" | sed "s/:cu.axel.smartdock[^:]*//g")
 		settings put secure enabled_accessibility_services "$new_acc_pkgs"
 		rm -rf /data/misc/sdconfig/accessibility
 	fi
