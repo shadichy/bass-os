@@ -1,0 +1,124 @@
+From 231c31917c3b67c872581baa027ca2893f60f2de Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Fri, 24 Jan 2025 09:44:05 -0500
+Subject: [PATCH 06/18] bass: rework how to disable setupwzard
+
+---
+ device.mk        |  5 -----
+ init.recovery.sh |  2 +-
+ init.sh          | 48 ++++++++++++++++++++++++++++++++++++++++++++++--
+ 3 files changed, 47 insertions(+), 8 deletions(-)
+
+diff --git a/device.mk b/device.mk
+index c6b62a1..ccc4e14 100644
+--- a/device.mk
++++ b/device.mk
+@@ -61,11 +61,6 @@ PRODUCT_PROPERTY_OVERRIDES := \
+     external_storage.projid.enabled=1
+ 
+ 
+-ifneq ($(USE_BLISS_SETUPWIZARD),true)
+-    PRODUCT_PROPERTY_OVERRIDES += \
+-        ro.setupwizard.mode=DISABLED
+-endif
+-
+ PRODUCT_COPY_FILES := \
+     $(if $(wildcard $(PRODUCT_DIR)init.rc),$(PRODUCT_DIR)init.rc:root/init.rc) \
+     $(if $(wildcard $(PRODUCT_DIR)init.sh),$(PRODUCT_DIR),$(LOCAL_PATH)/)init.sh:system/etc/init.sh \
+diff --git a/init.recovery.sh b/init.recovery.sh
+index f4f4ebb..2a14638 100644
+--- a/init.recovery.sh
++++ b/init.recovery.sh
+@@ -70,7 +70,7 @@ for c in `cat /proc/cmdline`; do
+ 				case $c in
+ 					DEBUG=*)
+ 						[ -n "$DEBUG" ] && set_property debug.logcat 1
+-						[ "$DEBUG" = "0" ] || SETUPWIZARD=${SETUPWIZARD:-0}
++						# [ "$DEBUG" = "0" ] || SETUPWIZARD=${SETUPWIZARD:-0}
+ 						;;
+ 					DPI=*)
+ 						set_property ro.sf.lcd_density "$DPI"
+diff --git a/init.sh b/init.sh
+index 6930c45..207f7c6 100644
+--- a/init.sh
++++ b/init.sh
+@@ -790,6 +790,45 @@ function create_pointercal()
+ 	set_property ro.tscal.enable true 
+ }
+ 
++
++function set_multidisplay_options()
++{
++	 if [[ "$HWC" == "drm_celadon" || "$HWC" == "drm_minigbm_celadon" ]]; then
++
++		if [ -f /data/data/com.bliss.multidisplaysettings/shared_prefs/com.bliss.multidisplaysettings_preferences.xml ]; then
++			xml=$(cat /data/data/com.bliss.multidisplaysettings/shared_prefs/com.bliss.multidisplaysettings_preferences.xml)
++
++			function get_string() {
++			local key=$1
++			echo "$xml" | awk -F'[<>]' '/<string name="'$key'">/{print $3}'
++			}
++
++			function get_boolean() {
++			local key=$1
++			local value=$(echo "$xml" | awk -F'"' '/<boolean name="'$key'"/{print $4}')
++			[[ "$value" == "true" ]] && echo 1 || echo 0
++			}
++
++
++			vendor_hwcomposer_mode_id=$(get_string vendor.hwcomposer.mode.id)
++			vendor_hwcomposer_connector_id=$(get_string vendor.hwcomposer.connector.id)
++			vendor_hwcomposer_planes_num=$(get_string vendor.hwcomposer.planes.num)
++
++			vendor_hwcomposer_preferred_mode_limit=$(get_boolean vendor.hwcomposer.preferred.mode.limit)
++			vendor_hwcomposer_connector_multi_refresh_rate=$(get_boolean vendor.hwcomposer.multi_refresh_rate)
++			vendor_hwcomposer_planes_enabling=$(get_boolean vendor.hwcomposer.planes.enabling)
++
++		fi
++
++		set_property vendor.hwcomposer.mode.id ${MODE_ID:-$vendor_hwcomposer_mode_id}
++		set_property vendor.hwcomposer.connector.id ${CONNECTOR_ID:-$vendor_hwcomposer_connector_id}
++		set_property vendor.hwcomposer.planes.num ${MULTI_PLANE_NUM:-$vendor_hwcomposer_planes_num}
++		set_property vendor.hwcomposer.preferred.mode.limit ${HWC_PREFER_MODE:-$vendor_hwcomposer_preferred_mode_limit}
++		set_property vendor.hwcomposer.connector.multi_refresh_rate ${MULTI_REFRESH_RATE:-$vendor_hwcomposer_connector_multi_refresh_rate}
++		set_property vendor.hwcomposer.planes.enabling ${MULTI_PLANE:-$vendor_hwcomposer_planes_enabling}
++	fi
++}
++
+ function init_tscal()
+ {
+     if [ "$FORCE_TSCAL" -ge "1" ]; then
+@@ -904,6 +943,7 @@ function do_init()
+ 	init_hal_gps
+ 	init_hal_gralloc
+ 	init_hal_hwcomposer
++	set_multidisplay_options
+ 	init_hal_media
+ 	init_hal_vulkan
+ 	init_hal_lights
+@@ -1015,7 +1055,7 @@ for c in `cat /proc/cmdline`; do
+ 				case $c in
+ 					DEBUG=*)
+ 						[ -n "$DEBUG" ] && set_property debug.logcat 1
+-						[ "$DEBUG" = "0" ] || SETUPWIZARD=${SETUPWIZARD:-0}
++						# [ "$DEBUG" = "0" ] || SETUPWIZARD=${SETUPWIZARD:-0}
+ 						;;
+ 					DPI=*)
+ 						set_property ro.sf.lcd_density "$DPI"
+@@ -1069,8 +1109,12 @@ for c in `cat /proc/cmdline`; do
+ 						# options: true, false
+ 						set_property persist.bliss.disable_recents "$FORCE_DISABLE_RECENTS"
+ 						;;
++					DISABLE_SETUPWIZARD=*)
++						# options: true, false
++						[ "$DISABLE_SETUPWIZARD" = "true" ] && set_property ro.setupwizard.mode DISABLED && set_property app.setupwizard.disable 0
++						;;
+ 				esac
+-				[ "$SETUPWIZARD" = "0" ] && set_property ro.setupwizard.mode DISABLED && set_property app.setupwizard.disable 0
++				# [ "$SETUPWIZARD" = "0" ] && set_property ro.setupwizard.mode DISABLED && set_property app.setupwizard.disable 0
+ 			fi
+ 			;;
+ 	esac
+-- 
+2.43.0
+

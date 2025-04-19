@@ -1,0 +1,49 @@
+From 2440dc07d78244c046197532c12252cb81f89f4d Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Sat, 8 Feb 2025 17:08:39 -0500
+Subject: [PATCH 10/18] bass: add emulated camera fallback
+
+---
+ packages.mk |  8 ++++++++
+ treble.mk   | 10 ++++++++++
+ 2 files changed, 18 insertions(+)
+
+diff --git a/packages.mk b/packages.mk
+index 1c2d962..1f121f9 100644
+--- a/packages.mk
++++ b/packages.mk
+@@ -155,3 +155,11 @@ PRODUCT_PACKAGES += \
+ 
+ # A small script to inherit paths
+ PRODUCT_PACKAGES += blisspath
++
++# Emulated Camera fallback
++PRODUCT_PACKAGES += \
++    emu_camera_config_defaults \
++    libgooglecamerahwl_impl_defaults \
++    libgooglecamerahwl_impl \
++
++    
+\ No newline at end of file
+diff --git a/treble.mk b/treble.mk
+index e3e2141..b71a9df 100644
+--- a/treble.mk
++++ b/treble.mk
+@@ -103,3 +103,13 @@ PRODUCT_PACKAGES += android.hidl.allocator@1.0-service
+ 
+ # vndservice & vndservicemanager & hwservicemanager
+ PRODUCT_PACKAGES += vndservice vndservicemanager hwservicemanager
++
++# Google Emulated Camera Hal
++PRODUCT_PACKAGES += \
++    android.hardware.camera.common@1.0-helper \
++    android.hardware.camera.provider@2.7-impl-google \
++    android.hardware.camera.provider@2.7-service-google \
++    com.google.emulated.camera.provider.hal.defaults \
++    com.google.emulated.camera.provider.hal
++
++    
+\ No newline at end of file
+-- 
+2.43.0
+

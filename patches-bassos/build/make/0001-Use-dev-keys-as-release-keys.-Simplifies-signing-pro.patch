@@ -1,7 +1,7 @@
-From e81505e544d7975556efb30a0be18c12ffd0acca Mon Sep 17 00:00:00 2001
+From 2bdc175c43d8fede42ac1e3694369b6c5991b3fb Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Micha=C5=82=20Gapi=C5=84ski?= <mike@gapinski.eu>
 Date: Mon, 1 May 2023 14:56:12 +0200
-Subject: [PATCH] Use dev keys as release keys. Simplifies signing process
+Subject: [PATCH 1/2] Use dev keys as release keys. Simplifies signing process
  without compromising on security
 
 Change-Id: Ie8afd2b5dc19623f6c1f551acc88f4afc74fc698
@@ -10,10 +10,10 @@ Change-Id: Ie8afd2b5dc19623f6c1f551acc88f4afc74fc698
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/core/sysprop.mk b/core/sysprop.mk
-index c6e1933af..a720e9193 100644
+index 2a5c5db458..abcd80145b 100644
 --- a/core/sysprop.mk
 +++ b/core/sysprop.mk
-@@ -152,7 +152,7 @@ endif
+@@ -180,7 +180,7 @@ endif
  ifeq ($(DEFAULT_SYSTEM_DEV_CERTIFICATE),build/make/target/product/security/testkey)
  BUILD_KEYS := test-keys
  else
@@ -23,5 +23,5 @@ index c6e1933af..a720e9193 100644
  BUILD_VERSION_TAGS += $(BUILD_KEYS)
  BUILD_VERSION_TAGS := $(subst $(space),$(comma),$(sort $(BUILD_VERSION_TAGS)))
 -- 
-2.34.1
+2.43.0
 

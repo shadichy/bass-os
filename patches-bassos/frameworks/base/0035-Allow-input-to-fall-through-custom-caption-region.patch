@@ -1,0 +1,42 @@
+From 3b43ff4aeebc9d41fc40160071aa561e09ab06b3 Mon Sep 17 00:00:00 2001
+From: Jorge Gil <jorgegil@google.com>
+Date: Mon, 26 Feb 2024 21:55:37 +0000
+Subject: [PATCH 35/42] Allow input to fall through custom caption region
+
+Make the caption window in Desktop Mode a spy window when the
+transparent caption flag is requested. Then, when MotionEvents on the
+caption bar, issue cancellations if the gesture did not start within the
+bounds of the customizable space and the gesture exclusion bounds
+reported by the window.
+This allows input to fall through uncancelled to customizable app
+content as long as they've placed it in non-occluding caption regions
+and they requested to take over input in that region. Otherwise, the
+system will handle the events as a caption gesture (drag, double-tap,
+etc).
+
+Other window decoration types (app handle, non-desktop freeform caption)
+do not support this feature, so their caption window is not spy.
+
+Bug: 316387515
+Test: atest WMShellUnitTests
+Change-Id: Ibb966a15fa3befe1f1dec802e448a973671ac645
+---
+ .../wm/shell/windowdecor/DesktopModeWindowDecoration.java       | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/libs/WindowManager/Shell/src/com/android/wm/shell/windowdecor/DesktopModeWindowDecoration.java b/libs/WindowManager/Shell/src/com/android/wm/shell/windowdecor/DesktopModeWindowDecoration.java
+index 39803e2afd34..6a3fa3f6fe05 100644
+--- a/libs/WindowManager/Shell/src/com/android/wm/shell/windowdecor/DesktopModeWindowDecoration.java
++++ b/libs/WindowManager/Shell/src/com/android/wm/shell/windowdecor/DesktopModeWindowDecoration.java
+@@ -337,6 +337,8 @@ public class DesktopModeWindowDecoration extends WindowDecoration<WindowDecorLin
+             controlsElement.mWidthResId = R.dimen.desktop_mode_customizable_caption_margin_end;
+             controlsElement.mAlignment = RelayoutParams.OccludingCaptionElement.Alignment.END;
+             relayoutParams.mOccludingCaptionElements.add(controlsElement);
++            relayoutParams.mAllowCaptionInputFallthrough =
++                    TaskInfoKt.isTransparentCaptionBarAppearance(taskInfo);
+         }
+         if (DesktopModeStatus.useWindowShadow(/* isFocusedWindow= */ taskInfo.isFocused)) {
+             relayoutParams.mShadowRadiusId = taskInfo.isFocused
+-- 
+2.43.0
+

@@ -1,0 +1,25 @@
+From 96c461700b1619460978c07a86e7e7ed2e57b8c1 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Wed, 15 Jan 2025 13:26:49 -0500
+Subject: [PATCH 02/18] [bass] do not update ro.bliss.serialnumber in early
+ stage init
+
+---
+ libinit/init_x86.cpp | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/libinit/init_x86.cpp b/libinit/init_x86.cpp
+index 1bfb1de..dd8d1e4 100644
+--- a/libinit/init_x86.cpp
++++ b/libinit/init_x86.cpp
+@@ -22,7 +22,6 @@ static const std::string kDmiIdPath = "/sys/devices/virtual/dmi/id/";
+ 
+ static const std::unordered_map<std::string, std::string> kDmiIdToPropertyMap = {
+     {"bios_version", "ro.boot.bootloader"},
+-    {"product_serial", "ro.bliss.serialnumber"},
+     {"board_name", "ro.product.board"},
+ };
+ 
+-- 
+2.43.0
+

@@ -1,7 +1,7 @@
-From 7036ef20345b545b9aaf6ed1932e62df1e0dc3df Mon Sep 17 00:00:00 2001
+From 0d4cb1e2e609641fce8a12c4052919d4afdcae79 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Tue, 15 Oct 2024 12:12:56 -0400
-Subject: [PATCH] Call bass_build_config on envsetup
+Subject: [PATCH 07/10] Call bass_build_config on envsetup
 
 ---
  build/envsetup.sh | 2 ++
@@ -21,5 +21,5 @@ index 251d4c7e..58670fe2 100644
  export BUILD_USERNAME=nobody
  export BUILD_HOSTNAME=android-build
 -- 
-2.34.1
+2.43.0
 

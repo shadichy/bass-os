@@ -1,14 +1,14 @@
-From d604a57e8e28f02f47c19a6b4f7249a33dd45dfd Mon Sep 17 00:00:00 2001
+From d74a6c5e01064065fe79d707b09674f83f13817d Mon Sep 17 00:00:00 2001
 From: electrikjesus <electrikjesus@gmail.com>
 Date: Wed, 6 Mar 2024 15:55:13 -0500
-Subject: [PATCH 4/6] Allow using minimal FOSS apps on vanilla builds
+Subject: [PATCH 04/10] Allow using minimal FOSS apps on vanilla builds
 
 ---
  config/common.mk | 6 ++++++
  1 file changed, 6 insertions(+)
 
 diff --git a/config/common.mk b/config/common.mk
-index cc075ede..de932986 100644
+index eadb9dfd..942e44d7 100644
 --- a/config/common.mk
 +++ b/config/common.mk
 @@ -212,6 +212,12 @@ endif
@@ -25,5 +25,5 @@ index cc075ede..de932986 100644
  # Go-gapps
  ifeq ($(BLISS_BUILD_VARIANT), goapps)
 -- 
-2.34.1
+2.43.0
 

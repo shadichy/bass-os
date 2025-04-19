@@ -1,0 +1,325 @@
+From eb869ad21ac58dd555a6a9af5e1065b9091ed3fc Mon Sep 17 00:00:00 2001
+From: maxwen <max.weninger@gmail.com>
+Date: Sun, 24 May 2020 13:40:48 +0200
+Subject: [PATCH 34/42] SystemUI: navbar extra keys
+
+power, volup, voldown
+
+nift4: port to 13
+
+Change-Id: I7cfcd30b5d49001e97aa85c284220f0fa7e556dc
+Signed-off-by: spezi77 <spezi7713@gmx.net>
+---
+ .../SystemUI/res/drawable/ic_sysbar_power.xml |  8 ++++
+ .../res/drawable/ic_sysbar_volume_minus.xml   |  8 ++++
+ .../res/drawable/ic_sysbar_volume_plus.xml    |  8 ++++
+ packages/SystemUI/res/layout/power.xml        | 27 ++++++++++++
+ packages/SystemUI/res/layout/volume_minus.xml | 27 ++++++++++++
+ packages/SystemUI/res/layout/volume_plus.xml  | 27 ++++++++++++
+ packages/SystemUI/res/values/dimens.xml       |  1 +
+ .../systemui/navigationbar/NavigationBar.java |  9 ++++
+ .../NavigationBarInflaterView.java            |  9 ++++
+ .../navigationbar/NavigationBarView.java      | 43 +++++++++++++++++++
+ 10 files changed, 167 insertions(+)
+ create mode 100644 packages/SystemUI/res/drawable/ic_sysbar_power.xml
+ create mode 100644 packages/SystemUI/res/drawable/ic_sysbar_volume_minus.xml
+ create mode 100644 packages/SystemUI/res/drawable/ic_sysbar_volume_plus.xml
+ create mode 100644 packages/SystemUI/res/layout/power.xml
+ create mode 100644 packages/SystemUI/res/layout/volume_minus.xml
+ create mode 100644 packages/SystemUI/res/layout/volume_plus.xml
+
+diff --git a/packages/SystemUI/res/drawable/ic_sysbar_power.xml b/packages/SystemUI/res/drawable/ic_sysbar_power.xml
+new file mode 100644
+index 000000000000..844b66e10c05
+--- /dev/null
++++ b/packages/SystemUI/res/drawable/ic_sysbar_power.xml
+@@ -0,0 +1,8 @@
++<!-- drawable/power.xml -->
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="24dp"
++    android:height="24dp"
++    android:viewportWidth="24"
++    android:viewportHeight="24">
++    <path android:fillColor="?attr/singleToneColor" android:pathData="M16.56,5.44L15.11,6.89C16.84,7.94 18,9.83 18,12A6,6 0 0,1 12,18A6,6 0 0,1 6,12C6,9.83 7.16,7.94 8.88,6.88L7.44,5.44C5.36,6.88 4,9.28 4,12A8,8 0 0,0 12,20A8,8 0 0,0 20,12C20,9.28 18.64,6.88 16.56,5.44M13,3H11V13H13" />
++</vector>
+\ No newline at end of file
+diff --git a/packages/SystemUI/res/drawable/ic_sysbar_volume_minus.xml b/packages/SystemUI/res/drawable/ic_sysbar_volume_minus.xml
+new file mode 100644
+index 000000000000..c0acf8e2e817
+--- /dev/null
++++ b/packages/SystemUI/res/drawable/ic_sysbar_volume_minus.xml
+@@ -0,0 +1,8 @@
++<!-- drawable/volume_minus.xml -->
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="24dp"
++    android:height="24dp"
++    android:viewportWidth="24"
++    android:viewportHeight="24">
++    <path android:fillColor="?attr/singleToneColor" android:pathData="M3,9H7L12,4V20L7,15H3V9M14,11H22V13H14V11Z" />
++</vector>
+\ No newline at end of file
+diff --git a/packages/SystemUI/res/drawable/ic_sysbar_volume_plus.xml b/packages/SystemUI/res/drawable/ic_sysbar_volume_plus.xml
+new file mode 100644
+index 000000000000..6bff91d7e674
+--- /dev/null
++++ b/packages/SystemUI/res/drawable/ic_sysbar_volume_plus.xml
+@@ -0,0 +1,8 @@
++<!-- drawable/volume_plus.xml -->
++<vector xmlns:android="http://schemas.android.com/apk/res/android"
++    android:width="24dp"
++    android:height="24dp"
++    android:viewportWidth="24"
++    android:viewportHeight="24">
++    <path android:fillColor="?attr/singleToneColor" android:pathData="M3,9H7L12,4V20L7,15H3V9M14,11H17V8H19V11H22V13H19V16H17V13H14V11Z" />
++</vector>
+\ No newline at end of file
+diff --git a/packages/SystemUI/res/layout/power.xml b/packages/SystemUI/res/layout/power.xml
+new file mode 100644
+index 000000000000..e2b4027be6aa
+--- /dev/null
++++ b/packages/SystemUI/res/layout/power.xml
+@@ -0,0 +1,27 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- Copyright (C) 2016 The Android Open Source Project
++
++     Licensed under the Apache License, Version 2.0 (the "License");
++     you may not use this file except in compliance with the License.
++     You may obtain a copy of the License at
++
++          http://www.apache.org/licenses/LICENSE-2.0
++
++     Unless required by applicable law or agreed to in writing, software
++     distributed under the License is distributed on an "AS IS" BASIS,
++     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++     See the License for the specific language governing permissions and
++     limitations under the License.
++-->
++
++<com.android.systemui.navigationbar.buttons.KeyButtonView
++    xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:systemui="http://schemas.android.com/apk/res-auto"
++    android:id="@+id/power"
++    android:layout_width="@dimen/navigation_extra_key_width"
++    android:layout_height="match_parent"
++    android:layout_weight="0"
++    systemui:keyCode="26"
++    android:scaleType="center"
++    />
++
+diff --git a/packages/SystemUI/res/layout/volume_minus.xml b/packages/SystemUI/res/layout/volume_minus.xml
+new file mode 100644
+index 000000000000..9d4503d23f9f
+--- /dev/null
++++ b/packages/SystemUI/res/layout/volume_minus.xml
+@@ -0,0 +1,27 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- Copyright (C) 2016 The Android Open Source Project
++
++     Licensed under the Apache License, Version 2.0 (the "License");
++     you may not use this file except in compliance with the License.
++     You may obtain a copy of the License at
++
++          http://www.apache.org/licenses/LICENSE-2.0
++
++     Unless required by applicable law or agreed to in writing, software
++     distributed under the License is distributed on an "AS IS" BASIS,
++     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++     See the License for the specific language governing permissions and
++     limitations under the License.
++-->
++
++<com.android.systemui.navigationbar.buttons.KeyButtonView
++    xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:systemui="http://schemas.android.com/apk/res-auto"
++    android:id="@+id/volume_minus"
++    android:layout_width="@dimen/navigation_extra_key_width"
++    android:layout_height="match_parent"
++    android:layout_weight="0"
++    systemui:keyCode="25"
++    android:scaleType="center"
++    />
++
+diff --git a/packages/SystemUI/res/layout/volume_plus.xml b/packages/SystemUI/res/layout/volume_plus.xml
+new file mode 100644
+index 000000000000..755ab0169a29
+--- /dev/null
++++ b/packages/SystemUI/res/layout/volume_plus.xml
+@@ -0,0 +1,27 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- Copyright (C) 2016 The Android Open Source Project
++
++     Licensed under the Apache License, Version 2.0 (the "License");
++     you may not use this file except in compliance with the License.
++     You may obtain a copy of the License at
++
++          http://www.apache.org/licenses/LICENSE-2.0
++
++     Unless required by applicable law or agreed to in writing, software
++     distributed under the License is distributed on an "AS IS" BASIS,
++     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
++     See the License for the specific language governing permissions and
++     limitations under the License.
++-->
++
++<com.android.systemui.navigationbar.buttons.KeyButtonView
++    xmlns:android="http://schemas.android.com/apk/res/android"
++    xmlns:systemui="http://schemas.android.com/apk/res-auto"
++    android:id="@+id/volume_plus"
++    android:layout_width="@dimen/navigation_extra_key_width"
++    android:layout_height="match_parent"
++    android:layout_weight="0"
++    systemui:keyCode="24"
++    android:scaleType="center"
++    />
++
+diff --git a/packages/SystemUI/res/values/dimens.xml b/packages/SystemUI/res/values/dimens.xml
+index 9be976d5525b..afd65017228b 100644
+--- a/packages/SystemUI/res/values/dimens.xml
++++ b/packages/SystemUI/res/values/dimens.xml
+@@ -463,6 +463,7 @@
+     <!-- The padding on the side of the navigation bar. Must be greater than or equal to
+          navigation_extra_key_width -->
+     <dimen name="navigation_side_padding">36dp</dimen>
++    <dimen name="navigation_extra_key_width">36dp</dimen>
+ 
+     <!-- Move the back button drawable for 3 button layout upwards in ime mode and in portrait -->
+     <dimen name="navbar_back_button_ime_offset">2dp</dimen>
+diff --git a/packages/SystemUI/src/com/android/systemui/navigationbar/NavigationBar.java b/packages/SystemUI/src/com/android/systemui/navigationbar/NavigationBar.java
+index 69a6f4093dce..5745cb1460a0 100644
+--- a/packages/SystemUI/src/com/android/systemui/navigationbar/NavigationBar.java
++++ b/packages/SystemUI/src/com/android/systemui/navigationbar/NavigationBar.java
+@@ -1846,6 +1846,15 @@ public class NavigationBar extends ViewController<NavigationBarView> implements
+             updateButtonLocation(region, touchRegionCache, mView.getRotateSuggestionButton(),
+                     inScreenSpace, useNearestRegion);
+         }
++        if (mView.getPowerButton() != null) {
++            updateButtonLocation(region, touchRegionCache, mView.getPowerButton(), inScreenSpace, useNearestRegion);
++        }
++        if (mView.getVolumeMinusButton() != null) {
++            updateButtonLocation(region, touchRegionCache, mView.getVolumeMinusButton(), inScreenSpace, useNearestRegion);
++        }
++        if (mView.getVolumePlusButton() != null) {
++            updateButtonLocation(region, touchRegionCache, mView.getVolumePlusButton(), inScreenSpace, useNearestRegion);
++        }
+         return region;
+     }
+ 
+diff --git a/packages/SystemUI/src/com/android/systemui/navigationbar/NavigationBarInflaterView.java b/packages/SystemUI/src/com/android/systemui/navigationbar/NavigationBarInflaterView.java
+index f69e97311ec7..ba4e24efdd0d 100644
+--- a/packages/SystemUI/src/com/android/systemui/navigationbar/NavigationBarInflaterView.java
++++ b/packages/SystemUI/src/com/android/systemui/navigationbar/NavigationBarInflaterView.java
+@@ -77,6 +77,9 @@ public class NavigationBarInflaterView extends FrameLayout implements TunerServi
+     public static final String RIGHT = "right";
+     public static final String CONTEXTUAL = "contextual";
+     public static final String IME_SWITCHER = "ime_switcher";
++    public static final String POWER = "power";
++    public static final String VOLUME_UP = "volup";
++    public static final String VOLUME_DOWN = "voldown";
+ 
+     public static final String GRAVITY_SEPARATOR = ";";
+     public static final String BUTTON_SEPARATOR = ",";
+@@ -525,6 +528,12 @@ public class NavigationBarInflaterView extends FrameLayout implements TunerServi
+             v = inflater.inflate(R.layout.home_handle, parent, false);
+         } else if (IME_SWITCHER.equals(button)) {
+             v = inflater.inflate(R.layout.ime_switcher, parent, false);
++        } else if (POWER.equals(button)) {
++            v = inflater.inflate(R.layout.power, parent, false);
++        } else if (VOLUME_UP.equals(button)) {
++            v = inflater.inflate(R.layout.volume_plus, parent, false);
++        } else if (VOLUME_DOWN.equals(button)) {
++            v = inflater.inflate(R.layout.volume_minus, parent, false);
+         } else if (button.startsWith(KEY)) {
+             String uri = extractImage(button);
+             int code = extractKeycode(button);
+diff --git a/packages/SystemUI/src/com/android/systemui/navigationbar/NavigationBarView.java b/packages/SystemUI/src/com/android/systemui/navigationbar/NavigationBarView.java
+index 8a52ff9413fc..e2865c3421a2 100644
+--- a/packages/SystemUI/src/com/android/systemui/navigationbar/NavigationBarView.java
++++ b/packages/SystemUI/src/com/android/systemui/navigationbar/NavigationBarView.java
+@@ -133,6 +133,9 @@ public class NavigationBarView extends FrameLayout implements TunerService.Tunab
+     private Context mLightContext;
+     private int mLightIconColor;
+     private int mDarkIconColor;
++    private KeyButtonDrawable mPowerButton;
++    private KeyButtonDrawable mVolumePlusButton;
++    private KeyButtonDrawable mVolumeMinusButton;
+ 
+     private EdgeBackGestureHandler mEdgeBackGestureHandler;
+     private DisplayTracker mDisplayTracker;
+@@ -348,6 +351,9 @@ public class NavigationBarView extends FrameLayout implements TunerService.Tunab
+         mButtonDispatchers.put(R.id.menu_container, mContextualButtonGroup);
+         mButtonDispatchers.put(R.id.dpad_left, cursorLeftButton);
+         mButtonDispatchers.put(R.id.dpad_right, cursorRightButton);
++        mButtonDispatchers.put(R.id.power, new ButtonDispatcher(R.id.power));
++        mButtonDispatchers.put(R.id.volume_minus, new ButtonDispatcher(R.id.volume_minus));
++        mButtonDispatchers.put(R.id.volume_plus, new ButtonDispatcher(R.id.volume_plus));
+         mDeadZone = new DeadZone(this);
+     }
+ 
+@@ -470,6 +476,18 @@ public class NavigationBarView extends FrameLayout implements TunerService.Tunab
+         return mButtonDispatchers.get(R.id.dpad_right);
+     }
+ 
++    public ButtonDispatcher getPowerButton() {
++        return mButtonDispatchers.get(R.id.power);
++    }
++
++    public ButtonDispatcher getVolumePlusButton() {
++        return mButtonDispatchers.get(R.id.volume_plus);
++    }
++
++    public ButtonDispatcher getVolumeMinusButton() {
++        return mButtonDispatchers.get(R.id.volume_minus);
++    }
++
+     public SparseArray<ButtonDispatcher> getButtonDispatchers() {
+         return mButtonDispatchers;
+     }
+@@ -508,6 +526,9 @@ public class NavigationBarView extends FrameLayout implements TunerService.Tunab
+         if (orientationChange || densityChange || dirChange) {
+             mBackIcon = getBackDrawable();
+         }
++        mPowerButton = getDrawable(R.drawable.ic_sysbar_power);
++        mVolumePlusButton = getDrawable(R.drawable.ic_sysbar_volume_plus);
++        mVolumeMinusButton = getDrawable(R.drawable.ic_sysbar_volume_minus);
+     }
+ 
+     /**
+@@ -658,6 +679,17 @@ public class NavigationBarView extends FrameLayout implements TunerService.Tunab
+                 || isImeRenderingNavButtons() || !disableCursorKeys;
+         mContextualButtonGroup.setButtonVisibility(R.id.ime_switcher, !disableImeSwitcher);
+ 
++
++        if (getPowerButton() != null) {
++            getPowerButton().setImageDrawable(mPowerButton);
++        }
++        if (getVolumeMinusButton() != null) {
++            getVolumeMinusButton().setImageDrawable(mVolumeMinusButton);
++        }
++        if (getVolumePlusButton() != null) {
++            getVolumePlusButton().setImageDrawable(mVolumePlusButton);
++        }
++
+         mBarTransitions.reapplyDarkIntensity();
+ 
+         boolean disableHome = isGesturalMode(mNavBarMode)
+@@ -703,6 +735,17 @@ public class NavigationBarView extends FrameLayout implements TunerService.Tunab
+         getHomeHandle().setVisibility(disableHomeHandle || mHomeHandleForceHidden ? View.INVISIBLE : View.VISIBLE);
+         getCursorLeftButton().setVisibility(disableCursorKeys  ? View.INVISIBLE : View.VISIBLE);
+         getCursorRightButton().setVisibility(disableCursorKeys ? View.INVISIBLE : View.VISIBLE);
++
++        if (getPowerButton() != null) {
++            getPowerButton().setVisibility(View.VISIBLE);
++        }
++        if (getVolumeMinusButton() != null) {
++            getVolumeMinusButton().setVisibility(View.VISIBLE);
++        }
++        if (getVolumePlusButton() != null) {
++            getVolumePlusButton().setVisibility(View.VISIBLE);
++        }
++
+         notifyActiveTouchRegions();
+     }
+ 
+-- 
+2.43.0
+

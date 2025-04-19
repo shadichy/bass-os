@@ -1,0 +1,40 @@
+From 418a97aa3ab3c26cb32e7fab3a72ed1abfed559b Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Thu, 30 Jan 2025 13:09:33 -0500
+Subject: [PATCH 30/42] Use prop to skip USB access permission dialog
+
+Uses: ro.boot.bliss.dismiss_usb_access_dialog=true
+---
+ .../com/android/systemui/usb/UsbPermissionActivity.java  | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/usb/UsbPermissionActivity.java b/packages/SystemUI/src/com/android/systemui/usb/UsbPermissionActivity.java
+index 9484d3a63801..dcaf574dda96 100644
+--- a/packages/SystemUI/src/com/android/systemui/usb/UsbPermissionActivity.java
++++ b/packages/SystemUI/src/com/android/systemui/usb/UsbPermissionActivity.java
+@@ -18,6 +18,7 @@ package com.android.systemui.usb;
+ 
+ import android.content.res.Resources;
+ import android.os.Bundle;
++import android.os.SystemProperties;
+ 
+ import javax.inject.Inject;
+ 
+@@ -61,7 +62,13 @@ public class UsbPermissionActivity extends UsbDialogActivity {
+         if (!useRecordWarning && mDialogHelper.canBeDefault()) {
+             addAlwaysUseCheckbox();
+         }
+-        setupAlert();
++        // Check if the property ro.boot.bliss.dismiss_usb_access_dialog is true
++        boolean dismissUSBAccessDialog = SystemProperties.getBoolean("ro.boot.bliss.dismiss_usb_access_dialog", false);
++        if (dismissUSBAccessDialog) {
++            onConfirm();
++        } else {
++            setupAlert();
++        }
+     }
+ 
+     @Override
+-- 
+2.43.0
+

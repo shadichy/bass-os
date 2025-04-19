@@ -1,7 +1,7 @@
-From 0f60d2a899f494b2bf03a275cadeffbc87b0cb89 Mon Sep 17 00:00:00 2001
+From c106b938ebfb3228db3f4335ff107edf044ff90b Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Sat, 1 Jun 2024 23:07:38 -0400
-Subject: [PATCH] prefs: explicitly enable taskbar by default
+Subject: [PATCH 2/2] prefs: explicitly enable taskbar by default
 
 ---
  res/xml/button_settings.xml | 2 +-
@@ -21,5 +21,5 @@ index 6b7dfa2f64b..f72fb8d8773 100644
  
          <com.bliss.support.preferences.SystemSettingSwitchPreference
 -- 
-2.34.1
+2.43.0
 

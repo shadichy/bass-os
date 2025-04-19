@@ -1,0 +1,29 @@
+From 60cc5122efd08d09dd187ccfb65ce3137b8ed593 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Mon, 20 Jan 2025 12:49:43 -0500
+Subject: [PATCH 27/42] DisplayLayout: allow overriding statusbar display via
+ prop
+
+---
+ .../Shell/src/com/android/wm/shell/common/DisplayLayout.java | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/libs/WindowManager/Shell/src/com/android/wm/shell/common/DisplayLayout.java b/libs/WindowManager/Shell/src/com/android/wm/shell/common/DisplayLayout.java
+index bdbfa6978917..0f1900baade1 100644
+--- a/libs/WindowManager/Shell/src/com/android/wm/shell/common/DisplayLayout.java
++++ b/libs/WindowManager/Shell/src/com/android/wm/shell/common/DisplayLayout.java
+@@ -434,7 +434,10 @@ public class DisplayLayout {
+     }
+ 
+     static boolean hasStatusBar(int displayId) {
+-        if (displayId == Display.DEFAULT_DISPLAY) {
++        // Allow a system property to override this. Used for kiosk mode.
++        if (SystemProperties.getBoolean("persist.bliss.disable_statusbar", false)) {
++            return false;
++        } else if (displayId == Display.DEFAULT_DISPLAY) {
+             return displayId == Display.DEFAULT_DISPLAY;
+         } else {
+             // Allow a system property to override this for desktop mode navigation to work on secondary displays.
+-- 
+2.43.0
+

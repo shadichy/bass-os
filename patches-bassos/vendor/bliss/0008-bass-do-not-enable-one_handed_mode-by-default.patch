@@ -1,0 +1,25 @@
+From 370eeb597b7decf046cf95fbdedc0aa8c76e3547 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Tue, 18 Feb 2025 17:00:26 -0500
+Subject: [PATCH 08/10] bass: do not enable one_handed_mode by default
+
+---
+ config/common.mk | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/config/common.mk b/config/common.mk
+index 942e44d7..51a20796 100644
+--- a/config/common.mk
++++ b/config/common.mk
+@@ -23,7 +23,7 @@ endif
+ 
+ # Enable one-handed mode
+ PRODUCT_PRODUCT_PROPERTIES += \
+-    ro.support_one_handed_mode=true
++    ro.support_one_handed_mode=false
+ 
+ # Backup Tool
+ PRODUCT_COPY_FILES += \
+-- 
+2.43.0
+

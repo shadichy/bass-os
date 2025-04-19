@@ -1,0 +1,594 @@
+From 4278da83556314d55eb3cfceddb7b4d352f568bc Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Sun, 13 Apr 2025 19:16:30 -0400
+Subject: [PATCH 15/18] boot option organization updates
+
+---
+ boot_options/options.yaml | 560 +++++++++++++++++++-------------------
+ 1 file changed, 279 insertions(+), 281 deletions(-)
+
+diff --git a/boot_options/options.yaml b/boot_options/options.yaml
+index de9ed66..4462ee2 100644
+--- a/boot_options/options.yaml
++++ b/boot_options/options.yaml
+@@ -273,298 +273,296 @@
+     - name: "Disable x86 syscall hardening"
+       description: "syscall_hardening=off"
+ 
+-- name: "Bass OS Options"
++- name: "Package Options"
++  options:
++    - name: "Enable Smart Dock by default"
++      description: "SET_SMARTDOCK_DEFAULT=1"
++    - name: "Enable Vapor Launcher as default"
++      description: "SET_VAPOR_DEFAULT=1"
++    - name: "Hide apps on boot (package names separated by comma)"
++      description: "HIDE_APPS="
++      editable: true
++      default: " "
++    - name: "Restore apps on boot (package names separated by comma)"
++      description: "RESTORE_APPS="
++      editable: true
++      default: " "
++
++- name: "Display Orientation/Rotation"
+   subgroups:
+-  - name: "Package Options"
+-    options:
+-      - name: "Enable Smart Dock by default"
+-        description: "SET_SMARTDOCK_DEFAULT=1"
+-      - name: "Enable Vapor Launcher as default"
+-        description: "SET_VAPOR_DEFAULT=1"
+-      - name: "Hide apps on boot (package names separated by comma)"
+-        description: "HIDE_APPS="
+-        editable: true
+-        default: " "
+-      - name: "Restore apps on boot (package names separated by comma)"
+-        description: "RESTORE_APPS="
+-        editable: true
+-        default: " "
++    - name: "Set HDMI rotation"
++      distinct: true
++      options:
++        - name: "Force surfaceflinger primary display orientation to landscape"
++          description: "SET_HDMI_ROTATION=landscape"
++        - name: "Force surfaceflinger primary display orientation to portrait"
++          description: "SET_HDMI_ROTATION=portrait"
++    - name: "Set SurfaceFlinger rotation"
++      distinct: true
++      options:
++        - name: "Force SurfaceFlinger rotation to 0"
++          description: "SET_SF_ROTATION=0"
++        - name: "Force SurfaceFlinger rotation to 90"
++          description: "SET_SF_ROTATION=90"
++        - name: "Force SurfaceFlinger rotation to 180"
++          description: "SET_SF_ROTATION=180"
++        - name: "Force SurfaceFlinger rotation to 270"
++          description: "SET_SF_ROTATION=270"
++    - name: "Set touchscreen rotation"
++      distinct: true
++      options:
++        - name: "Force touchscreen rotation to 0"
++          description: "SET_TOUCHSCREEN_ROTATION=0"
++        - name: "Force touchscreen rotation to 90"
++          description: "SET_TOUCHSCREEN_ROTATION=90"
++        - name: "Force touchscreen rotation to 180"
++          description: "SET_TOUCHSCREEN_ROTATION=180"
++        - name: "Force touchscreen rotation to 270"
++          description: "SET_TOUCHSCREEN_ROTATION=270"
++    - name: "Set internal display rotation"
++      distinct: true
++      options:
++        - name: "Force internal display rotation to 0"
++          description: "SET_ROTATION_ON_INTERNAL_DISPLAY=0"
++        - name: "Force internal display rotation to 90"
++          description: "SET_ROTATION_ON_INTERNAL_DISPLAY=90"
++        - name: "Force internal display rotation to 180"
++          description: "SET_ROTATION_ON_INTERNAL_DISPLAY=180"
++        - name: "Force internal display rotation to 270"
++          description: "SET_ROTATION_ON_INTERNAL_DISPLAY=270"
++    - name: "Set external display rotation"
++      distinct: true
++      options:
++        - name: "Force external display rotation to 0"
++          description: "androidboot.force_rotation_on_external_displays=0"
++        - name: "Force external display rotation to 90"
++          description: "androidboot.force_rotation_on_external_displays=90"
++        - name: "Force external display rotation to 180"
++          description: "androidboot.force_rotation_on_external_displays=180"
++        - name: "Force external display rotation to 270"
++          description: "androidboot.force_rotation_on_external_displays=270"
++    - name: "Set override forced orientation (true/false)"
++      description: "SET_OVERRIDE_FORCED_ORIENT=1"
++    - name: "Forces system app orientation"
++      distinct: true
++      options:
++        - name: "Force system app orientation to force_land"
++          description: "SET_SYSTEM_APP_ORIENT=force_land"
++        - name: "Force system app orientation to middle_port"
++          description: "SET_SYSTEM_APP_ORIENT=middle_port"
++        - name: "Force system app orientation to original"
++          description: "SET_SYSTEM_APP_ORIENT=original"
++    - name: "Set surfaceflinger primary display orientation"
++      distinct: true
++      options:
++        - name: "Force surfaceflinger primary display orientation to 0"
++          description: "SET_PRIMARY_DISPLAY_ORIENTATION=ORIENTATION_0"
++        - name: "Force surfaceflinger primary display orientation to 90"
++          description: "SET_PRIMARY_DISPLAY_ORIENTATION=ORIENTATION_90"
++        - name: "Force surfaceflinger primary display orientation to 180"
++          description: "SET_PRIMARY_DISPLAY_ORIENTATION=ORIENTATION_180"
++        - name: "Force surfaceflinger primary display orientation to 270"
++          description: "SET_PRIMARY_DISPLAY_ORIENTATION=ORIENTATION_270"
+ 
+-  - name: "Display Orientation/Rotation"
+-    subgroups:
+-      - name: "Set HDMI rotation"
+-        distinct: true
+-        options:
+-          - name: "Force surfaceflinger primary display orientation to landscape"
+-            description: "SET_HDMI_ROTATION=landscape"
+-          - name: "Force surfaceflinger primary display orientation to portrait"
+-            description: "SET_HDMI_ROTATION=portrait"
+-      - name: "Set SurfaceFlinger rotation"
+-        distinct: true
+-        options:
+-          - name: "Force SurfaceFlinger rotation to 0"
+-            description: "SET_SF_ROTATION=0"
+-          - name: "Force SurfaceFlinger rotation to 90"
+-            description: "SET_SF_ROTATION=90"
+-          - name: "Force SurfaceFlinger rotation to 180"
+-            description: "SET_SF_ROTATION=180"
+-          - name: "Force SurfaceFlinger rotation to 270"
+-            description: "SET_SF_ROTATION=270"
+-      - name: "Set touchscreen rotation"
+-        distinct: true
+-        options:
+-          - name: "Force touchscreen rotation to 0"
+-            description: "SET_TOUCHSCREEN_ROTATION=0"
+-          - name: "Force touchscreen rotation to 90"
+-            description: "SET_TOUCHSCREEN_ROTATION=90"
+-          - name: "Force touchscreen rotation to 180"
+-            description: "SET_TOUCHSCREEN_ROTATION=180"
+-          - name: "Force touchscreen rotation to 270"
+-            description: "SET_TOUCHSCREEN_ROTATION=270"
+-      - name: "Set internal display rotation"
+-        distinct: true
+-        options:
+-          - name: "Force internal display rotation to 0"
+-            description: "SET_ROTATION_ON_INTERNAL_DISPLAY=0"
+-          - name: "Force internal display rotation to 90"
+-            description: "SET_ROTATION_ON_INTERNAL_DISPLAY=90"
+-          - name: "Force internal display rotation to 180"
+-            description: "SET_ROTATION_ON_INTERNAL_DISPLAY=180"
+-          - name: "Force internal display rotation to 270"
+-            description: "SET_ROTATION_ON_INTERNAL_DISPLAY=270"
+-      - name: "Set external display rotation"
+-        distinct: true
+-        options:
+-          - name: "Force external display rotation to 0"
+-            description: "androidboot.force_rotation_on_external_displays=0"
+-          - name: "Force external display rotation to 90"
+-            description: "androidboot.force_rotation_on_external_displays=90"
+-          - name: "Force external display rotation to 180"
+-            description: "androidboot.force_rotation_on_external_displays=180"
+-          - name: "Force external display rotation to 270"
+-            description: "androidboot.force_rotation_on_external_displays=270"
+-      - name: "Set override forced orientation (true/false)"
+-        description: "SET_OVERRIDE_FORCED_ORIENT=1"
+-      - name: "Set override per-display focus enabled (true/false)"
+-        description: "androidboot.per_display_focus_enabled=true"
+-      - name: "Forces system app orientation"
+-        distinct: true
+-        options:
+-          - name: "Force system app orientation to force_land"
+-            description: "SET_SYSTEM_APP_ORIENT=force_land"
+-          - name: "Force system app orientation to middle_port"
+-            description: "SET_SYSTEM_APP_ORIENT=middle_port"
+-          - name: "Force system app orientation to original"
+-            description: "SET_SYSTEM_APP_ORIENT=original"
+-      - name: "Set surfaceflinger primary display orientation"
+-        distinct: true
+-        options:
+-          - name: "Force surfaceflinger primary display orientation to 0"
+-            description: "SET_PRIMARY_DISPLAY_ORIENTATION=ORIENTATION_0"
+-          - name: "Force surfaceflinger primary display orientation to 90"
+-            description: "SET_PRIMARY_DISPLAY_ORIENTATION=ORIENTATION_90"
+-          - name: "Force surfaceflinger primary display orientation to 180"
+-            description: "SET_PRIMARY_DISPLAY_ORIENTATION=ORIENTATION_180"
+-          - name: "Force surfaceflinger primary display orientation to 270"
+-            description: "SET_PRIMARY_DISPLAY_ORIENTATION=ORIENTATION_270"
++- name: "Memory Management & Hardware Timeout"
++  options:
++    - name: "Force Low Memory mode (true,false)"
++      description: "FORCE_LOW_MEM="
++      editable: true
++      default: "false "
++    - name: "Force LMK minfree levels (true,false)"
++      description: "FORCE_MINFREE_LEVELS="
++      editable: true
++      default: "true "
++    - name: "Set hardware timeout multiplier (int)"
++      description: "FORCE_HW_TIMEOUT_MULTIPLIER="
++      editable: true
++      default: "3 "
+ 
+-  - name: "Memory Management & Hardware Timeout"
+-    options:
+-      - name: "Force Low Memory mode (true,false)"
+-        description: "FORCE_LOW_MEM="
+-        editable: true
+-        default: "false "
+-      - name: "Force LMK minfree levels (true,false)"
+-        description: "FORCE_MINFREE_LEVELS="
+-        editable: true
+-        default: "true "
+-      - name: "Set hardware timeout multiplier (int)"
+-        description: "FORCE_HW_TIMEOUT_MULTIPLIER="
+-        editable: true
+-        default: "3 "
++- name: "ADB Options"
++  options:
++    - name: "Set default ADB Debugging mode (0,1,2,3)"
++      description: "FORCE_USE_ADB_CLIENT_MODE="
++      editable: true
++      default: "2 "
++    - name: "Use ADB Mass Storage mode (1,2)"
++      description: "FORCE_USE_ADB_MASS_STORAGE="
++      editable: true
++      default: "1 "
++    - name: "Set LOGD filesize to maximum allowed (0,1)"
++      description: "SET_MAX_LOGD="
++      editable: true
++      default: "1 "
++    - name: "Set logcat debug"
++      description: "SET_LOGCAT_DEBUG=1"
+ 
+-  - name: "Debugging Options"
+-    options:
+-      - name: "Set default ADB Debugging mode (0,1,2,3)"
+-        description: "FORCE_USE_ADB_CLIENT_MODE="
+-        editable: true
+-        default: "2 "
+-      - name: "Use ADB Mass Storage mode (1,2)"
+-        description: "FORCE_USE_ADB_MASS_STORAGE="
+-        editable: true
+-        default: "1 "
+-      - name: "Set LOGD filesize to maximum allowed (0,1)"
+-        description: "SET_MAX_LOGD="
+-        editable: true
+-        default: "1 "
+-      - name: "Set logcat debug"
+-        description: "SET_LOGCAT_DEBUG=1"
+-  
+-  - name: "Power/Sleep Options"
+-    options:
+-      - name: "Set screen off timeout (int in milliseconds)"
+-        description: "SET_SCREEN_OFF_TIMEOUT="
+-        editable: true
+-        default: "0 "
+-      - name: "Set sleep timeout (int in milliseconds)"
+-        description: "SET_SLEEP_TIMEOUT="
+-        editable: true
+-        default: "0 "
+-      - name: "Set power to be always on (true,false)"
+-        description: "POWER_ALWAYS_ON="
+-        editable: true
+-        default: "false "
+-      - name: "Set power to be on while plugged in (true,false)"
+-        description: "SET_STAY_ON_WHILE_PLUGGED_IN="
+-        editable: true
+-        default: "false "
+-      - name: "Set suspend type (freeze,standby,mem,disk)"
+-        description: "SUSPEND_TYPE="
+-        editable: true
+-        default: "mem "
+-      - name: "Set Power-off double-click"
+-        description: "PWR_OFF_DBLCLK=1"
++- name: "Power/Sleep Options"
++  options:
++    - name: "Set screen off timeout (int in milliseconds)"
++      description: "SET_SCREEN_OFF_TIMEOUT="
++      editable: true
++      default: "0 "
++    - name: "Set sleep timeout (int in milliseconds)"
++      description: "SET_SLEEP_TIMEOUT="
++      editable: true
++      default: "0 "
++    - name: "Set power to be always on (true,false)"
++      description: "POWER_ALWAYS_ON="
++      editable: true
++      default: "false "
++    - name: "Set power to be on while plugged in (true,false)"
++      description: "SET_STAY_ON_WHILE_PLUGGED_IN="
++      editable: true
++      default: "false "
++    - name: "Set suspend type (freeze,standby,mem,disk)"
++      description: "SUSPEND_TYPE="
++      editable: true
++      default: "mem "
++    - name: "Set Power-off double-click"
++      description: "PWR_OFF_DBLCLK=1"
+ 
+-  - name: "Radios & Bluetooth Options"
+-    options:
+-      - name: "Force Bluetooth Service (enable,disable)"
+-        description: "FORCE_BLUETOOTH_SERVICE="
+-        editable: true
+-        default: "enable "
+-      - name: "Force disable all radios."
+-        description: "FORCE_DISABLE_ALL_RADIOS=1"
++- name: "Radios & Bluetooth Options"
++  options:
++    - name: "Force Bluetooth Service (enable,disable)"
++      description: "FORCE_BLUETOOTH_SERVICE="
++      editable: true
++      default: "enable "
++    - name: "Force disable all radios."
++      description: "FORCE_DISABLE_ALL_RADIOS=1"
+ 
+-  - name: "Desktop Mode Options"
+-    subgroups:
+-      - name: "Enable desktop mode on external displays (0,1)"
+-        description: "FORCE_DESKTOP_ON_EXTERNAL="
+-        editable: true
+-        default: "0 "
+-      - name: "Enable Desktop Windowing mode."
+-        description: "BASSEDW="
+-        editable: true
+-        default: "true "
+-      - name: "Desktop Modes"
+-        distinct: true
+-        options:
+-          - name: "Desktop Mode 1"
+-            description: "BASSDM="
+-            editable: true
+-            default: "true "
+-          - name: "Desktop Mode 2"
+-            description: "BASSDM2="
+-            editable: true
+-            default: "true "
++- name: "Desktop Mode Options"
++  subgroups:
++    - name: "Enable desktop mode on external displays (0,1)"
++      description: "FORCE_DESKTOP_ON_EXTERNAL="
++      editable: true
++      default: "0 "
++    - name: "Enable Desktop Windowing mode."
++      description: "BASSEDW="
++      editable: true
++      default: "true "
++    - name: "Desktop Modes"
++      distinct: true
++      options:
++        - name: "Desktop Mode 1"
++          description: "BASSDM="
++          editable: true
++          default: "true "
++        - name: "Desktop Mode 2"
++          description: "BASSDM2="
++          editable: true
++          default: "true "
+ 
+-  - name: "Navigation & Statusbar Options"
+-    options:
+-      - name: "Force disable navigation bar (true,false)"
+-        description: "FORCE_DISABLE_NAVIGATION="
+-        editable: true
+-        default: "false "
+-      - name: "Force disable navigation gesture handle bar (true,false)"
+-        description: "FORCE_DISABLE_NAV_HANDLE="
+-        editable: true
+-        default: "false "
+-      - name: "Force disable taskbar navigation bar (true,false)"
+-        description: "FORCE_DISABLE_NAV_TASKBAR="
+-        editable: true
+-        default: "false "
+-      - name: "Force disable status bar (true,false)"
+-        description: "FORCE_DISABLE_STATUSBAR="
+-        editable: true
+-        default: "false "
+-      - name: "Force disable recents (true,false)"
+-        description: "FORCE_DISABLE_RECENTS="
+-        editable: true
+-        default: "false "
+-      - name: "Force hide navigation bar window (0,1)"
+-        description: "FORCE_HIDE_NAVBAR_WINDOW="
+-        editable: true
+-        default: "0 "
+-      - name: "Force navbar height override(int in pixels)"
+-        description: "androidboot.force.navbar_height_override="
+-        editable: true
+-        default: "54 "
+-      - name: "Force navigation bar on secondary displays (0,1)"
+-        description: "FORCE_NAVBAR_ON_SECONDARY_DISPLAYS="
+-        editable: true
+-        default: "0 "
+-      - name: "Force input (IME) on secondary displays (0,1)"
+-        description: "FORCE_IME_ON_SECONDARY_DISPLAYS="
+-        editable: true
+-        default: "0 "
++- name: "Navigation & Statusbar Options"
++  options:
++    - name: "Force disable navigation bar (true,false)"
++      description: "FORCE_DISABLE_NAVIGATION="
++      editable: true
++      default: "false "
++    - name: "Force disable navigation gesture handle bar (true,false)"
++      description: "FORCE_DISABLE_NAV_HANDLE="
++      editable: true
++      default: "false "
++    - name: "Force disable taskbar navigation bar (true,false)"
++      description: "FORCE_DISABLE_NAV_TASKBAR="
++      editable: true
++      default: "false "
++    - name: "Force disable status bar (true,false)"
++      description: "FORCE_DISABLE_STATUSBAR="
++      editable: true
++      default: "false "
++    - name: "Force disable recents (true,false)"
++      description: "FORCE_DISABLE_RECENTS="
++      editable: true
++      default: "false "
++    - name: "Force hide navigation bar window (0,1)"
++      description: "FORCE_HIDE_NAVBAR_WINDOW="
++      editable: true
++      default: "0 "
++    - name: "Force navbar height override(int in pixels)"
++      description: "androidboot.force.navbar_height_override="
++      editable: true
++      default: "54 "
++    - name: "Force navigation bar on secondary displays (0,1)"
++      description: "FORCE_NAVBAR_ON_SECONDARY_DISPLAYS="
++      editable: true
++      default: "0 "
++    - name: "Force input (IME) on secondary displays (0,1)"
++      description: "FORCE_IME_ON_SECONDARY_DISPLAYS="
++      editable: true
++      default: "0 "
+ 
+-  - name: "Mouse and Input Options"
+-    options:
+-      - name: "Set right mouse as back"
+-        description: "SET_RMB=true"
+-      - name: "Set Win key as HOME key"
+-        description: "androidboot.force.win_as_home=1"
+-      - name: "Set multi-display mouse presentation"
+-        description: "FORCE_MOUSE_PRESENTATION=1"
+-      - name: "Set per window input rotation"
+-        description: "SET_PER_WINDOW_INPUT_ROTATION=1"
+-      - name: "Force disable external display focus (0,1)"
+-        description: "androidboot.force.disable_external_display_focus="
+-        editable: true
+-        default: "0 "
+-      - name: "force ignore external display input (0,1)"
+-        description: "androidboot.force.ignore_external_input="
+-        editable: true
+-        default: "0 "
+-      - name: "Force ignore external display touchscreen input (0,1)"
+-        description: "androidboot.force.ignore_external_touch="
+-        editable: true
+-        default: "0 "
+-      - name: "Only rotate primary touchscreen (true,false)"
+-        description: "androidboot.only_rotate_primary_touch="
+-        editable: true
+-        default: "false "
+-      - name: "Only rotate secondary touchscreen (external) (true,false)"
+-        description: "androidboot.only_rotate_secondary_touch="
+-        editable: true
+-        default: "false "
++- name: "Mouse and Input Options"
++  options:
++    - name: "Set right mouse as back"
++      description: "SET_RMB=true"
++    - name: "Set Win key as HOME key"
++      description: "androidboot.force.win_as_home=1"
++    - name: "Set multi-display mouse presentation"
++      description: "FORCE_MOUSE_PRESENTATION=1"
++    - name: "Set per window input rotation"
++      description: "SET_PER_WINDOW_INPUT_ROTATION=1"
++    - name: "Force disable external display focus (0,1)"
++      description: "androidboot.force.disable_external_display_focus="
++      editable: true
++      default: "0 "
++    - name: "force ignore external display input (0,1)"
++      description: "androidboot.force.ignore_external_input="
++      editable: true
++      default: "0 "
++    - name: "Force ignore external display touchscreen input (0,1)"
++      description: "androidboot.force.ignore_external_touch="
++      editable: true
++      default: "0 "
++    - name: "Only rotate primary touchscreen (true,false)"
++      description: "androidboot.only_rotate_primary_touch="
++      editable: true
++      default: "false "
++    - name: "Only rotate secondary touchscreen (external) (true,false)"
++      description: "androidboot.only_rotate_secondary_touch="
++      editable: true
++      default: "false "
++    - name: "Set override per-display focus enabled (true/false)"
++      description: "androidboot.per_display_focus_enabled=true"
+ 
+-  - name: "TimeZone Options"
+-    options:
+-      - name: "Set Timezone Location"
+-        description: "SET_TZ_LOCATION="
+-        editable: true
+-        default: "UTC "
++- name: "TimeZone Options"
++  options:
++    - name: "Set Timezone Location"
++      description: "SET_TZ_LOCATION="
++      editable: true
++      default: "UTC "
+ 
+-  - name: "USB/CAM BUS Options"
+-    options:
+-      - name: "Set USB Bus port permissions for ports: 001/001,001/002,etc."
+-        description: "SET_USB_BUS_PORTS="
+-        editable: true
+-        default: " "
+-      - name: "Set TTY Bus port permissions for ports: ttyS0,ttyS1,ttyS2,etc."
+-        description: "SET_TTY_PORT_PERMS="
+-        editable: true
+-        default: " "
+-      - name: "Disable USB Access dialogs"
+-        description: "DISMISS_USB_ACCESS_DIALOG="
+-        editable: true
+-        default: "true "
++- name: "USB/CAM BUS Options"
++  options:
++    - name: "Set USB Bus port permissions for ports: 001/001,001/002,etc."
++      description: "SET_USB_BUS_PORTS="
++      editable: true
++      default: " "
++    - name: "Set TTY Bus port permissions for ports: ttyS0,ttyS1,ttyS2,etc."
++      description: "SET_TTY_PORT_PERMS="
++      editable: true
++      default: " "
++    - name: "Disable USB Access dialogs"
++      description: "DISMISS_USB_ACCESS_DIALOG="
++      editable: true
++      default: "true "
+ 
+-  - name: "Customization Options"
+-    options:
+-      - name: "Override Bootanimation"
+-        description: "ADDON_BOOTANIMATION=1"
+-      - name: "Override .idc files"
+-        description: "ADDON_IDC=1"
+-      - name: "Override input port associations"
+-        description: "BLISS_INPUT_PORTS_ADDON=1"
+-      - name: "Addon vendor init"
+-        description: "ADDON_BASSINIT=1"
++- name: "Customization Options"
++  options:
++    - name: "Override Bootanimation"
++      description: "ADDON_BOOTANIMATION=1"
++    - name: "Override .idc files"
++      description: "ADDON_IDC=1"
++    - name: "Override input port associations"
++      description: "BLISS_INPUT_PORTS_ADDON=1"
++    - name: "Addon vendor init"
++      description: "ADDON_BASSINIT=1"
+ 
+-  - name: "Lockdown/Admin Boot Modes"
+-    distinct: true
+-    options:
+-      - name: "Lockdown Mode"
+-        description: "androidboot.bliss.bootmode=lockdown"
+-      - name: "Admin Mode"
+-        description: "androidboot.bliss.bootmode=admin"
++- name: "Lockdown/Admin Boot Modes"
++  distinct: true
++  options:
++    - name: "Lockdown Mode"
++      description: "androidboot.bliss.bootmode=lockdown"
++    - name: "Admin Mode"
++      description: "androidboot.bliss.bootmode=admin"
+       
+ 
+-- 
+2.43.0
+

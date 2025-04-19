@@ -1,0 +1,36 @@
+From 3427896e54e6b1bc130196136b42b1059f5e77bd Mon Sep 17 00:00:00 2001
+From: Dhina17 <dhinalogu@gmail.com>
+Date: Fri, 2 Aug 2024 20:03:07 +0530
+Subject: [PATCH 32/42] SystemUI: Fix NPE on creating taskview for controls ui
+
+Fixes crash on launching A11 power menu with device controls.
+
+Test
+1) Set the power menu style to "Full (A11)".
+2) Install the Google Home app.
+3) Add your home to the device controls.
+4) Long press the power button.
+
+The power menu should open without crashing.
+
+Change-Id: I6b7a96f75ef9b6b06491925a918122fdb2b0caad
+---
+ .../android/systemui/controls/ui/ControlsUiControllerImpl.kt    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/controls/ui/ControlsUiControllerImpl.kt b/packages/SystemUI/src/com/android/systemui/controls/ui/ControlsUiControllerImpl.kt
+index 8831dc61e452..c177446cf4a9 100644
+--- a/packages/SystemUI/src/com/android/systemui/controls/ui/ControlsUiControllerImpl.kt
++++ b/packages/SystemUI/src/com/android/systemui/controls/ui/ControlsUiControllerImpl.kt
+@@ -494,7 +494,7 @@ class ControlsUiControllerImpl @Inject constructor (
+         val container = parent.requireViewById<FrameLayout>(R.id.controls_panel)
+         container.visibility = View.VISIBLE
+         container.post {
+-            taskViewFactory.get().create(activityContext, uiExecutor) { taskView ->
++            taskViewFactory.get().create(activityContext ?: context, uiExecutor) { taskView ->
+                 taskViewController = PanelTaskViewController(
+                         activityContext,
+                         uiExecutor,
+-- 
+2.43.0
+

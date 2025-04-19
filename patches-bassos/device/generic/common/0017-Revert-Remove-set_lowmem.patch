@@ -1,0 +1,47 @@
+From 8d739145fa354c55383d4cbdc4d1e8824f6dbf11 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Tue, 15 Apr 2025 09:26:03 -0400
+Subject: [PATCH 17/18] Revert "Remove set_lowmem"
+
+This reverts commit f414ca9433ee6a27f1773e7e29737f314a672d50.
+---
+ init.sh | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/init.sh b/init.sh
+index 0cd6d3d..b6a690a 100644
+--- a/init.sh
++++ b/init.sh
+@@ -867,6 +867,21 @@ function init_cpu_governor()
+ 	}
+ }
+ 
++function set_lowmem()
++{
++	# 512 MB size in kB : https://source.android.com/devices/tech/perf/low-ram
++	SIZE_512MB=2048000
++
++	mem_size=`cat /proc/meminfo | grep MemTotal | tr -s ' ' | cut -d ' ' -f 2`
++
++	if [ "$mem_size" -le "$SIZE_512MB" ]
++	then
++		setprop ro.config.low_ram true
++	else
++		setprop ro.config.low_ram false
++	fi
++}
++
+ function set_custom_ota()
+ {
+ 	for c in `cat /proc/cmdline`; do
+@@ -920,6 +935,7 @@ function set_custom_timezone()
+ function do_init()
+ {
+ 	init_misc
++	set_lowmem
+ 	set_custom_timezone
+ 	init_hal_audio
+ 	set_custom_ota
+-- 
+2.43.0
+

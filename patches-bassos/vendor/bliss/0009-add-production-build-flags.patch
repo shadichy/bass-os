@@ -1,0 +1,38 @@
+From 99ccd7927928ecc62f3d0810a80049ece0b72994 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Tue, 8 Apr 2025 09:17:11 -0400
+Subject: [PATCH 09/10] add production build flags
+
+---
+ config/versions.mk | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/config/versions.mk b/config/versions.mk
+index 52b4c5ae..c59f03f8 100644
+--- a/config/versions.mk
++++ b/config/versions.mk
+@@ -5,6 +5,21 @@ BLISS_VERSION_MINOR = 8.3
+ BLISS_CODENAME = Universe
+ BLISS_VERSION_MAINTENANCE = Beta
+ 
++ifeq ($(BLISS_PRODUCTION_BUILD),true)
++# Flavor and signing
++
++# If vendor/bliss/config/signing/releasekey exists, then we can apply the properties
++PRODUCT_PROPERTY_OVERRIDES += \
++    ro.bliss.releasetype=RELEASE \
++
++SIGNING_KEYS := vendor/bliss/config/signing
++
++PRODUCT_DEFAULT_DEV_CERTIFICATE := vendor/bliss/config/signing/releasekey
++PRODUCT_OTA_PUBLIC_KEYS := vendor/bliss/config/signing/platform
++PRODUCT_EXTRA_RECOVERY_KEYS := vendor/bliss/config/signing/platform
++
++endif
++
+ ifneq ($(SIGNING_KEYS),)
+     PRODUCT_DEFAULT_DEV_CERTIFICATE := $(SIGNING_KEYS)/releasekey
+ endif
+-- 
+2.43.0
+

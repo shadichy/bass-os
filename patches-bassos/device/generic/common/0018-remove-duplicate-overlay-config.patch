@@ -1,0 +1,29 @@
+From 1aa4452ed37b7068cc3144774f92547dd0f62092 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Thu, 17 Apr 2025 14:54:43 -0400
+Subject: [PATCH 18/18] remove duplicate overlay config
+
+---
+ overlay/frameworks/base/core/res/res/values/config.xml | 6 ------
+ 1 file changed, 6 deletions(-)
+
+diff --git a/overlay/frameworks/base/core/res/res/values/config.xml b/overlay/frameworks/base/core/res/res/values/config.xml
+index 1306335..8ea7c0f 100644
+--- a/overlay/frameworks/base/core/res/res/values/config.xml
++++ b/overlay/frameworks/base/core/res/res/values/config.xml
+@@ -116,12 +116,6 @@
+          available to the system.-->
+     <bool name="config_freeformWindowManagement">true</bool>
+ 
+-    <!-- Controls the navigation bar interaction mode:
+-         0: 3 button mode (back, home, overview buttons)
+-         1: 2 button mode (back, home buttons + swipe up for overview)
+-         2: gestures only for back, home and overview -->
+-    <integer name="config_navBarInteractionMode">0</integer>
+-
+     <!-- Controls the opacity of the navigation bar depending on the visibility of the
+          various workspace stacks.
+          0 - Nav bar is always opaque when either the freeform stack or docked stack is visible.
+-- 
+2.43.0
+

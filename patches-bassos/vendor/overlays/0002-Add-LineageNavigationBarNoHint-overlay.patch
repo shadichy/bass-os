@@ -1,4 +1,4 @@
-From 34743cb6874dec187764f5eb5fa35da8bdeee5bd Mon Sep 17 00:00:00 2001
+From 73c1b1435bcedb76f110de6d9c641c2800ba5894 Mon Sep 17 00:00:00 2001
 From: electrikjesus <electrikjesus@gmail.com>
 Date: Sun, 10 Dec 2023 16:39:58 -0500
 Subject: [PATCH 2/3] Add LineageNavigationBarNoHint overlay
@@ -67,5 +67,5 @@ index 00000000..f389f83e
 +    <dimen name="navigation_bar_width">0dp</dimen>
 +</resources>
 -- 
-2.34.1
+2.43.0
 
