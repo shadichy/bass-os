@@ -1,27 +1,26 @@
-From 3dca22525024686a993784e45c34b00c9bbb9737 Mon Sep 17 00:00:00 2001
+From c07df4123f8d73ea5f106a5fd2c7e7437f3d75f7 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Thu, 17 Apr 2025 21:41:31 -0400
 Subject: [PATCH] Support supervanilla flag
 
 ---
- bliss_prebuilts.mk | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ bliss_prebuilts.mk | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/bliss_prebuilts.mk b/bliss_prebuilts.mk
-index 761d0af..9283e62 100644
+index 8ca70b9..285061e 100644
 --- a/bliss_prebuilts.mk
 +++ b/bliss_prebuilts.mk
-@@ -1,8 +1,14 @@
+@@ -1,6 +1,12 @@
  include $(call first-makefiles-under,$(LOCAL_PATH))
  
 +ifneq ($(BLISS_SUPER_VANILLA),true)
 +
  PRODUCT_PACKAGES += \
       yetCalc \
-      AboutBliss \
-      Gramophone \
--     Jellyfish \
-      Lawnicons
+-     AboutBliss \
+-     Jellyfish
++     AboutBliss 
 +
 +endif
 +

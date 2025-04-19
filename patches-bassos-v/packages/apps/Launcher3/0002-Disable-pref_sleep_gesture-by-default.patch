@@ -1,4 +1,4 @@
-From 87bf20dd24b36a1942765f3e54ca5eae23d50684 Mon Sep 17 00:00:00 2001
+From 951e0f97285643f6add44462a54350b9c4dbbf0a Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Fri, 17 Jan 2025 11:45:49 -0500
 Subject: [PATCH 2/3] Disable pref_sleep_gesture by default
@@ -9,18 +9,18 @@ Subject: [PATCH 2/3] Disable pref_sleep_gesture by default
  2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/res/xml/launcher_home_screen_preferences.xml b/res/xml/launcher_home_screen_preferences.xml
-index 28c328bd8c..0f79e55f44 100644
+index 60b1d86d20..c965cff161 100644
 --- a/res/xml/launcher_home_screen_preferences.xml
 +++ b/res/xml/launcher_home_screen_preferences.xml
-@@ -47,7 +47,7 @@
+@@ -45,7 +45,7 @@
              android:key="pref_sleep_gesture"
              android:title="@string/pref_sleep_gesture_title"
              android:summary="@string/pref_sleep_gesture_summary"
 -            android:defaultValue="true"
 +            android:defaultValue="false"
              android:persistent="true"
-             android:layout="@layout/top_level_preference_middle_card"
              launcher:iconSpaceReserved="false" />
+ 
 diff --git a/src/com/android/launcher3/touch/WorkspaceTouchListener.java b/src/com/android/launcher3/touch/WorkspaceTouchListener.java
 index 153ab20a39..be963fcadd 100644
 --- a/src/com/android/launcher3/touch/WorkspaceTouchListener.java

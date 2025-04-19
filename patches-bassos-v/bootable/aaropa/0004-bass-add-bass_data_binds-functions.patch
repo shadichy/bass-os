@@ -1,17 +1,17 @@
-From 18a869553fb491d69784c9c4335c1409a9d26e40 Mon Sep 17 00:00:00 2001
+From 009d01f2d5c26153291a2f147c7699b158fd5ce8 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Thu, 30 Jan 2025 21:43:47 -0500
-Subject: [PATCH 4/5] bass: add bass_data_binds functions
+Subject: [PATCH] bass: add bass_data_binds functions
 
 ---
  initrd/init | 116 ++++++++++++++++++++++++++++++++++++++++++++++++++++
  1 file changed, 116 insertions(+)
 
 diff --git a/initrd/init b/initrd/init
-index f813a37..4462864 100755
+index 3a70a85..7be5d51 100755
 --- a/initrd/init
 +++ b/initrd/init
-@@ -84,6 +84,119 @@ EOF
+@@ -85,6 +85,119 @@ EOF
  	fi
  }
  
@@ -129,9 +129,9 @@ index f813a37..4462864 100755
 +}
 +
  # configure debugging output
- if [ "$DEBUG" ] || [ "$INSTALL" ]; then
+ if [ "$DEBUG" ] || [ "$INSTALL" ] || [ "$RCVRY" ]; then
  	LOG=/tmp/log
-@@ -401,6 +514,9 @@ else
+@@ -392,6 +505,9 @@ else
  	# Copy /tmp/log to /android/data/bootlog.txt if DEBUG mode is set
  	[ -n "$DEBUG" ] && cp /tmp/log /android/data/bootlog.txt
  
@@ -139,7 +139,7 @@ index f813a37..4462864 100755
 +	bass_data_binds
 +
  	# shellcheck disable=SC2093
- 	exec ${SWITCH:-switch_root} $MODE_BASE /init
+ 	exec ${SWITCH:-switch_root} $BASE /init
  fi
 -- 
 2.43.0

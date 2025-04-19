@@ -1,7 +1,7 @@
-From 231c31917c3b67c872581baa027ca2893f60f2de Mon Sep 17 00:00:00 2001
+From 4b921a450e4f25cbff6c0e209e23461980158d8f Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Fri, 24 Jan 2025 09:44:05 -0500
-Subject: [PATCH 06/18] bass: rework how to disable setupwzard
+Subject: [PATCH 06/19] bass: rework how to disable setupwzard
 
 ---
  device.mk        |  5 -----
@@ -10,10 +10,10 @@ Subject: [PATCH 06/18] bass: rework how to disable setupwzard
  3 files changed, 47 insertions(+), 8 deletions(-)
 
 diff --git a/device.mk b/device.mk
-index c6b62a1..ccc4e14 100644
+index 40f5d96..905cb10 100644
 --- a/device.mk
 +++ b/device.mk
-@@ -61,11 +61,6 @@ PRODUCT_PROPERTY_OVERRIDES := \
+@@ -64,11 +64,6 @@ PRODUCT_PROPERTY_OVERRIDES := \
      external_storage.projid.enabled=1
  
  
@@ -39,10 +39,10 @@ index f4f4ebb..2a14638 100644
  					DPI=*)
  						set_property ro.sf.lcd_density "$DPI"
 diff --git a/init.sh b/init.sh
-index 6930c45..207f7c6 100644
+index 1cae568..b120f26 100644
 --- a/init.sh
 +++ b/init.sh
-@@ -790,6 +790,45 @@ function create_pointercal()
+@@ -781,6 +781,45 @@ function create_pointercal()
  	set_property ro.tscal.enable true 
  }
  
@@ -88,7 +88,7 @@ index 6930c45..207f7c6 100644
  function init_tscal()
  {
      if [ "$FORCE_TSCAL" -ge "1" ]; then
-@@ -904,6 +943,7 @@ function do_init()
+@@ -895,6 +934,7 @@ function do_init()
  	init_hal_gps
  	init_hal_gralloc
  	init_hal_hwcomposer
@@ -96,7 +96,7 @@ index 6930c45..207f7c6 100644
  	init_hal_media
  	init_hal_vulkan
  	init_hal_lights
-@@ -1015,7 +1055,7 @@ for c in `cat /proc/cmdline`; do
+@@ -1006,7 +1046,7 @@ for c in `cat /proc/cmdline`; do
  				case $c in
  					DEBUG=*)
  						[ -n "$DEBUG" ] && set_property debug.logcat 1
@@ -105,7 +105,7 @@ index 6930c45..207f7c6 100644
  						;;
  					DPI=*)
  						set_property ro.sf.lcd_density "$DPI"
-@@ -1069,8 +1109,12 @@ for c in `cat /proc/cmdline`; do
+@@ -1060,8 +1100,12 @@ for c in `cat /proc/cmdline`; do
  						# options: true, false
  						set_property persist.bliss.disable_recents "$FORCE_DISABLE_RECENTS"
  						;;

@@ -1,14 +1,14 @@
-From bd9c277d683a74225b72c0692406f59bdc687e0a Mon Sep 17 00:00:00 2001
+From a0f63cc1f85a0d02cc30ca115421679bec957048 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Sat, 11 Jan 2025 17:08:59 -0500
-Subject: [PATCH 01/18] include bass_init.rc into init.x86.rc
+Subject: [PATCH 01/19] include bass_init.rc into init.x86.rc
 
 ---
  init.x86.rc | 1 +
  1 file changed, 1 insertion(+)
 
 diff --git a/init.x86.rc b/init.x86.rc
-index 6f283ca..8dc1b3e 100644
+index 4c495c7..0220b3b 100644
 --- a/init.x86.rc
 +++ b/init.x86.rc
 @@ -1,4 +1,5 @@

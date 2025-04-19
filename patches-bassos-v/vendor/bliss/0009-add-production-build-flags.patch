@@ -1,19 +1,19 @@
-From 99ccd7927928ecc62f3d0810a80049ece0b72994 Mon Sep 17 00:00:00 2001
+From 9f5f54330fd795f14ef979777449021a42118883 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Tue, 8 Apr 2025 09:17:11 -0400
-Subject: [PATCH 09/10] add production build flags
+Subject: [PATCH] add production build flags
 
 ---
  config/versions.mk | 15 +++++++++++++++
  1 file changed, 15 insertions(+)
 
 diff --git a/config/versions.mk b/config/versions.mk
-index 52b4c5ae..c59f03f8 100644
+index 82727edf..b1e3ff7c 100644
 --- a/config/versions.mk
 +++ b/config/versions.mk
-@@ -5,6 +5,21 @@ BLISS_VERSION_MINOR = 8.3
- BLISS_CODENAME = Universe
- BLISS_VERSION_MAINTENANCE = Beta
+@@ -5,6 +5,21 @@ BLISS_VERSION_MINOR = 4
+ BLISS_CODENAME = Voyager
+ #BLISS_VERSION_MAINTENANCE = Beta
  
 +ifeq ($(BLISS_PRODUCTION_BUILD),true)
 +# Flavor and signing

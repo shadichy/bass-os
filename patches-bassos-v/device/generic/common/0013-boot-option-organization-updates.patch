@@ -1,7 +1,7 @@
-From 4278da83556314d55eb3cfceddb7b4d352f568bc Mon Sep 17 00:00:00 2001
+From df9515c6f1b9aef3b860fd3b99d01ccc2cd92c57 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Sun, 13 Apr 2025 19:16:30 -0400
-Subject: [PATCH 15/18] boot option organization updates
+Subject: [PATCH 13/19] boot option organization updates
 
 ---
  boot_options/options.yaml | 560 +++++++++++++++++++-------------------

@@ -1,7 +1,7 @@
-From 2440dc07d78244c046197532c12252cb81f89f4d Mon Sep 17 00:00:00 2001
+From 60301842ffb47fd3efe9d08ffd0c0f82652662ba Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Sat, 8 Feb 2025 17:08:39 -0500
-Subject: [PATCH 10/18] bass: add emulated camera fallback
+Subject: [PATCH 09/19] bass: add emulated camera fallback
 
 ---
  packages.mk |  8 ++++++++
@@ -26,10 +26,10 @@ index 1c2d962..1f121f9 100644
 +    
 \ No newline at end of file
 diff --git a/treble.mk b/treble.mk
-index e3e2141..b71a9df 100644
+index 9c7de0d..598dce0 100644
 --- a/treble.mk
 +++ b/treble.mk
-@@ -103,3 +103,13 @@ PRODUCT_PACKAGES += android.hidl.allocator@1.0-service
+@@ -119,3 +119,13 @@ PRODUCT_PACKAGES += android.hidl.allocator@1.0-service
  
  # vndservice & vndservicemanager & hwservicemanager
  PRODUCT_PACKAGES += vndservice vndservicemanager hwservicemanager

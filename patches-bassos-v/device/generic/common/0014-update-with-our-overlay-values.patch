@@ -1,7 +1,7 @@
-From daf4db3bc12c136c7cffe6fa35011ac07ac4771d Mon Sep 17 00:00:00 2001
+From 144e021a532ade71e127cf9bb7daabeaeae23b74 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Mon, 7 Apr 2025 13:48:14 -0400
-Subject: [PATCH 16/18] update with our overlay values
+Subject: [PATCH 14/19] update with our overlay values
 
 ---
  .../base/core/res/res/values/config.xml       | 32 +++++++++++++++++++

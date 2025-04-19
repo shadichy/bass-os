@@ -1,7 +1,7 @@
-From bd72f4e8edee8bd6e1a2cb982eddbc1bb38af5e0 Mon Sep 17 00:00:00 2001
+From 8e400dd26fed6fcb93f65e1d6a0cf95f01e9fd66 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Thu, 30 Jan 2025 16:16:51 -0500
-Subject: [PATCH 07/18] bass: Move ksu to it's own inclusion
+Subject: [PATCH 07/19] bass: Move ksu to it's own inclusion
 
 ---
  user_app_ksu/Android.mk                       |  45 ++++++++++++++++++

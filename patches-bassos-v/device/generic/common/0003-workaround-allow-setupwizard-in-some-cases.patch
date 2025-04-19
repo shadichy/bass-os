@@ -1,7 +1,7 @@
-From f1579e074ea06b67952cc1f19e880e31acff6c19 Mon Sep 17 00:00:00 2001
+From 3068ff605f61fc63e1e1e259817a286d31017261 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Tue, 21 Jan 2025 17:36:57 -0500
-Subject: [PATCH 03/18] workaround: allow setupwizard in some cases
+Subject: [PATCH 03/19] workaround: allow setupwizard in some cases
 
 ---
  device.mk   | 7 ++++++-
@@ -10,10 +10,10 @@ Subject: [PATCH 03/18] workaround: allow setupwizard in some cases
  3 files changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/device.mk b/device.mk
-index 7ae68b3..c6b62a1 100644
+index fe05b06..40f5d96 100644
 --- a/device.mk
 +++ b/device.mk
-@@ -57,10 +57,15 @@ PRODUCT_PROPERTY_OVERRIDES := \
+@@ -60,10 +60,15 @@ PRODUCT_PROPERTY_OVERRIDES := \
      audio.safemedia.bypass=true \
      persist.device_config.mglru_native.lru_gen_config=all \
      persist.sys.zram_enabled=1 \
@@ -31,10 +31,10 @@ index 7ae68b3..c6b62a1 100644
      $(if $(wildcard $(PRODUCT_DIR)init.rc),$(PRODUCT_DIR)init.rc:root/init.rc) \
      $(if $(wildcard $(PRODUCT_DIR)init.sh),$(PRODUCT_DIR),$(LOCAL_PATH)/)init.sh:system/etc/init.sh \
 diff --git a/init.sh b/init.sh
-index 970ab98..6930c45 100644
+index 2ffb5fc..1cae568 100644
 --- a/init.sh
 +++ b/init.sh
-@@ -1070,7 +1070,7 @@ for c in `cat /proc/cmdline`; do
+@@ -1061,7 +1061,7 @@ for c in `cat /proc/cmdline`; do
  						set_property persist.bliss.disable_recents "$FORCE_DISABLE_RECENTS"
  						;;
  				esac
@@ -44,7 +44,7 @@ index 970ab98..6930c45 100644
  			;;
  	esac
 diff --git a/init.x86.rc b/init.x86.rc
-index 8dc1b3e..3fd56aa 100644
+index 0220b3b..529b583 100644
 --- a/init.x86.rc
 +++ b/init.x86.rc
 @@ -74,7 +74,6 @@ on boot

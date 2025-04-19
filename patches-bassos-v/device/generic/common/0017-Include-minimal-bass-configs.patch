@@ -1,0 +1,26 @@
+From ba8a0a08cf657c102711f409020a32452e7ebfca Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Sat, 19 Apr 2025 14:44:31 -0400
+Subject: [PATCH 17/19] Include minimal bass configs
+
+---
+ device.mk | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/device.mk b/device.mk
+index b32999e..539cef4 100644
+--- a/device.mk
++++ b/device.mk
+@@ -312,6 +312,9 @@ $(call inherit-product-if-exists, vendor/google/proprietary/SettingsIntelligence
+ # Boringdroid
+ $(call inherit-product-if-exists, vendor/boringdroid/boringdroid.mk)
+ 
++# Add Bass Toolkit
++$(call inherit-product-if-exists, vendor/bass/branding.mk)
++
+ # Enable MultiWindow
+ PRODUCT_PROPERTY_OVERRIDES += \
+     persist.sys.debug.multi_window=true
+-- 
+2.43.0
+

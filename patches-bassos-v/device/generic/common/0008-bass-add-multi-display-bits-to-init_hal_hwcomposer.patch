@@ -1,17 +1,17 @@
-From 5e389005f14c8950d464e0547709062bc875b384 Mon Sep 17 00:00:00 2001
+From a7ce513a09d3310d2a0b3bca08fe6c5bed6f96b1 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Fri, 31 Jan 2025 08:52:54 -0500
-Subject: [PATCH 09/18] bass: add multi-display bits to init_hal_hwcomposer
+Subject: [PATCH 08/19] bass: add multi-display bits to init_hal_hwcomposer
 
 ---
  init.sh | 76 +++++++++++++++++++++++----------------------------------
  1 file changed, 31 insertions(+), 45 deletions(-)
 
 diff --git a/init.sh b/init.sh
-index 207f7c6..0cd6d3d 100644
+index b120f26..6c0ffa9 100644
 --- a/init.sh
 +++ b/init.sh
-@@ -521,12 +521,37 @@ function init_hal_hwcomposer()
+@@ -512,12 +512,37 @@ function init_hal_hwcomposer()
  	esac
  
  	if [[ "$HWC" == "drm_celadon" || "$HWC" == "drm_minigbm_celadon" ]]; then
@@ -55,7 +55,7 @@ index 207f7c6..0cd6d3d 100644
  	fi
  }
  
-@@ -790,45 +815,6 @@ function create_pointercal()
+@@ -781,45 +806,6 @@ function create_pointercal()
  	set_property ro.tscal.enable true 
  }
  
