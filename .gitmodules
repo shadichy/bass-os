@@ -1,3 +1,11 @@
 [submodule "aosptree/vendor/bass/includes/core-menu"]
 	path = aosptree/vendor/bass/includes/core-menu
 	url = https://github.com/electrikjesus/easy-menu-system.git
+
+[submodule "aosptree/vendor/bass/prebuilts/termux-x11-xfce4"]
+	path = aosptree/vendor/bass/prebuilts/termux-x11-xfce4
+	url = https://github.com/electrikjesus/Termux-x11-xfce4.git
+
+[submodule "aosptree/vendor/bass/prebuilts/wallpaperchanger"]
+	path = aosptree/vendor/bass/prebuilts/wallpaperchanger
+	url = git@github.com:BlissBass-Private/wallpaperchanger_prebuilt.git
