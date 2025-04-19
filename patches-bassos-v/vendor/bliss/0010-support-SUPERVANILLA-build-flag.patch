@@ -1,0 +1,31 @@
+From 5644bb660edab025418e6c39d3d943ea4a996751 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Sun, 13 Apr 2025 20:33:47 -0400
+Subject: [PATCH 10/10] support SUPERVANILLA build flag
+
+---
+ config/telephony.mk | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/config/telephony.mk b/config/telephony.mk
+index 929f3365..1ab40b4d 100644
+--- a/config/telephony.mk
++++ b/config/telephony.mk
+@@ -11,6 +11,14 @@ PRODUCT_PACKAGES += \
+ PRODUCT_PACKAGES += \
+     apns-conf.xml
+ 
++ifneq ($(BLISS_SUPER_VANILLA),true)
++
++# Telephony packages
++PRODUCT_PACKAGES += \
++    Stk
++
++endif
++
+ # Telephony packages
+ PRODUCT_PACKAGES += \
+     Stk
+-- 
+2.43.0
+

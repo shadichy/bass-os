@@ -1,0 +1,46 @@
+From a90b9cbbbc2e2c07cb9ab1976dec6ca00ec6476a Mon Sep 17 00:00:00 2001
+From: Li Huang <putin.li@rock-chips.com>
+Date: Thu, 17 Aug 2023 06:50:44 +0000
+Subject: [PATCH 2/4] SurfaceFlinger : Support three displays
+
+Change-Id: I66b8cb875c77c2210960d8e100cee4939eb3fc98
+Signed-off-by: Li Huang <putin.li@rock-chips.com>
+Signed-off-by: libin <bin.li@rock-chips.com>
+---
+ .../surfaceflinger/DisplayHardware/HWComposer.cpp     | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/services/surfaceflinger/DisplayHardware/HWComposer.cpp b/services/surfaceflinger/DisplayHardware/HWComposer.cpp
+index 776bcd3e32..5cfc0970ed 100644
+--- a/services/surfaceflinger/DisplayHardware/HWComposer.cpp
++++ b/services/surfaceflinger/DisplayHardware/HWComposer.cpp
+@@ -994,10 +994,10 @@ bool HWComposer::shouldIgnoreHotplugConnect(hal::HWDisplayId hwcDisplayId,
+     }
+ 
+     // Legacy mode only supports IDs LEGACY_DISPLAY_TYPE_PRIMARY and LEGACY_DISPLAY_TYPE_EXTERNAL.
+-    if (!mHasMultiDisplaySupport && mPhysicalDisplayIdMap.size() == 2) {
+-        ALOGE("Ignoring connection of tertiary display %" PRIu64, hwcDisplayId);
+-        return true;
+-    }
++    // if (!mHasMultiDisplaySupport && mPhysicalDisplayIdMap.size() == 2) {
++    //     ALOGE("Ignoring connection of tertiary display %" PRIu64, hwcDisplayId);
++    //     return true;
++    // }
+ 
+     return false;
+ }
+@@ -1042,9 +1042,10 @@ std::optional<DisplayIdentificationInfo> HWComposer::onHotplugConnect(
+                 }
+                 ALOGE("Failed to parse identification data for display %" PRIu64, hwcDisplayId);
+             } else {
++                port = isPrimary ? LEGACY_DISPLAY_TYPE_PRIMARY : hwcDisplayId;
+                 ALOGW_IF(hasDisplayIdentificationData,
+                          "Ignoring identification data for display %" PRIu64, hwcDisplayId);
+-                port = isPrimary ? LEGACY_DISPLAY_TYPE_PRIMARY : LEGACY_DISPLAY_TYPE_EXTERNAL;
++
+             }
+ 
+             return DisplayIdentificationInfo{.id = PhysicalDisplayId::fromPort(port),
+-- 
+2.43.0
+

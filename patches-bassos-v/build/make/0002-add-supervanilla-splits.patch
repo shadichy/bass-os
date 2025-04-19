@@ -1,0 +1,60 @@
+From 8a76d8b64b22c546ac35b114433e5a63307e7013 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Mon, 14 Apr 2025 16:15:55 -0400
+Subject: [PATCH 2/2] add supervanilla splits
+
+---
+ target/product/handheld_product.mk  | 12 ++++++++++--
+ target/product/telephony_product.mk |  4 ++++
+ 2 files changed, 14 insertions(+), 2 deletions(-)
+
+diff --git a/target/product/handheld_product.mk b/target/product/handheld_product.mk
+index 229e14882f..966f69627c 100644
+--- a/target/product/handheld_product.mk
++++ b/target/product/handheld_product.mk
+@@ -20,15 +20,23 @@
+ # does, use base_product.mk).
+ $(call inherit-product, $(SRC_TARGET_DIR)/product/media_product.mk)
+ 
++ifneq ($(BLISS_SUPER_VANILLA),true)
++
+ # /product packages
+ PRODUCT_PACKAGES += \
+-    Browser2 \
+     Calendar \
+     Camera2 \
+     Contacts \
++    Music 
++
++endif
++
++# /product packages
++PRODUCT_PACKAGES += \
++    Browser2 \
++    Camera2 \
+     DeskClock \
+     Gallery2 \
+-    Music \
+     preinstalled-packages-platform-handheld-product.xml \
+     QuickSearchBox \
+     SettingsIntelligence \
+diff --git a/target/product/telephony_product.mk b/target/product/telephony_product.mk
+index aa70f46797..c4eaad5e89 100644
+--- a/target/product/telephony_product.mk
++++ b/target/product/telephony_product.mk
+@@ -17,8 +17,12 @@
+ # This is the list of modules that are specific to products that have telephony
+ # hardware, and install to the product partition.
+ 
++ifneq ($(BLISS_SUPER_VANILLA),true)
++
+ # /product packages
+ PRODUCT_PACKAGES += \
+     Dialer \
+     ImsServiceEntitlement \
+     preinstalled-packages-platform-telephony-product.xml
++
++endif
+-- 
+2.43.0
+

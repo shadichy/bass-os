@@ -1,0 +1,34 @@
+From 6753c6f78992acc3cbc0ee4113cdf79290a5ab28 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Mon, 7 Apr 2025 13:49:41 -0400
+Subject: [PATCH 11/18] allow switch for system image type
+
+This allows us to set the config on build time
+USE_SQUASHFS or USE_EROFS
+---
+ BoardConfig.mk | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/BoardConfig.mk b/BoardConfig.mk
+index 07b81a5..2fb29dd 100644
+--- a/BoardConfig.mk
++++ b/BoardConfig.mk
+@@ -7,8 +7,13 @@ TARGET_BOARD_PLATFORM := android-x86
+ LOCAL_COMMON_TREE := device/generic/common
+ 
+ ## Switch to EROFS image instead of Squashfs
+-USE_SQUASHFS := 0
+-USE_EROFS := 1
++ifneq ($(USE_SQUASHFS),1)
++	USE_SQUASHFS := 0
++endif
++
++ifneq ($(USE_EROFS),1)
++	USE_EROFS := 1
++endif
+ 
+ # Architecture
+ TARGET_CPU_VARIANT := generic
+-- 
+2.43.0
+

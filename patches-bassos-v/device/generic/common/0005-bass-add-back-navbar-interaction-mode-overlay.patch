@@ -1,0 +1,29 @@
+From 9cd01cdeed103ae3b4fc10aa3901243ef4fcbb1c Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Fri, 24 Jan 2025 09:43:19 -0500
+Subject: [PATCH 05/18] bass: add back navbar interaction mode overlay
+
+---
+ overlay/frameworks/base/core/res/res/values/config.xml | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/overlay/frameworks/base/core/res/res/values/config.xml b/overlay/frameworks/base/core/res/res/values/config.xml
+index c8e222d..6c45874 100644
+--- a/overlay/frameworks/base/core/res/res/values/config.xml
++++ b/overlay/frameworks/base/core/res/res/values/config.xml
+@@ -116,6 +116,12 @@
+          available to the system.-->
+     <bool name="config_freeformWindowManagement">true</bool>
+ 
++    <!-- Controls the navigation bar interaction mode:
++         0: 3 button mode (back, home, overview buttons)
++         1: 2 button mode (back, home buttons + swipe up for overview)
++         2: gestures only for back, home and overview -->
++    <integer name="config_navBarInteractionMode">0</integer>
++
+     <!-- Controls the opacity of the navigation bar depending on the visibility of the
+          various workspace stacks.
+          0 - Nav bar is always opaque when either the freeform stack or docked stack is visible.
+-- 
+2.43.0
+

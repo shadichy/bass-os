@@ -1,0 +1,35 @@
+From bec189c6eecb5db6ed14d5c9d9ff1d31af6a896f Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Thu, 10 Apr 2025 17:12:28 -0400
+Subject: [PATCH 36/42] allow overriding
+ com.android.internal.R.bool.config_perDisplayFocusEnabled
+
+---
+ .../java/com/android/server/input/InputManagerService.java    | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/services/core/java/com/android/server/input/InputManagerService.java b/services/core/java/com/android/server/input/InputManagerService.java
+index f850c7c5cf0c..2bc87510c016 100644
+--- a/services/core/java/com/android/server/input/InputManagerService.java
++++ b/services/core/java/com/android/server/input/InputManagerService.java
+@@ -76,6 +76,7 @@ import android.os.RemoteCallbackList;
+ import android.os.RemoteException;
+ import android.os.ResultReceiver;
+ import android.os.ShellCallback;
++import android.os.SystemProperties;
+ import android.os.UserHandle;
+ import android.os.VibrationEffect;
+ import android.os.vibrator.StepSegment;
+@@ -2733,6 +2734,9 @@ public class InputManagerService extends IInputManager.Stub
+     // Native callback.
+     @SuppressWarnings("unused")
+     private boolean isPerDisplayTouchModeEnabled() {
++        if (SystemProperties.getBoolean("ro.boot.per_display_focus_enabled", false)) {
++            return true;
++        }
+         return mContext.getResources().getBoolean(
+                 com.android.internal.R.bool.config_perDisplayFocusEnabled);
+     }
+-- 
+2.43.0
+

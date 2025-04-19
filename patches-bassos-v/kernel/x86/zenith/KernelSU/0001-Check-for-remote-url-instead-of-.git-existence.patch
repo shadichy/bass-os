@@ -1,0 +1,82 @@
+From fb43fee64367177819b6f040f239cde59192d036 Mon Sep 17 00:00:00 2001
+From: hmtheboy154 <buingoc67@gmail.com>
+Date: Mon, 30 Sep 2024 02:26:17 -0400
+Subject: [PATCH] Check for remote url instead of .git existence
+
+Current implementation of .git checking have some issues:
+- If a kernel source being cloned using git-repo tool, especially
+newer version, it will clone .git in .repo inside of the submodule
+source.
+- Newer kernel source changed how $(src) & $(srctree) output. In
+the case of kernel 6.11 as I tested $(src) show the relative path
+of the symlink in drivers/ instead of KernelSU main directory.
+Which makes checking for ../.git existence comletely useless.
+
+One idea I would like to propose is to check for the remote URL in
+$(src). If the remote is correct then we can assume this is
+KSU repo and then count the version (also unshallow the repo).
+Here's what I did:
+- Check if kernel is 6.9+ and then change $(src) accordingly.
+- Print $(src) remote in verbose and check for the correct
+ URL (both ssh & https).
+- If correct, check if the repo is shallow by using
+git rev-parse --is-shallow-repository. Unshallow if it's return true.
+- Calculate version as usual.
+
+The only drawback I can see so far is that forks will have to edit
+the url in the Makefile, which I don't think it's much of an issue.
+
+Signed-off-by: hmtheboy154 <buingoc67@gmail.com>
+---
+ kernel/Makefile | 31 ++++++++++++++++++++++++++-----
+ 1 file changed, 26 insertions(+), 5 deletions(-)
+
+diff --git a/kernel/Makefile b/kernel/Makefile
+index 9fec3ef3..d2315b9b 100644
+--- a/kernel/Makefile
++++ b/kernel/Makefile
+@@ -16,15 +16,36 @@ ccflags-y += -I$(objtree)/security/selinux -include $(srctree)/include/uapi/asm-
+ 
+ obj-$(CONFIG_KSU) += kernelsu.o
+ 
+-# .git is a text file while the module is imported by 'git submodule add'.
+-ifeq ($(shell test -e $(srctree)/$(src)/../.git; echo $$?),0)
+-$(shell cd $(srctree)/$(src); /usr/bin/env PATH="$$PATH":/usr/bin:/usr/local/bin [ -f ../.git/shallow ] && git fetch --unshallow)
+-KSU_GIT_VERSION := $(shell cd $(srctree)/$(src); /usr/bin/env PATH="$$PATH":/usr/bin:/usr/local/bin git rev-list --count HEAD)
++IS_KERNEL_69 := $(strip $(shell \
++    if [ "$(VERSION)" -ge "6" -a "$(PATCHLEVEL)" -ge "9" ]; then \
++      echo TRUE; \
++    else \
++      echo FALSE; \
++    fi \
++  ))
++
++# https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=b1992c3772e69a6fd0e3fc81cd4d2820c8b6eca0
++ifeq ($(IS_KERNEL_69),TRUE)
++SRC_LOCATION := $(src)
++else
++SRC_LOCATION := $(srctree)/$(src)
++endif
++
++GIT_TOOL := /usr/bin/env PATH="$$PATH":/usr/bin:/usr/local/bin git
++
++# Check for both https & ssh remote
++REMOTE_CHECK := $(shell cd $(SRC_LOCATION); $(GIT_TOOL) remote -v | grep -E 'github\.com[/:]tiann/KernelSU')
++
++ifneq ($(REMOTE_CHECK),)
++ifeq ($(shell cd $(SRC_LOCATION); $(GIT_TOOL) rev-parse --is-shallow-repository),true)
++$(shell cd $(SRC_LOCATION); $(GIT_TOOL) fetch --unshallow)
++endif
++KSU_GIT_VERSION := $(shell cd $(SRC_LOCATION); $(GIT_TOOL) rev-list --count HEAD)
+ # ksu_version: major * 10000 + git version + 200 for historical reasons
+ $(eval KSU_VERSION=$(shell expr 10000 + $(KSU_GIT_VERSION) + 200))
+ $(info -- KernelSU version: $(KSU_VERSION))
+ ccflags-y += -DKSU_VERSION=$(KSU_VERSION)
+-else # If there is no .git file, the default version will be passed.
++else # Pass default version if the defined remote is not found
+ $(warning "KSU_GIT_VERSION not defined! It is better to make KernelSU a git submodule!")
+ ccflags-y += -DKSU_VERSION=16
+ endif
+-- 
+2.34.1
+

@@ -1,0 +1,25 @@
+From 011a1474bad78c547f7e97cea515cdb802c11650 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Wed, 29 May 2024 12:39:48 -0400
+Subject: [PATCH 05/10] inherit bass vendor functions
+
+---
+ build/envsetup.sh | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/build/envsetup.sh b/build/envsetup.sh
+index aa441ea8..251d4c7e 100644
+--- a/build/envsetup.sh
++++ b/build/envsetup.sh
+@@ -1088,6 +1088,8 @@ function blissify()
+     return $?
+ }
+ 
++source vendor/bass/bass_setup.sh
++
+ # Override host metadata to make builds more reproducible and avoid leaking info
+ export BUILD_USERNAME=nobody
+ export BUILD_HOSTNAME=android-build
+-- 
+2.43.0
+

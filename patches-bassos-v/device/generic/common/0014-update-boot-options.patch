@@ -1,0 +1,113 @@
+From a88f7b8a6ee05dceeba03b5000290a121987c987 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Fri, 11 Apr 2025 16:32:08 -0400
+Subject: [PATCH 14/18] update boot options
+
+---
+ boot_options/options.yaml | 54 +++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 52 insertions(+), 2 deletions(-)
+
+diff --git a/boot_options/options.yaml b/boot_options/options.yaml
+index 1c163f1..de9ed66 100644
+--- a/boot_options/options.yaml
++++ b/boot_options/options.yaml
+@@ -299,8 +299,6 @@
+             description: "SET_HDMI_ROTATION=landscape"
+           - name: "Force surfaceflinger primary display orientation to portrait"
+             description: "SET_HDMI_ROTATION=portrait"
+-      - name: "Set per window input rotation"
+-        description: "SET_PER_WINDOW_INPUT_ROTATION=1"
+       - name: "Set SurfaceFlinger rotation"
+         distinct: true
+         options:
+@@ -334,8 +332,21 @@
+             description: "SET_ROTATION_ON_INTERNAL_DISPLAY=180"
+           - name: "Force internal display rotation to 270"
+             description: "SET_ROTATION_ON_INTERNAL_DISPLAY=270"
++      - name: "Set external display rotation"
++        distinct: true
++        options:
++          - name: "Force external display rotation to 0"
++            description: "androidboot.force_rotation_on_external_displays=0"
++          - name: "Force external display rotation to 90"
++            description: "androidboot.force_rotation_on_external_displays=90"
++          - name: "Force external display rotation to 180"
++            description: "androidboot.force_rotation_on_external_displays=180"
++          - name: "Force external display rotation to 270"
++            description: "androidboot.force_rotation_on_external_displays=270"
+       - name: "Set override forced orientation (true/false)"
+         description: "SET_OVERRIDE_FORCED_ORIENT=1"
++      - name: "Set override per-display focus enabled (true/false)"
++        description: "androidboot.per_display_focus_enabled=true"
+       - name: "Forces system app orientation"
+         distinct: true
+         options:
+@@ -471,6 +482,10 @@
+         description: "FORCE_HIDE_NAVBAR_WINDOW="
+         editable: true
+         default: "0 "
++      - name: "Force navbar height override(int in pixels)"
++        description: "androidboot.force.navbar_height_override="
++        editable: true
++        default: "54 "
+       - name: "Force navigation bar on secondary displays (0,1)"
+         description: "FORCE_NAVBAR_ON_SECONDARY_DISPLAYS="
+         editable: true
+@@ -484,6 +499,32 @@
+     options:
+       - name: "Set right mouse as back"
+         description: "SET_RMB=true"
++      - name: "Set Win key as HOME key"
++        description: "androidboot.force.win_as_home=1"
++      - name: "Set multi-display mouse presentation"
++        description: "FORCE_MOUSE_PRESENTATION=1"
++      - name: "Set per window input rotation"
++        description: "SET_PER_WINDOW_INPUT_ROTATION=1"
++      - name: "Force disable external display focus (0,1)"
++        description: "androidboot.force.disable_external_display_focus="
++        editable: true
++        default: "0 "
++      - name: "force ignore external display input (0,1)"
++        description: "androidboot.force.ignore_external_input="
++        editable: true
++        default: "0 "
++      - name: "Force ignore external display touchscreen input (0,1)"
++        description: "androidboot.force.ignore_external_touch="
++        editable: true
++        default: "0 "
++      - name: "Only rotate primary touchscreen (true,false)"
++        description: "androidboot.only_rotate_primary_touch="
++        editable: true
++        default: "false "
++      - name: "Only rotate secondary touchscreen (external) (true,false)"
++        description: "androidboot.only_rotate_secondary_touch="
++        editable: true
++        default: "false "
+ 
+   - name: "TimeZone Options"
+     options:
+@@ -506,6 +547,7 @@
+         description: "DISMISS_USB_ACCESS_DIALOG="
+         editable: true
+         default: "true "
++
+   - name: "Customization Options"
+     options:
+       - name: "Override Bootanimation"
+@@ -516,5 +558,13 @@
+         description: "BLISS_INPUT_PORTS_ADDON=1"
+       - name: "Addon vendor init"
+         description: "ADDON_BASSINIT=1"
++
++  - name: "Lockdown/Admin Boot Modes"
++    distinct: true
++    options:
++      - name: "Lockdown Mode"
++        description: "androidboot.bliss.bootmode=lockdown"
++      - name: "Admin Mode"
++        description: "androidboot.bliss.bootmode=admin"
+       
+ 
+-- 
+2.43.0
+

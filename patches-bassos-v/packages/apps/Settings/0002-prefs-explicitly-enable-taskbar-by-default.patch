@@ -1,0 +1,25 @@
+From c106b938ebfb3228db3f4335ff107edf044ff90b Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Sat, 1 Jun 2024 23:07:38 -0400
+Subject: [PATCH 2/2] prefs: explicitly enable taskbar by default
+
+---
+ res/xml/button_settings.xml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/res/xml/button_settings.xml b/res/xml/button_settings.xml
+index 6b7dfa2f64b..f72fb8d8773 100644
+--- a/res/xml/button_settings.xml
++++ b/res/xml/button_settings.xml
+@@ -42,7 +42,7 @@
+         android:title="@string/navigation_bar_category" >
+ 
+         <SwitchPreferenceCompat
+-                android:key="enable_taskbar"
++                android:key="enable_taskbar" android:defaultValue="true"
+                 android:title="@string/navigation_bar_enable_taskbar_title" />
+ 
+         <com.bliss.support.preferences.SystemSettingSwitchPreference
+-- 
+2.43.0
+

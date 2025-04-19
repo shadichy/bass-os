@@ -1,0 +1,106 @@
+From 5e389005f14c8950d464e0547709062bc875b384 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Fri, 31 Jan 2025 08:52:54 -0500
+Subject: [PATCH 09/18] bass: add multi-display bits to init_hal_hwcomposer
+
+---
+ init.sh | 76 +++++++++++++++++++++++----------------------------------
+ 1 file changed, 31 insertions(+), 45 deletions(-)
+
+diff --git a/init.sh b/init.sh
+index 207f7c6..0cd6d3d 100644
+--- a/init.sh
++++ b/init.sh
+@@ -521,12 +521,37 @@ function init_hal_hwcomposer()
+ 	esac
+ 
+ 	if [[ "$HWC" == "drm_celadon" || "$HWC" == "drm_minigbm_celadon" ]]; then
+-		set_property vendor.hwcomposer.planes.enabling $MULTI_PLANE
+-		set_property vendor.hwcomposer.planes.num $MULTI_PLANE_NUM
+-		set_property vendor.hwcomposer.preferred.mode.limit $HWC_PREFER_MODE
+-		set_property vendor.hwcomposer.connector.id $CONNECTOR_ID
+-		set_property vendor.hwcomposer.mode.id $MODE_ID
+-		set_property vendor.hwcomposer.connector.multi_refresh_rate $MULTI_REFRESH_RATE
++		if [ -f /data/data/com.bliss.multidisplaysettings/shared_prefs/com.bliss.multidisplaysettings_preferences.xml ]; then
++			xml=$(cat /data/data/com.bliss.multidisplaysettings/shared_prefs/com.bliss.multidisplaysettings_preferences.xml)
++
++			function get_string() {
++			local key=$1
++			echo "$xml" | awk -F'[<>]' '/<string name="'$key'">/{print $3}'
++			}
++
++			function get_boolean() {
++			local key=$1
++			local value=$(echo "$xml" | awk -F'"' '/<boolean name="'$key'"/{print $4}')
++			[[ "$value" == "true" ]] && echo 1 || echo 0
++			}
++
++
++			vendor_hwcomposer_mode_id=$(get_string vendor.hwcomposer.mode.id)
++			vendor_hwcomposer_connector_id=$(get_string vendor.hwcomposer.connector.id)
++			vendor_hwcomposer_planes_num=$(get_string vendor.hwcomposer.planes.num)
++
++			vendor_hwcomposer_preferred_mode_limit=$(get_boolean vendor.hwcomposer.preferred.mode.limit)
++			vendor_hwcomposer_connector_multi_refresh_rate=$(get_boolean vendor.hwcomposer.multi_refresh_rate)
++			vendor_hwcomposer_planes_enabling=$(get_boolean vendor.hwcomposer.planes.enabling)
++
++		fi
++
++		set_property vendor.hwcomposer.mode.id ${MODE_ID:-$vendor_hwcomposer_mode_id}
++		set_property vendor.hwcomposer.connector.id ${CONNECTOR_ID:-$vendor_hwcomposer_connector_id}
++		set_property vendor.hwcomposer.planes.num ${MULTI_PLANE_NUM:-$vendor_hwcomposer_planes_num}
++		set_property vendor.hwcomposer.preferred.mode.limit ${HWC_PREFER_MODE:-$vendor_hwcomposer_preferred_mode_limit}
++		set_property vendor.hwcomposer.connector.multi_refresh_rate ${MULTI_REFRESH_RATE:-$vendor_hwcomposer_connector_multi_refresh_rate}
++		set_property vendor.hwcomposer.planes.enabling ${MULTI_PLANE:-$vendor_hwcomposer_planes_enabling}
+ 	fi
+ }
+ 
+@@ -790,45 +815,6 @@ function create_pointercal()
+ 	set_property ro.tscal.enable true 
+ }
+ 
+-
+-function set_multidisplay_options()
+-{
+-	 if [[ "$HWC" == "drm_celadon" || "$HWC" == "drm_minigbm_celadon" ]]; then
+-
+-		if [ -f /data/data/com.bliss.multidisplaysettings/shared_prefs/com.bliss.multidisplaysettings_preferences.xml ]; then
+-			xml=$(cat /data/data/com.bliss.multidisplaysettings/shared_prefs/com.bliss.multidisplaysettings_preferences.xml)
+-
+-			function get_string() {
+-			local key=$1
+-			echo "$xml" | awk -F'[<>]' '/<string name="'$key'">/{print $3}'
+-			}
+-
+-			function get_boolean() {
+-			local key=$1
+-			local value=$(echo "$xml" | awk -F'"' '/<boolean name="'$key'"/{print $4}')
+-			[[ "$value" == "true" ]] && echo 1 || echo 0
+-			}
+-
+-
+-			vendor_hwcomposer_mode_id=$(get_string vendor.hwcomposer.mode.id)
+-			vendor_hwcomposer_connector_id=$(get_string vendor.hwcomposer.connector.id)
+-			vendor_hwcomposer_planes_num=$(get_string vendor.hwcomposer.planes.num)
+-
+-			vendor_hwcomposer_preferred_mode_limit=$(get_boolean vendor.hwcomposer.preferred.mode.limit)
+-			vendor_hwcomposer_connector_multi_refresh_rate=$(get_boolean vendor.hwcomposer.multi_refresh_rate)
+-			vendor_hwcomposer_planes_enabling=$(get_boolean vendor.hwcomposer.planes.enabling)
+-
+-		fi
+-
+-		set_property vendor.hwcomposer.mode.id ${MODE_ID:-$vendor_hwcomposer_mode_id}
+-		set_property vendor.hwcomposer.connector.id ${CONNECTOR_ID:-$vendor_hwcomposer_connector_id}
+-		set_property vendor.hwcomposer.planes.num ${MULTI_PLANE_NUM:-$vendor_hwcomposer_planes_num}
+-		set_property vendor.hwcomposer.preferred.mode.limit ${HWC_PREFER_MODE:-$vendor_hwcomposer_preferred_mode_limit}
+-		set_property vendor.hwcomposer.connector.multi_refresh_rate ${MULTI_REFRESH_RATE:-$vendor_hwcomposer_connector_multi_refresh_rate}
+-		set_property vendor.hwcomposer.planes.enabling ${MULTI_PLANE:-$vendor_hwcomposer_planes_enabling}
+-	fi
+-}
+-
+ function init_tscal()
+ {
+     if [ "$FORCE_TSCAL" -ge "1" ]; then
+-- 
+2.43.0
+

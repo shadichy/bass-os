@@ -1,0 +1,25 @@
+From 0d4cb1e2e609641fce8a12c4052919d4afdcae79 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Tue, 15 Oct 2024 12:12:56 -0400
+Subject: [PATCH 07/10] Call bass_build_config on envsetup
+
+---
+ build/envsetup.sh | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/build/envsetup.sh b/build/envsetup.sh
+index 251d4c7e..58670fe2 100644
+--- a/build/envsetup.sh
++++ b/build/envsetup.sh
+@@ -1090,6 +1090,8 @@ function blissify()
+ 
+ source vendor/bass/bass_setup.sh
+ 
++bass_build_config
++
+ # Override host metadata to make builds more reproducible and avoid leaking info
+ export BUILD_USERNAME=nobody
+ export BUILD_HOSTNAME=android-build
+-- 
+2.43.0
+
