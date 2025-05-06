@@ -1,0 +1,41 @@
+From 811379c963a166b54adf55e30070eb309168014c Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Tue, 11 Jun 2024 20:48:57 -0400
+Subject: [PATCH 11/14] Add method to block external touch input only
+
+Uses ro.boot.force.ignore_external_touch
+---
+ services/inputflinger/reader/InputDevice.cpp | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/services/inputflinger/reader/InputDevice.cpp b/services/inputflinger/reader/InputDevice.cpp
+index dee9d3ba0e..fc16abd734 100644
+--- a/services/inputflinger/reader/InputDevice.cpp
++++ b/services/inputflinger/reader/InputDevice.cpp
+@@ -258,6 +258,10 @@ std::list<NotifyArgs> InputDevice::configureInternal(nsecs_t when,
+     char mIgnoreExternalInput[PROPERTY_VALUE_MAX] = {0};
+     property_get("ro.boot.force.ignore_external_input", mIgnoreExternalInput, "0");
+ 
++    // Allow blocking external touch input
++    char mIgnoreExternalTouch[PROPERTY_VALUE_MAX] = {0};
++    property_get("ro.boot.force.ignore_external_touch", mIgnoreExternalTouch, "0");
++
+     if (!changes.any() || !isIgnored()) {
+         // Full configuration should happen the first time configure is called
+         // and when the device type is changed. Changing a device type can
+@@ -368,6 +372,12 @@ std::list<NotifyArgs> InputDevice::configureInternal(nsecs_t when,
+                 if (mIsExternal) {
+                     enabled = false;
+                 }
++            } else if (strcmp(mIgnoreExternalTouch, "1") == 0) {
++                if (mIsExternal) {
++                    if ((mClasses.test(InputDeviceClass::TOUCH)) || (mClasses.test(InputDeviceClass::TOUCH_MT))) {
++                        enabled = false;
++                    }
++                }
+             }
+ 
+             if (getAssociatedDisplayId() != oldAssociatedDisplayId) {
+-- 
+2.43.0
+

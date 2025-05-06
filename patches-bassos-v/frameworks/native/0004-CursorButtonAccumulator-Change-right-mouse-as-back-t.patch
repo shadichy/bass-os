@@ -1,8 +1,8 @@
-From 3791c580413dc46e1d9ece36441c91f87b65d3c8 Mon Sep 17 00:00:00 2001
+From 98e99565be9c35ef8aa6b74c2f23af3f73cb7cb1 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Wed, 22 Jan 2025 14:33:51 -0500
-Subject: [PATCH 4/4] CursorButtonAccumulator: Change right mouse as back to a
- persist prop
+Subject: [PATCH 04/14] CursorButtonAccumulator: Change right mouse as back to
+ a persist prop
 
 persist.mouse.right_mouse_as_back=true
 ---
@@ -10,7 +10,7 @@ persist.mouse.right_mouse_as_back=true
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/services/inputflinger/reader/mapper/accumulator/CursorButtonAccumulator.cpp b/services/inputflinger/reader/mapper/accumulator/CursorButtonAccumulator.cpp
-index d39cfc6bd2..43f076f151 100644
+index 482dbddffc..a228e041d7 100644
 --- a/services/inputflinger/reader/mapper/accumulator/CursorButtonAccumulator.cpp
 +++ b/services/inputflinger/reader/mapper/accumulator/CursorButtonAccumulator.cpp
 @@ -86,7 +86,7 @@ uint32_t CursorButtonAccumulator::getButtonState() const {

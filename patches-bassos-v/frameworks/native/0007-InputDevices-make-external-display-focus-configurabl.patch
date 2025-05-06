@@ -1,0 +1,42 @@
+From 6b1384351f20a2ca28a3dde8cf2f5d370ea397a9 Mon Sep 17 00:00:00 2001
+From: electrikjesus <electrikjesus@gmail.com>
+Date: Thu, 2 May 2024 12:44:23 -0400
+Subject: [PATCH 07/14] InputDevices: make external display focus configurable
+
+ro.boot.force.disable_external_display_focus=1
+---
+ services/inputflinger/reader/InputDevice.cpp | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/services/inputflinger/reader/InputDevice.cpp b/services/inputflinger/reader/InputDevice.cpp
+index 845efe2f1a..957604faf6 100644
+--- a/services/inputflinger/reader/InputDevice.cpp
++++ b/services/inputflinger/reader/InputDevice.cpp
+@@ -19,6 +19,7 @@
+ #include "InputDevice.h"
+ 
+ #include <algorithm>
++#include <cutils/properties.h>
+ 
+ #include <android/sysprop/InputProperties.sysprop.h>
+ #include <ftl/flags.h>
+@@ -234,7 +235,15 @@ std::list<NotifyArgs> InputDevice::configureInternal(nsecs_t when,
+         }
+     });
+ 
+-    mIsExternal = false;
++    // Allow overriding focused display prop
++    char mSetFocusedDisplayPropToo[PROPERTY_VALUE_MAX] = {0};
++    property_get("ro.boot.force.disable_external_display_focus", mSetFocusedDisplayPropToo, "0");
++    if (strcmp(mSetFocusedDisplayPropToo, "1") == 0) {
++        mIsExternal = false;
++    } else {
++        mIsExternal = mClasses.test(InputDeviceClass::EXTERNAL);
++    }
++    
+     mHasMic = mClasses.test(InputDeviceClass::MIC);
+ 
+     // Update keyboard type
+-- 
+2.43.0
+

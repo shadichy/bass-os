@@ -1,0 +1,25 @@
+From ad9a5fca50bed81037ba8c4e5807b19dffdb1f8a Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Sun, 4 May 2025 21:24:42 -0400
+Subject: [PATCH 13/14] InputDevices: Fix disabledDevices status
+
+---
+ services/inputflinger/reader/InputDevice.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/services/inputflinger/reader/InputDevice.cpp b/services/inputflinger/reader/InputDevice.cpp
+index 54c12d623e..7f94ee7b5b 100644
+--- a/services/inputflinger/reader/InputDevice.cpp
++++ b/services/inputflinger/reader/InputDevice.cpp
+@@ -344,7 +344,7 @@ std::list<NotifyArgs> InputDevice::configureInternal(nsecs_t when,
+ 
+             // If it is associated with a specific display, then find the corresponding viewport
+             // which will be used to enable/disable the device.
+-            bool enabled = (config->disabledDevices.find(mId) == config->disabledDevices.end());
++            bool enabled = (readerConfig->disabledDevices.find(mId) == readerConfig->disabledDevices.end());
+             if (mAssociatedDisplayPort) {
+                 mAssociatedViewport =
+                         readerConfig.getDisplayViewportByPort(*mAssociatedDisplayPort);
+-- 
+2.43.0
+

@@ -1,0 +1,31 @@
+From 836532fe693b34ebedea9efcb4bc4ae84662ac32 Mon Sep 17 00:00:00 2001
+From: Erfan Abdi <erfangplus@gmail.com>
+Date: Thu, 16 May 2024 22:02:32 +0330
+Subject: [PATCH 05/14] inputflinger: Make sure associated displayID 0 is
+ internal
+
+Change-Id: If5cd221576d3b8d332bd5949fb9fadf248296f30
+---
+ services/inputflinger/reader/InputDevice.cpp | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/services/inputflinger/reader/InputDevice.cpp b/services/inputflinger/reader/InputDevice.cpp
+index 6185f1ab9e..ed00303d01 100644
+--- a/services/inputflinger/reader/InputDevice.cpp
++++ b/services/inputflinger/reader/InputDevice.cpp
+@@ -290,7 +290,11 @@ std::list<NotifyArgs> InputDevice::configureInternal(nsecs_t when,
+                         readerConfig.inputPortToDisplayPortAssociations;
+                 const auto& displayPort = ports.find(inputDeviceDescriptor);
+                 if (displayPort != ports.end()) {
+-                    mAssociatedDisplayPort = std::make_optional(displayPort->second);
++                    if (displayPort->second == 0) {
++                        mIsExternal = false;
++                    } else {
++                        mAssociatedDisplayPort = std::make_optional(displayPort->second);
++                    }                        
+                 } else {
+                     const std::unordered_map<std::string, std::string>&
+                             displayUniqueIdsByDescriptor =
+-- 
+2.43.0
+

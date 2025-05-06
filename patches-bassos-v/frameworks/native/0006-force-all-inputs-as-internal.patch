@@ -1,0 +1,26 @@
+From 2914965e9aa670419e6d6c2f0d63082b47039512 Mon Sep 17 00:00:00 2001
+From: Erfan Abdi <erfangplus@gmail.com>
+Date: Thu, 2 May 2024 19:38:02 +0330
+Subject: [PATCH 06/14] force all inputs as internal
+
+Change-Id: I9a0100b078595dba3e16c96cd8c7f2fc1b0316cd
+---
+ services/inputflinger/reader/InputDevice.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/services/inputflinger/reader/InputDevice.cpp b/services/inputflinger/reader/InputDevice.cpp
+index ed00303d01..845efe2f1a 100644
+--- a/services/inputflinger/reader/InputDevice.cpp
++++ b/services/inputflinger/reader/InputDevice.cpp
+@@ -234,7 +234,7 @@ std::list<NotifyArgs> InputDevice::configureInternal(nsecs_t when,
+         }
+     });
+ 
+-    mIsExternal = mClasses.test(InputDeviceClass::EXTERNAL);
++    mIsExternal = false;
+     mHasMic = mClasses.test(InputDeviceClass::MIC);
+ 
+     // Update keyboard type
+-- 
+2.43.0
+

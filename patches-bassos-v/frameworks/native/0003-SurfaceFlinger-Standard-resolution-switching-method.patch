@@ -1,7 +1,7 @@
-From d8bd1178852c0ad36c40fc248392e67bd566ab52 Mon Sep 17 00:00:00 2001
+From b4b28617468c050174472c84845a0527e5626107 Mon Sep 17 00:00:00 2001
 From: Li Huang <putin.li@rock-chips.com>
 Date: Thu, 17 Aug 2023 08:23:11 +0000
-Subject: [PATCH 3/4] SurfaceFlinger : Standard resolution switching method.
+Subject: [PATCH 03/14] SurfaceFlinger : Standard resolution switching method.
 
 Fix a BUG for switching resolutin by standard method.
 The destinationClip parameter will be abnormal.
@@ -15,10 +15,10 @@ Signed-off-by: libin <bin.li@rock-chips.com>
  1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/services/surfaceflinger/SurfaceFlinger.cpp b/services/surfaceflinger/SurfaceFlinger.cpp
-index 6bd5d6e304..50fca59813 100644
+index b0575770ad..ea29a3758b 100644
 --- a/services/surfaceflinger/SurfaceFlinger.cpp
 +++ b/services/surfaceflinger/SurfaceFlinger.cpp
-@@ -3942,6 +3942,12 @@ void SurfaceFlinger::processDisplayChanged(const wp<IBinder>& displayToken,
+@@ -3938,6 +3938,12 @@ void SurfaceFlinger::processDisplayChanged(const wp<IBinder>& displayToken,
          if (currentState.flags != drawingState.flags) {
              display->setFlags(currentState.flags);
          }
@@ -31,7 +31,7 @@ index 6bd5d6e304..50fca59813 100644
          if ((currentState.orientation != drawingState.orientation) ||
              (currentState.layerStackSpaceRect != drawingState.layerStackSpaceRect) ||
              (currentState.orientedDisplaySpaceRect != drawingState.orientedDisplaySpaceRect)) {
-@@ -3955,7 +3961,6 @@ void SurfaceFlinger::processDisplayChanged(const wp<IBinder>& displayToken,
+@@ -3951,7 +3957,6 @@ void SurfaceFlinger::processDisplayChanged(const wp<IBinder>& displayToken,
          }
          if (currentState.width != drawingState.width ||
              currentState.height != drawingState.height) {

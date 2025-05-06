@@ -1,0 +1,36 @@
+From e4f2252ef8c98f78b684c3d8c69207bfad37561b Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Tue, 11 Jun 2024 16:30:10 -0400
+Subject: [PATCH 10/14] use the enabled property instead
+
+---
+ services/inputflinger/reader/InputDevice.cpp | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/services/inputflinger/reader/InputDevice.cpp b/services/inputflinger/reader/InputDevice.cpp
+index cabf3eb081..dee9d3ba0e 100644
+--- a/services/inputflinger/reader/InputDevice.cpp
++++ b/services/inputflinger/reader/InputDevice.cpp
+@@ -258,7 +258,7 @@ std::list<NotifyArgs> InputDevice::configureInternal(nsecs_t when,
+     char mIgnoreExternalInput[PROPERTY_VALUE_MAX] = {0};
+     property_get("ro.boot.force.ignore_external_input", mIgnoreExternalInput, "0");
+ 
+-    if ((!changes.any() || !isIgnored()) && ((strcmp(mIgnoreExternalInput, "1") == 0) && (mIsExternal == true))) {
++    if (!changes.any() || !isIgnored()) {
+         // Full configuration should happen the first time configure is called
+         // and when the device type is changed. Changing a device type can
+         // affect various other parameters so should result in a
+@@ -364,6 +364,10 @@ std::list<NotifyArgs> InputDevice::configureInternal(nsecs_t when,
+                           "corresponding viewport cannot be found",
+                           getName().c_str(), mAssociatedDisplayUniqueIdByPort->c_str());
+                 }
++            } else if (strcmp(mIgnoreExternalInput, "1") == 0) {
++                if (mIsExternal) {
++                    enabled = false;
++                }
+             }
+ 
+             if (getAssociatedDisplayId() != oldAssociatedDisplayId) {
+-- 
+2.43.0
+
