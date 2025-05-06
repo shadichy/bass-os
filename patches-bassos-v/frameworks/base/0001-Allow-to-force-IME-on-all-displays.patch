@@ -1,7 +1,7 @@
-From 41472a7ac139e14383b67cb740bbf0ecd0ca0962 Mon Sep 17 00:00:00 2001
+From 37bea6a8c2bd89d6217b6cdfe8d939fea19143e7 Mon Sep 17 00:00:00 2001
 From: electrikjesus <electrikjesus@gmail.com>
 Date: Fri, 19 Jan 2024 13:37:10 -0500
-Subject: [PATCH 03/42] Allow to force IME on all displays
+Subject: [PATCH 01/28] Allow to force IME on all displays
 
 Uses "ro.boot.bliss.force_ime_on_all_displays" property (true,false)
 
@@ -11,10 +11,10 @@ or pass it through Grub with androidboot.bliss.force_ime_on_all_displays=true
  1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/services/core/java/com/android/server/wm/DisplayWindowSettings.java b/services/core/java/com/android/server/wm/DisplayWindowSettings.java
-index 7a95c2d6d934..0d7bc9ec1c8e 100644
+index e585efa8a3cc..98d785d68397 100644
 --- a/services/core/java/com/android/server/wm/DisplayWindowSettings.java
 +++ b/services/core/java/com/android/server/wm/DisplayWindowSettings.java
-@@ -28,6 +28,7 @@ import static com.android.server.wm.DisplayContent.FORCE_SCALING_MODE_DISABLED;
+@@ -29,6 +29,7 @@ import static com.android.server.wm.DisplayContent.FORCE_SCALING_MODE_DISABLED;
  import android.annotation.NonNull;
  import android.annotation.Nullable;
  import android.app.WindowConfiguration;
@@ -22,7 +22,7 @@ index 7a95c2d6d934..0d7bc9ec1c8e 100644
  import android.provider.Settings;
  import android.view.Display;
  import android.view.DisplayInfo;
-@@ -274,7 +275,11 @@ class DisplayWindowSettings {
+@@ -288,7 +289,11 @@ class DisplayWindowSettings {
              // Default display should show IME.
              return DISPLAY_IME_POLICY_LOCAL;
          }

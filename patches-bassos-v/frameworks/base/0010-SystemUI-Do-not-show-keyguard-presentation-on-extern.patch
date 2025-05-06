@@ -1,7 +1,7 @@
-From b96c19110b5a21eeb22a8477ef7258395fabed68 Mon Sep 17 00:00:00 2001
+From f45d62bd08c90f5bbc7f9a080fe2c92ea123361a Mon Sep 17 00:00:00 2001
 From: Wu Liangqing <wlq@rock-chips.com>
 Date: Sun, 7 Nov 2021 09:37:08 +0800
-Subject: [PATCH 25/42] SystemUI: Do not show keyguard presentation on external
+Subject: [PATCH 10/28] SystemUI: Do not show keyguard presentation on external
  display
 
 Test: CtsWindowManagerDeviceTestCases
@@ -12,10 +12,10 @@ Change-Id: I872b1796544f5aad69cdb581b9d7d121d95afdf4
  1 file changed, 6 insertions(+)
 
 diff --git a/packages/SystemUI/src/com/android/keyguard/KeyguardDisplayManager.java b/packages/SystemUI/src/com/android/keyguard/KeyguardDisplayManager.java
-index 0bb5c174444f..71203872ff10 100644
+index 1342dd05d7f2..a062c0c0191b 100644
 --- a/packages/SystemUI/src/com/android/keyguard/KeyguardDisplayManager.java
 +++ b/packages/SystemUI/src/com/android/keyguard/KeyguardDisplayManager.java
-@@ -146,6 +146,12 @@ public class KeyguardDisplayManager {
+@@ -147,6 +147,12 @@ public class KeyguardDisplayManager {
              return false;
          }
  

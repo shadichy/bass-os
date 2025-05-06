@@ -1,17 +1,17 @@
-From b79018c9b43118095fa37f2bcf35c0b441fdd19e Mon Sep 17 00:00:00 2001
+From 5fa7f5337db85d720d065f312835c812c188dce5 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Wed, 15 Nov 2023 13:41:06 -0500
-Subject: [PATCH 15/42] Remove Android is starting string from boot sequence
+Subject: [PATCH 08/28] Remove Android is starting string from boot sequence
 
 ---
  core/res/res/values/strings.xml | 8 ++++----
  1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/core/res/res/values/strings.xml b/core/res/res/values/strings.xml
-index ea0b1811539c..69d4b95ddfc2 100644
+index 43a99706d5b1..acb074e939da 100644
 --- a/core/res/res/values/strings.xml
 +++ b/core/res/res/values/strings.xml
-@@ -3470,13 +3470,13 @@
+@@ -3505,13 +3505,13 @@
      <string name="android_upgrading_title" product="device">Device is updating\u2026</string>
  
      <!-- [CHAR LIMIT=40] Title of dialog that is shown when system is starting. -->

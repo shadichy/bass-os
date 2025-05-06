@@ -1,15 +1,15 @@
-From 44dd861786d74870a75e861c57614fc528604cdd Mon Sep 17 00:00:00 2001
+From b545fbb7989616097d71f8275c102fbee51d1300 Mon Sep 17 00:00:00 2001
 From: Erfan Abdi <erfangplus@gmail.com>
 Date: Sun, 20 Feb 2022 10:02:50 +0100
-Subject: [PATCH 12/42] fwb: Limit app installation on lockdown mode
+Subject: [PATCH 22/28] fwb: Limit app installation on lockdown mode
 
 Change-Id: I2b8a791a25d47b127f54b48df4a07d8a5ec94a7c
 ---
- .../android/packageinstaller/PackageInstallerActivity.java  | 6 ++++++
- 1 file changed, 6 insertions(+)
+ .../android/packageinstaller/PackageInstallerActivity.java   | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/packages/PackageInstaller/src/com/android/packageinstaller/PackageInstallerActivity.java b/packages/PackageInstaller/src/com/android/packageinstaller/PackageInstallerActivity.java
-index 45bfe5469172..a24bd807187f 100644
+index 824dd4a5fdaf..6a6f5103a64e 100644
 --- a/packages/PackageInstaller/src/com/android/packageinstaller/PackageInstallerActivity.java
 +++ b/packages/PackageInstaller/src/com/android/packageinstaller/PackageInstallerActivity.java
 @@ -44,6 +44,7 @@ import android.os.Bundle;
@@ -20,24 +20,17 @@ index 45bfe5469172..a24bd807187f 100644
  import android.os.UserHandle;
  import android.os.UserManager;
  import android.provider.Settings;
-@@ -557,12 +558,17 @@ public class PackageInstallerActivity extends Activity {
+@@ -549,6 +550,10 @@ public class PackageInstallerActivity extends Activity {
       * Check if it is allowed to install the package and initiate install if allowed.
       */
      private void checkIfAllowedAndInitiateInstall() {
 +        if (SystemProperties.get("ro.boot.bliss.bootmode").equals("lockdown")) {
-+            showDialogInner(DLG_UNKNOWN_SOURCES_RESTRICTED_FOR_USER);
++            showDialogInner(DLG_EXTERNAL_SOURCE_BLOCKEDs);
 +            return;
 +        }
-         if (mAllowUnknownSources || !isInstallRequestFromUnknownSource(getIntent())) {
+         if (mAllowUnknownSources || getIntent().getBooleanExtra(EXTRA_IS_TRUSTED_SOURCE, false)) {
              if (mLocalLOGV) Log.i(TAG, "install allowed");
              initiateInstall();
-         } else {
-             handleUnknownSources();
-         }
-+        
-     }
- 
-     private void handleUnknownSources() {
 -- 
 2.43.0
 

@@ -1,7 +1,7 @@
-From a3f5c0e8e12edf137b6d4374d23b71307f7a8cff Mon Sep 17 00:00:00 2001
+From 7e937e80652bb7aa670b4a0ea67c30653652b7df Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Sat, 4 Jan 2025 16:00:45 -0500
-Subject: [PATCH 20/42] fix: force_rotation_on_external_displays for qpr3
+Subject: [PATCH 26/28] fix: force_rotation_on_external_displays for qpr3
  updates
 
 ---
@@ -9,10 +9,10 @@ Subject: [PATCH 20/42] fix: force_rotation_on_external_displays for qpr3
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/services/core/java/com/android/server/display/DisplayManagerService.java b/services/core/java/com/android/server/display/DisplayManagerService.java
-index 93c0a1a493dd..67e172632e79 100644
+index 2268bcb474ee..bda4bae4d37b 100644
 --- a/services/core/java/com/android/server/display/DisplayManagerService.java
 +++ b/services/core/java/com/android/server/display/DisplayManagerService.java
-@@ -702,9 +702,9 @@ public final class DisplayManagerService extends SystemService {
+@@ -758,9 +758,9 @@ public final class DisplayManagerService extends SystemService {
                  
                  // Check if the property ro.boot.android.force_rotation_on_external_displays is set and use that for external displays
                  String forceRotationOnExternalDisplays = SystemProperties.get("ro.boot.android.force_rotation_on_external_displays","0");

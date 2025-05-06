@@ -1,7 +1,7 @@
-From 3427896e54e6b1bc130196136b42b1059f5e77bd Mon Sep 17 00:00:00 2001
+From 9c5f7466c1dc4d969fef64a4755b7fefc63d85e2 Mon Sep 17 00:00:00 2001
 From: Dhina17 <dhinalogu@gmail.com>
 Date: Fri, 2 Aug 2024 20:03:07 +0530
-Subject: [PATCH 32/42] SystemUI: Fix NPE on creating taskview for controls ui
+Subject: [PATCH 16/28] SystemUI: Fix NPE on creating taskview for controls ui
 
 Fixes crash on launching A11 power menu with device controls.
 

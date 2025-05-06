@@ -1,7 +1,7 @@
-From ad722bd69495be4aa0f8b927f0bb0fbd183ab028 Mon Sep 17 00:00:00 2001
+From fd5039218a8ec212ddb40a1716f9e3ae664ca0af Mon Sep 17 00:00:00 2001
 From: electrikjesus <electrikjesus@gmail.com>
 Date: Tue, 19 Mar 2024 21:20:07 -0400
-Subject: [PATCH 09/42] DisplayLayout: Allow overriding navbar height through
+Subject: [PATCH 19/28] DisplayLayout: Allow overriding navbar height through
  properties
 
 Use ro.boot.force.navbar_height_override=(integer)
@@ -10,24 +10,25 @@ Use ro.boot.force.navbar_height_override=(integer)
  1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/libs/WindowManager/Shell/src/com/android/wm/shell/common/DisplayLayout.java b/libs/WindowManager/Shell/src/com/android/wm/shell/common/DisplayLayout.java
-index 7796e26e28e8..4408b18546da 100644
+index 4b46f006d28f..14677193e98b 100644
 --- a/libs/WindowManager/Shell/src/com/android/wm/shell/common/DisplayLayout.java
 +++ b/libs/WindowManager/Shell/src/com/android/wm/shell/common/DisplayLayout.java
-@@ -217,7 +217,13 @@ public class DisplayLayout {
+@@ -220,8 +220,14 @@ public class DisplayLayout {
+         mStableInsets.set(mNonDecorInsets);
          if (mHasStatusBar) {
              convertNonDecorInsetsToStableInsets(res, mStableInsets, mCutout, mHasStatusBar);
-         }
--        mNavBarFrameHeight = getNavigationBarFrameHeight(res, mWidth > mHeight);
++        }        
 +        // Allow a system property to override anvbar height.
 +        final String navbarHeightOverride = SystemProperties.get("ro.boot.force.navbar_height_override");
 +        if (!navbarHeightOverride.isEmpty()) {
 +            mNavBarFrameHeight = Integer.parseInt(navbarHeightOverride);
 +        } else {
-+            mNavBarFrameHeight = getNavigationBarFrameHeight(res, mWidth > mHeight);
-+        }
++            mNavBarFrameHeight = getNavigationBarFrameHeight(res, /* landscape */ mWidth > mHeight);
+         }
+-        mNavBarFrameHeight = getNavigationBarFrameHeight(res, /* landscape */ mWidth > mHeight);
+         mTaskbarFrameHeight = SystemBarUtils.getTaskbarHeight(res);
      }
  
-     /**
 -- 
 2.43.0
 

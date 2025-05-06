@@ -1,7 +1,7 @@
-From 6bd22703e4d42ae4737337e8af79979814b250cc Mon Sep 17 00:00:00 2001
+From 59512646a1ef554ecdc80de7e17892f4ed4a325a Mon Sep 17 00:00:00 2001
 From: dzy <dzy@rock-chips.com>
 Date: Wed, 29 Nov 2023 16:15:48 +0800
-Subject: [PATCH 24/42] Multi-display:temporary fix to disable mirror display
+Subject: [PATCH 27/28] Multi-display:temporary fix to disable mirror display
  by default.
 
 Change-Id: I74686a024cffff6b0de36c952c48d6f9cf2fd8d8
@@ -11,10 +11,10 @@ Change-Id: I74686a024cffff6b0de36c952c48d6f9cf2fd8d8
  2 files changed, 24 insertions(+), 2 deletions(-)
 
 diff --git a/services/core/java/com/android/server/display/DisplayManagerService.java b/services/core/java/com/android/server/display/DisplayManagerService.java
-index 67e172632e79..bd51d3b9cca0 100644
+index bda4bae4d37b..a94c2494203d 100644
 --- a/services/core/java/com/android/server/display/DisplayManagerService.java
 +++ b/services/core/java/com/android/server/display/DisplayManagerService.java
-@@ -2954,7 +2954,23 @@ public final class DisplayManagerService extends SystemService {
+@@ -3166,7 +3166,23 @@ public final class DisplayManagerService extends SystemService {
          // Find the logical display that the display device is showing.
          // Certain displays only ever show their own content.
          LogicalDisplay display = mLogicalDisplayMapper.getDisplayLocked(device);
@@ -40,18 +40,18 @@ index 67e172632e79..bd51d3b9cca0 100644
          if (display == null) {
              // TODO: no logical display for the device, blank it
 diff --git a/services/core/java/com/android/server/wm/DisplayContent.java b/services/core/java/com/android/server/wm/DisplayContent.java
-index 7d91ff7bfc10..028eb3b6c7cd 100644
+index d7decb8576db..14801936c007 100644
 --- a/services/core/java/com/android/server/wm/DisplayContent.java
 +++ b/services/core/java/com/android/server/wm/DisplayContent.java
-@@ -196,6 +196,7 @@ import android.os.PowerManager;
+@@ -195,6 +195,7 @@ import android.os.PowerManager;
  import android.os.RemoteCallbackList;
  import android.os.RemoteException;
  import android.os.SystemClock;
 +import android.os.SystemProperties;
  import android.os.Trace;
  import android.os.UserHandle;
- import android.os.WorkSource;
-@@ -6839,7 +6840,12 @@ class DisplayContent extends RootDisplayArea implements WindowManagerPolicy.Disp
+ import android.os.UserManager;
+@@ -6840,7 +6841,12 @@ class DisplayContent extends RootDisplayArea implements WindowManagerPolicy.Disp
              }
              return false;
          }

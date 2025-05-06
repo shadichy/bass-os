@@ -1,7 +1,7 @@
-From 36fbd448d282bace1125a7e4746d2ca136c97061 Mon Sep 17 00:00:00 2001
+From e990fc82a4fff7509afff62f5ec46c7045980c8c Mon Sep 17 00:00:00 2001
 From: Jackeagle <jackeagle102@gmail.com>
 Date: Fri, 20 Oct 2023 13:41:46 -0400
-Subject: [PATCH 13/42] SystemUI: Implement dynamic Statusbar enabling based on
+Subject: [PATCH 21/28] SystemUI: Implement dynamic Statusbar enabling based on
  system property
 
 - Also Disable Touch Events to prevent QS Pull down implementation
@@ -10,22 +10,22 @@ Subject: [PATCH 13/42] SystemUI: Implement dynamic Statusbar enabling based on
 Change-Id: Ie9c3cdd221d35cbe53d7b0b751e2e9af706c1d93
 Signed-off-by: Jackeagle <jackeagle102@gmail.com>
 ---
- .../statusbar/phone/PhoneStatusBarView.java   | 31 ++++++++++++++++++-
- 1 file changed, 30 insertions(+), 1 deletion(-)
+ .../statusbar/phone/PhoneStatusBarView.java   | 30 ++++++++++++++++++-
+ 1 file changed, 29 insertions(+), 1 deletion(-)
 
 diff --git a/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBarView.java b/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBarView.java
-index 702133ba7a13..e7324947cc7e 100644
+index 5d59601b494c..72eeaa0dedae 100644
 --- a/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBarView.java
 +++ b/packages/SystemUI/src/com/android/systemui/statusbar/phone/PhoneStatusBarView.java
-@@ -25,6 +25,7 @@ import android.content.res.Configuration;
+@@ -22,6 +22,7 @@ import android.content.res.Configuration;
  import android.graphics.Insets;
  import android.content.res.Resources;
  import android.graphics.Rect;
 +import android.os.SystemProperties;
  import android.util.AttributeSet;
  import android.util.Log;
- import android.view.DisplayCutout;
-@@ -83,10 +84,19 @@ public class PhoneStatusBarView extends FrameLayout {
+ import android.view.Display;
+@@ -82,13 +83,26 @@ public class PhoneStatusBarView extends FrameLayout {
  
      private boolean mBrightnessControlEnabled;
  
@@ -37,7 +37,6 @@ index 702133ba7a13..e7324947cc7e 100644
 +
      public PhoneStatusBarView(Context context, AttributeSet attrs) {
          super(context, attrs);
-         mContentInsetsProvider = Dependency.get(StatusBarContentInsetsProvider.class);
          mStatusBarWindowController = Dependency.get(StatusBarWindowController.class);
 +        if (disableStatusBarByDefault) {
 +            setStatusBarEnabled(false);
@@ -45,19 +44,15 @@ index 702133ba7a13..e7324947cc7e 100644
      }
  
      void setTouchEventHandler(Gefingerpoken handler) {
-@@ -125,6 +135,11 @@ public class PhoneStatusBarView extends FrameLayout {
-         // Always have Battery meters in the status bar observe the dark/light modes.
-         Dependency.get(DarkIconDispatcher.class).addDarkReceiver(mBattery);
-         mClockController.addDarkReceiver();
+         mTouchEventHandler = handler;
 +
 +        if (disableStatusBarByDefault) {
 +            setStatusBarEnabled(false);
 +        }
-+        
-         if (updateDisplayParameters()) {
-             updateLayoutForCutout();
-             if (truncatedStatusBarIconsFix()) {
-@@ -236,7 +251,13 @@ public class PhoneStatusBarView extends FrameLayout {
+     }
+ 
+     void setHasCornerCutoutFetcher(@NonNull HasCornerCutoutFetcher cornerCutoutFetcher) {
+@@ -229,7 +243,13 @@ public class PhoneStatusBarView extends FrameLayout {
              );
              return true;
          }
@@ -72,9 +67,9 @@ index 702133ba7a13..e7324947cc7e 100644
      }
  
      @Override
-@@ -358,4 +379,12 @@ public class PhoneStatusBarView extends FrameLayout {
-     private void updateWindowHeight() {
-         mStatusBarWindowController.refreshStatusBarHeight();
+@@ -374,4 +394,12 @@ public class PhoneStatusBarView extends FrameLayout {
+     interface InsetsFetcher {
+         Insets fetchInsets();
      }
 +
 +    // New method to enable or disable the status bar and touch events

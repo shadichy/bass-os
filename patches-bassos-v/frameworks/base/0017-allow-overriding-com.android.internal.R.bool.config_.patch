@@ -1,7 +1,7 @@
-From bec189c6eecb5db6ed14d5c9d9ff1d31af6a896f Mon Sep 17 00:00:00 2001
+From 2961c11bd12afbe9c4e6c93200796f5c1e717f93 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Thu, 10 Apr 2025 17:12:28 -0400
-Subject: [PATCH 36/42] allow overriding
+Subject: [PATCH 17/28] allow overriding
  com.android.internal.R.bool.config_perDisplayFocusEnabled
 
 ---
@@ -9,10 +9,10 @@ Subject: [PATCH 36/42] allow overriding
  1 file changed, 4 insertions(+)
 
 diff --git a/services/core/java/com/android/server/input/InputManagerService.java b/services/core/java/com/android/server/input/InputManagerService.java
-index f850c7c5cf0c..2bc87510c016 100644
+index 5dbd95a97a2d..18f79170ff38 100644
 --- a/services/core/java/com/android/server/input/InputManagerService.java
 +++ b/services/core/java/com/android/server/input/InputManagerService.java
-@@ -76,6 +76,7 @@ import android.os.RemoteCallbackList;
+@@ -88,6 +88,7 @@ import android.os.RemoteCallbackList;
  import android.os.RemoteException;
  import android.os.ResultReceiver;
  import android.os.ShellCallback;
@@ -20,7 +20,7 @@ index f850c7c5cf0c..2bc87510c016 100644
  import android.os.UserHandle;
  import android.os.VibrationEffect;
  import android.os.vibrator.StepSegment;
-@@ -2733,6 +2734,9 @@ public class InputManagerService extends IInputManager.Stub
+@@ -2617,6 +2618,9 @@ public class InputManagerService extends IInputManager.Stub
      // Native callback.
      @SuppressWarnings("unused")
      private boolean isPerDisplayTouchModeEnabled() {

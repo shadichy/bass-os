@@ -1,22 +1,22 @@
-From 67b2d699de04902f9f510ffeb99fd51c6010342b Mon Sep 17 00:00:00 2001
+From e44693905fcd1d61d224f920b3c3cd0a82831ae3 Mon Sep 17 00:00:00 2001
 From: electrikjesus <electrikjesus@gmail.com>
 Date: Mon, 30 Oct 2023 15:44:08 -0400
-Subject: [PATCH 11/42] recents: do not show screen pinning dialog
+Subject: [PATCH 20/28] recents: do not show screen pinning dialog
 
 ---
  .../src/com/android/systemui/recents/ScreenPinningRequest.java  | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/packages/SystemUI/src/com/android/systemui/recents/ScreenPinningRequest.java b/packages/SystemUI/src/com/android/systemui/recents/ScreenPinningRequest.java
-index 914659258aa7..94d619c09670 100644
+index 6a234e03d320..b953222573af 100644
 --- a/packages/SystemUI/src/com/android/systemui/recents/ScreenPinningRequest.java
 +++ b/packages/SystemUI/src/com/android/systemui/recents/ScreenPinningRequest.java
-@@ -144,7 +144,7 @@ public class ScreenPinningRequest implements
+@@ -152,7 +152,7 @@ public class ScreenPinningRequest implements
  
          // show the confirmation
          WindowManager.LayoutParams lp = getWindowLayoutParams();
--        mWindowManager.addView(mRequestWindow, lp);
-+        // mWindowManager.addView(mRequestWindow, lp);
+-        mViewCaptureAwareWindowManager.addView(mRequestWindow, lp);
++        // mViewCaptureAwareWindowManager.addView(mRequestWindow, lp);
      }
  
      @Override

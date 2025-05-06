@@ -1,17 +1,17 @@
-From 6063e2c3465520dea8ca00eccc9ae1218dbc0e4c Mon Sep 17 00:00:00 2001
+From 4c838220fdc8574f5da2e869ec91437e8661dcf9 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Mon, 20 Jan 2025 12:55:11 -0500
-Subject: [PATCH 29/42] DisplayPolicy: allow overriding navbar display via prop
+Subject: [PATCH 14/28] DisplayPolicy: allow overriding navbar display via prop
 
 ---
  services/core/java/com/android/server/wm/DisplayPolicy.java | 6 ++++++
  1 file changed, 6 insertions(+)
 
 diff --git a/services/core/java/com/android/server/wm/DisplayPolicy.java b/services/core/java/com/android/server/wm/DisplayPolicy.java
-index 0a5f00ff4d7a..a414579f1846 100644
+index a7c0e7c246b5..1d9870f35743 100644
 --- a/services/core/java/com/android/server/wm/DisplayPolicy.java
 +++ b/services/core/java/com/android/server/wm/DisplayPolicy.java
-@@ -222,6 +222,8 @@ public class DisplayPolicy {
+@@ -225,6 +225,8 @@ public class DisplayPolicy {
  
      // Check the system property to disable the status bar by default
      private boolean disableStatusBarByDefault = SystemProperties.getBoolean("persist.bliss.disable_statusbar", false);
@@ -20,7 +20,7 @@ index 0a5f00ff4d7a..a414579f1846 100644
  
      StatusBarManagerInternal getStatusBarManagerInternal() {
          synchronized (mServiceAcquireLock) {
-@@ -2287,6 +2289,10 @@ public class DisplayPolicy {
+@@ -2336,6 +2338,10 @@ public class DisplayPolicy {
              return;
          }
  

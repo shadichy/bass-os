@@ -1,0 +1,40 @@
+From e5ec6030b0869c505d0e913dfaa15738d206027b Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Tue, 16 Jan 2024 15:05:43 -0500
+Subject: [PATCH 25/28] DisplayWindowSettings: Only use freeform if conditions
+ are met (A15)
+
+Check for two features that override windowing mode:
+android.software.freeform_window_management & android.hardware.type.pc
+
+if both are present, and forceDesktop mode is set or it is an external display, then use freeform windowing mode else use fullscreen windowing mode
+
+This lets us control it using PC_MODE cmdline override
+
+DisplayWindowSettings: fix: use freeform if conditions are met
+---
+ .../java/com/android/server/wm/DisplayWindowSettings.java    | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/services/core/java/com/android/server/wm/DisplayWindowSettings.java b/services/core/java/com/android/server/wm/DisplayWindowSettings.java
+index a9add10b58a6..b98b2df92287 100644
+--- a/services/core/java/com/android/server/wm/DisplayWindowSettings.java
++++ b/services/core/java/com/android/server/wm/DisplayWindowSettings.java
+@@ -144,10 +144,13 @@ class DisplayWindowSettings {
+         }
+         // No record is present so use default windowing mode policy.
+         final boolean forceFreeForm = mService.mAtmService.mSupportsFreeformWindowManagement
+-                && (mService.mIsPc || dc.getDisplayId() != Display.DEFAULT_DISPLAY);
++                && (mService.mIsPc || (dc.forceDesktopMode() || dc.getDisplayId() != Display.DEFAULT_DISPLAY));
+         if (forceFreeForm) {
+             return WindowConfiguration.WINDOWING_MODE_FREEFORM;
+         }
++        if (!forceFreeForm && dc.getDisplayId() != Display.DEFAULT_DISPLAY) {
++            return WindowConfiguration.WINDOWING_MODE_FULLSCREEN;
++        }
+         final int currentWindowingMode = dc.getDefaultTaskDisplayArea().getWindowingMode();
+         if (currentWindowingMode == WindowConfiguration.WINDOWING_MODE_UNDEFINED) {
+             // No record preset in settings + no mode set via the display area policy.
+-- 
+2.43.0
+

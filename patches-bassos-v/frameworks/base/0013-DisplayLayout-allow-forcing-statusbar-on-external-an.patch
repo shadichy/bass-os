@@ -1,7 +1,7 @@
-From e258c262d67dab432496c80c68e2b6121d24aa83 Mon Sep 17 00:00:00 2001
+From 457b9f6dfe4a218939e28bb4e97b8ca3b19f8e61 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Mon, 20 Jan 2025 12:50:55 -0500
-Subject: [PATCH 28/42] DisplayLayout: allow forcing statusbar on external and
+Subject: [PATCH 13/28] DisplayLayout: allow forcing statusbar on external and
  virtual displays
 
 ---
@@ -9,10 +9,10 @@ Subject: [PATCH 28/42] DisplayLayout: allow forcing statusbar on external and
  1 file changed, 4 insertions(+)
 
 diff --git a/libs/WindowManager/Shell/src/com/android/wm/shell/common/DisplayLayout.java b/libs/WindowManager/Shell/src/com/android/wm/shell/common/DisplayLayout.java
-index 0f1900baade1..19f4bb84a0f9 100644
+index 2186c1d6a117..4b46f006d28f 100644
 --- a/libs/WindowManager/Shell/src/com/android/wm/shell/common/DisplayLayout.java
 +++ b/libs/WindowManager/Shell/src/com/android/wm/shell/common/DisplayLayout.java
-@@ -437,6 +437,10 @@ public class DisplayLayout {
+@@ -457,6 +457,10 @@ public class DisplayLayout {
          // Allow a system property to override this. Used for kiosk mode.
          if (SystemProperties.getBoolean("persist.bliss.disable_statusbar", false)) {
              return false;

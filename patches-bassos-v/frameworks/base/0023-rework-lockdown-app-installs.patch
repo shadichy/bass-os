@@ -1,26 +1,26 @@
-From cd173341f59d1fc7e10dc908b2b8fc1af289db0f Mon Sep 17 00:00:00 2001
+From fe5f840332f902dd7680b5addaeff8d84510d63c Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Fri, 7 Jun 2024 10:20:18 -0400
-Subject: [PATCH 17/42] rework lockdown app installs
+Subject: [PATCH 23/28] rework lockdown app installs
 
 ---
  .../android/packageinstaller/PackageInstallerActivity.java  | 6 +-----
  1 file changed, 1 insertion(+), 5 deletions(-)
 
 diff --git a/packages/PackageInstaller/src/com/android/packageinstaller/PackageInstallerActivity.java b/packages/PackageInstaller/src/com/android/packageinstaller/PackageInstallerActivity.java
-index a24bd807187f..9126b58f64ea 100644
+index 6a6f5103a64e..80e747a63cd9 100644
 --- a/packages/PackageInstaller/src/com/android/packageinstaller/PackageInstallerActivity.java
 +++ b/packages/PackageInstaller/src/com/android/packageinstaller/PackageInstallerActivity.java
-@@ -558,11 +558,7 @@ public class PackageInstallerActivity extends Activity {
+@@ -550,11 +550,7 @@ public class PackageInstallerActivity extends Activity {
       * Check if it is allowed to install the package and initiate install if allowed.
       */
      private void checkIfAllowedAndInitiateInstall() {
 -        if (SystemProperties.get("ro.boot.bliss.bootmode").equals("lockdown")) {
--            showDialogInner(DLG_UNKNOWN_SOURCES_RESTRICTED_FOR_USER);
+-            showDialogInner(DLG_EXTERNAL_SOURCE_BLOCKEDs);
 -            return;
 -        }
--        if (mAllowUnknownSources || !isInstallRequestFromUnknownSource(getIntent())) {
-+        if (mAllowUnknownSources || !isInstallRequestFromUnknownSource(getIntent()) || !SystemProperties.get("ro.boot.bliss.bootmode").equals("lockdown")) {
+-        if (mAllowUnknownSources || getIntent().getBooleanExtra(EXTRA_IS_TRUSTED_SOURCE, false)) {
++        if (mAllowUnknownSources || getIntent().getBooleanExtra(EXTRA_IS_TRUSTED_SOURCE, false) || !SystemProperties.get("ro.boot.bliss.bootmode").equals("lockdown")) {
              if (mLocalLOGV) Log.i(TAG, "install allowed");
              initiateInstall();
          } else {
