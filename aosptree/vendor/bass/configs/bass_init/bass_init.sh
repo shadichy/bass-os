@@ -1128,6 +1128,11 @@ function init_bass_options()
 							# options: true, false
 							set_property ro.boot.display_mirror.disable "$DISABLE_MIRROR_DISPLAY"
 							;;
+						DISABLE_MIRROR_DISPLAY_DIALOG=*)
+							# Disable mirror display dialog
+							# options: 0, 1
+							set_property persist.sysui.disable_mirroring_confirmation_dialog "$DISABLE_MIRROR_DISPLAY_DIALOG"
+							;;
 						DISMISS_USB_ACCESS_DIALOG=*)
 							# Check if the property ro.boot.bliss.dismiss_usb_access_dialog is true
 							# options: 0, 1
