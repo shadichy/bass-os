@@ -27,6 +27,7 @@ export BLISS_TABLET_NAVIGATION=false
 export BLISS_LAUNCHER3_TASKBAR_NAVIGATION=false
 export USE_BLISS_RESTRICTED_LAUNCHER=false
 export USE_BLISS_RESTRICTED_LAUNCHER_PRO=false
+export BLISS_RLP_TYPE=""
 export USE_BLISS_GARLIC_LAUNCHER=false
 export USE_BLISS_GAME_MODE_LAUNCHER=false
 export USE_BLISS_CROSS_LAUNCHER=false
@@ -127,6 +128,7 @@ function displayHelp() {
     echo "-k, --kiosk            Enable kiosk launcher **requires private git access**"
     echo "--restrictedlauncher   Enable restricted launcher"
     echo "--restrictedlauncherpro   Enable restricted launcher pro **requires private git access**"
+    echo "--rlptype (type)       Set the restricted launcher pro type"
     echo "--rlt                  Enable restricted launcher **tablet mode**"
     echo "--garliclauncher       Enable garlic launcher"
     echo "--gamemodelauncher     Enable game mode launcher"
@@ -406,8 +408,13 @@ while [[ $# -gt 0 ]]; do
             USE_BLISS_RLT=true
             shift
             ;;
-        --restrictedlauncherpro)
+        --restrictedlauncherpro)            
             USE_BLISS_RESTRICTED_LAUNCHER_PRO=true
+            shift
+            ;;
+        --rlptype)
+            BLISS_RLP_TYPE="$2"            
+            shift
             shift
             ;;
         --rlt)
@@ -794,6 +801,9 @@ export BLISS_TABLET_NAVIGATION=${BLISS_TABLET_NAVIGATION:-false};
 export BLISS_LAUNCHER3_TASKBAR_NAVIGATION=${BLISS_LAUNCHER3_TASKBAR_NAVIGATION:-false};
 export USE_BLISS_RESTRICTED_LAUNCHER=${USE_BLISS_RESTRICTED_LAUNCHER:-false};
 export USE_BLISS_RESTRICTED_LAUNCHER_PRO=${USE_BLISS_RESTRICTED_LAUNCHER_PRO:-false};
+if [ "$BLISS_RLP_TYPE" != "" ]; then
+    export USE_BLISS_RESTRICTED_LAUNCHER_PRO_${BLISS_RLP_TYPE}="true";
+fi
 export USE_BLISS_GARLIC_LAUNCHER=${USE_BLISS_GARLIC_LAUNCHER:-false};
 export GENERATE_MANIFEST=${GENERATE_MANIFEST:-false};
 export USE_BLISS_GAME_MODE_LAUNCHER=${USE_BLISS_GAME_MODE_LAUNCHER:-false};
@@ -913,6 +923,8 @@ echo "Launcher3TaskbarNavigation: ${BLISS_LAUNCHER3_TASKBAR_NAVIGATION}";
 echo "GestureNavigation: ${BLISS_GESTURE_NAVIGATION}";
 echo "RestrictedLauncher: ${USE_BLISS_RESTRICTED_LAUNCHER}";
 echo "RestrictedLauncherPro: ${USE_BLISS_RESTRICTED_LAUNCHER_PRO}";
+echo "RestrictedLauncherProType: ${BLISS_RLP_TYPE}";
+echo "RLPType: USE_BLISS_RESTRICTED_LAUNCHER_PRO_${BLISS_RLP_TYPE}";
 echo "USE_BLISS_RLT: ${USE_BLISS_RLT}";
 echo "GarlicLauncher: ${USE_BLISS_GARLIC_LAUNCHER}";
 echo "GenerateManifest: ${GENERATE_MANIFEST}";
