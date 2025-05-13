@@ -30,6 +30,7 @@ echo -e ""
 
 echo -e "\033[1;34mBuilding Bass OS\033[0m"
 pushd aosptree
+export SKIP_AAROPA_DOWNLOAD=true
 . build/envsetup.sh
 build_bass_source $@
 popd
