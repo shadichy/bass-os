@@ -25,7 +25,7 @@ CL_RST=`tput sgr0`
 reset=`tput sgr0`
 
 LOCAL_PATH=$(pwd)
-bass_patch_dir="${LOCAL_PATH}/patches-lineage"
+bass_patch_dir="${LOCAL_PATH}/patches-lineage-virtio"
 res_patch_dir="${LOCAL_PATH}/patches-aosp--resolutions"
 top_dir=`readlink -f "$LOCAL_PATH/aosptree"`
 
