@@ -1,20 +1,20 @@
 # Bass OS - Android 12L
 
-[![License](https://img.shields.io/badge/license-GPL-blue)](https://opensource.org/licenses/gpl-3-0/)
+This project is dual licensed: [![License](https://img.shields.io/badge/license-GPL-blue)](https://opensource.org/licenses/gpl-3-0/) & [![License](https://img.shields.io/badge/license-Commercial-yellow)](https://docs.blisscolabs.dev/legal/licensing/)
 
-This repository contains platform patches and manifest for Bass OS on top of [Bliss OS](https://github.com/BlissRoms-x86).
+This repository contains platform patches and manifests for Bass Toolkit on top of [Bliss OS](https://github.com/BlissRoms-x86), [AOSP](https://android.googlesource.com/platform), [Waydroid](https://github.com/waydroid) or [LineageOS](https://github.com/LineageOS/android].
 
 Please refer to https://bliss-bass.blisscolabs.dev for release notes, hardware requirements and demos of the various options.
 
 ## Licensing
 
-Much of Bass OS is published under the General Public License 3.0. All generic patches are regularly submitted to [Bliss OS](https://github.com/BlissRoms-x86) where they can be obtained under the Apache License.
+Much of Bass OS is published under the General Public License 3.0. Many generic patchsets are regularly submitted to Bliss OS, Waydroid, LineageOS or others. Many of the addons for Bass Toolkit are under a commercial license and are only available for purchase.
 
 Bass OS does have a number of options, features, applications, etc. that can be accessed through purchasing licensing for the private addons, features and tools. [See our licensing page](https://bliss-bass.blisscolabs.dev/licensing.html) for full details
 
 ## Warning!
 
-Bass OS is an open-source initiative maintained by Bliss Co-Labs. It is provided "as is" without any warranties or guarantees.
+Bass Toolkit is an open-source initiative maintained by Navotpala Tech (Bliss Co-Labs). It is provided "as is" without any warranties or guarantees.
 
 ## Building from sources
 
@@ -67,14 +67,14 @@ chmod a+x ~/bin/repo
 ### Fetching the sources and building the project
 
 ```bash
-git clone --recurse-submodules https://github.com/Bliss-Bass/bass-os.git bass-os-12.1
-cd bass-os-12.1
+git clone --recurse-submodules https://github.com/Bliss-Bass/bass-os.git your_project_name
+cd your_project_name
 ```
 
 ### Setting up Bass OS Source
 
 #####!!NOTICE FOR LICENSED ADDONS/FEATURES!!
-If you hold an active license for any of the private addons and features for Bass OS, you will need to add the files that you were sent or given acces to, into the `private/addons` or `private/manifests` folder. If your project requires any vendor patches, those are placed in the `patches-vendor/` folder. Once all items are placed properly, you can continue onto the unfolding steps. Please also check your organizations Bass-OS project folder to make sure it didn't come with those additions already added. 
+If you hold an active license for any of the private addons and features for Bass Toolkit, you will need to add the files that you were sent or given acces to, into the `private/addons` or `private/manifests` folder. If your project requires any vendor patches, those are placed in the `patches-vendor/` folder. Once all items are placed properly, you can continue onto the unfolding steps. Please also check your organizations Bass-OS project folder to make sure it didn't come with those additions already added. 
 
 #### Unfolding the source
 
@@ -113,6 +113,7 @@ Usage: build-x86.sh [options]
 Options:
 -h, --help             Display this help dialog
 -c, --clean            Clean the project
+--nocleanconf          Do not clean the project configs that are changed in source
 -d, --dirty            Run in dirty mode
 -t, --title (title)    Set the release title
 -b, --blissbuildvariant (variant)   Set the Bliss build variant
@@ -120,6 +121,7 @@ Options:
 -v, --specialvariant (variant)      Set the special variant
 --grubcmdline "option1=1 option2=1" Set the grub cmdline options
 --production           Disable Test Build watermark and sign builds (requires release/product signature keys)
+--checkproject         Check the project status
 
 Launcher Options:
 --clearhotseat         Enable clear hotseat favorites for Launcher3 Quickstep
@@ -129,6 +131,8 @@ Launcher Options:
 -k, --kiosk            Enable kiosk launcher **requires private git access**
 --restrictedlauncher   Enable restricted launcher
 --restrictedlauncherpro   Enable restricted launcher pro **requires private git access**
+--rlptype (type)       Set the restricted launcher pro type
+--rlt                  Enable restricted launcher **tablet mode**
 --garliclauncher       Enable garlic launcher
 --gamemodelauncher     Enable game mode launcher
 --crosslauncher        Enable cross launcher
@@ -147,6 +151,9 @@ Package Options:
 --noksu                Disable KernelSU
 -f, --fossapps         Enable fossapps
 --minfossapps          Enable minimal fossapps
+--minfossmicrog        Enable minimal fossapps with microg
+--usecalyxmicrog       Enable Calyx microg
+--aurorastore          Enable Aurora store
 -e, --supervanilla     Enable supervanilla
 -m, --minimal          Enable minimal packages
 -r, --removeusertools  Enable removeusertools
@@ -157,10 +164,12 @@ Package Options:
 --buildextra           Build extra packages
 --updatefossapps       Update fossapps
 --usepos               Enable TabShop pos terminal app
+-p, --privateapp       Enable privateapps **requires private git access**
+--ax86startmenu        Enable ax86 startmenu
 
 Input Options:
 --showkeyboard         Enable show keyboard
---perdisplayfocus      Enable per display focus
+--perdisplayfocus      Enable per display focus (will display any IME on all displays)
 --gboard               Enable Google GBoard IME
 --gboardlite           Enable Google GBoard Lite IME
 --perdisplayfocusime      Enable per display focus with experiment IME
@@ -177,6 +186,45 @@ Other Options:
 -m, --manifest         Generate manifest
 --alwaysonsettings     Enable always on settings
 --nolarge              Disable large screen settings
+
+Autogenerated Options:
+--2btnnav          Build with 2-button navigation set as default
+--skipad          Skip Aaropa Download
+--mskernel          Build with surface kernel
+--zkernel          Build with zenith kernel
+--skernel          Build with stable kernel
+--pdfe          enable config_perDisplayFocusEnabled be default in build
+--androidify          Do not include branding assets for bootanimation and wallpaper
+--adbi          use insecure adb by default
+--wpaddon          Include wallpaper changer addon
+--sfs          use squashfs for system image
+--efs          use erofs for system image
+--bbo          Include Bliss Boot Options app
+--houdini          Include houdini (REQUIRES OUTSIDE SOURCES)
+--widevine          Include widevine (REQUIRES OUTSIDE SOURCES)
+--darkmode          Set dark theme as default on build
+--usepointerc          Use pointer choreographer
+--sshd4a          Include SSHD control app
+--mdsp          Include multidisplaysettings platform
+--release          Sets build up for release (requires shipper/shippy setup)
+--dvncp          Include DroidVNC-NG for platform
+--boep          Build only extra packages
+--dvnc          Add net.christianbeier.droidvnc_ng VNC server
+--genmdm          Include generic MDM from vendor MDM addon
+--vncflinger          Add VncFlinger and Configuration services
+--signage (name)         Include required configs for Ad/Signage builds
+--pclauncher          Include experimental PC Launcher from Google's Desktop AVD
+--usecalyxaurora          Include AuroraStore from CalyxOS
+--lindroid          Include linux-on-android backend
+--cleardwhotseat          Enable clear dw hotseat favorites
+--watermark          Add watermark to this build
+--daijishou          Use Daijishou game-mode launcher
+--vapor          use vapor launcher
+--sview          use screenview for mock-mirror mode applications
+--pwir          use per window input rotation
+--vndinput          use generated vendor input definition
+--useblur          use SystemUI Blur effects
+
  
 ```
 
@@ -184,7 +232,7 @@ Other Options:
 
  - Supports various navigation & UI switches
  - Supports various use-case launcher options (requires recent changes to vendor/agp-apps)
- - Automatically updates Grub menus and other build configs for launcher and mode options (requires recent changes to vendor/agp-apps)
+ - Automatically updates Grub/UBoot menus and other build configs for launcher and mode options (requires recent changes to vendor/agp-apps)
 
 Please note that some of the build options may require licensed access to the feature/addon/application in order to use it. In some cases, the build will continue with just a warning when these options are used. In other cases, the build will exit. To remedy this, use a different option or remove the offending option from the build command. 
 

@@ -11,57 +11,17 @@ Some preparation is needed to include apps into the builds.
 	![Bass - Customization menu](assets/bass-customization.png)
  - Generates default wallpaper overlays
  - Generates branded bootanimation based on a single loop of frames
- - Generates branded grub background
+ - Generates branded grub background (depending on OS)
  - Supports various navigation & UI switches
  - Supports various use-case launcher options (requires recent changes to vendor/agp-apps)
  - Automatically updates Grub menus and other build configs for launcher and mode options (requires recent changes to vendor/agp-apps)
- - Supports applying separate patchsets on-top of Bliss OS or Bliss OS Go source updates
+ - Supports applying separate patchsets on-top of Bliss OS or Lineage OS
+ - includes tools for generating patchsets, creating project patchsets, generating platform keys, and more
  - More to come (let us know what you would like to see)
- 
+
 ##### Options Usage:
 	 
-	$ . build/envsetup.sh && build-x86 --help
-	
-	Usage: build-x86.sh [options]
-	Options:
-	-h, --help             Display this help dialog
-	-c, --clean            Clean the project
-	-d, --dirty            Run in dirty mode
-	-t, --title <title>    Set the release title
-	-b, --blissbuildvariant <variant>   Set the Bliss build variant
-	-i, --isgo             Enable isgo version
-	-v, --specialvariant <variant>      Set the special variant
-	--production           Disable Test Build watermark
-
-	Launcher Options:
-	-s, --smartdock        Enable smartdock
-	-k, --kiosk            Enable kiosk launcher
-	--restrictedlauncher   Enable restricted launcher
-	--garliclauncher       Enable garlic launcher
-	--gamemodelauncher     Enable game mode launcher
-	--crosslauncher        Enable cross launcher
-
-	Navigation Options:
-	-t, --tabletnav        Enable tablet navigation
-	--taskbarnav           Enable taskbar navigation
-	--gesturenavigation    Enable gesture navigation
-
-	Package Options:
-	--noksu                Disable KernelSU
-	-f, --fossapps         Enable fossapps
-	-e, --supervanilla     Enable supervanilla
-	-m, --minimal          Enable minimal packages
-	-r, --removeusertools  Enable removeusertools
-	--viabrowser           Enable viabrowser
-	-w, --wiz              Enable Bliss setupwizard
-	--ethernetmanager      Enable EthernetManager
-	--powermanager         Enable power manager
-
-	Other Options:
-	-a, --atom             Enable Intel Atom
-	-l, --lockdown         Enable secure lockdown build
-	--clearhotseat         Enable clear hotseat favorites
-	-m, --manifest         Generate manifest
+	$ . build/envsetup.sh && build_bass --help	
 
 
 ## AOSP Build Instructions:
@@ -80,9 +40,12 @@ Add this inherit to your device tree:
 
 #### Step 2:
 
-From here we can cd back to our project directory and run:
+Then add this to your vendor envsetup.sh or to the AOSP envsetup.sh in build/:
 
-	$ . build/envsetup.sh
+	# Bass vendor setup
+	source vendor/bass/bass_setup.sh
+
+	bass_build_config
 
 #### Step 3: 
 
@@ -106,7 +69,7 @@ When lunch is triggered, it will copy your branding files over to the proper ove
 
 After patches apply successfully, you can use the following command to start a clean build:
 
-	$ build-x86 --clean 
+	$ bash build_bass --clean 
 
 When compile is complete, you can then find your .iso file in the iso/ folder 
 
@@ -122,31 +85,6 @@ We include a few of the overlays specific to branding in this project.
  - Blissify Settings
  - SetupWizard
  - etc.
-
-### Default Collections
-
-The Bass demo builds are put together by using the various command options together. Here are a few examples to help in understanding:
-
-**BassDesktop**: Desktop mode demo of Bass featuring SmartDock
-
-	. build/envsetup.sh && build-x86 --dirty --title "BassDesktop" --blissbuildvariant foss --smartdock --wiz --ethernetmanager --fossapps --noksu --clearhotseat
-	
-**BassRest**: Restricted mode demo of Bass featuring Bliss Restricted Launcher
-	
-	. build/envsetup.sh && build-x86 --clean --title "BassRest" --blissbuildvariant foss --restrictedlauncher --ethernetmanager --fossapps --noksu --gesturenavigation
-	
-**BassSignage**: Ad/Signage version of Bass featuring GarlicLauncher
-	
-	. build/envsetup.sh && build-x86 --clean --title "BassSignage" --blissbuildvariant vanilla --isgo --garliclauncher --ethernetmanager --noksu --taskbarnav --gesturenavigation --clearhotseat
-	
-**BassKiosk**: Android Go based Kiosk version of Bass featuring Bliss Kiosk Launcher
-	
-	. build/envsetup.sh && build-x86 --clean --title "BassKiosk" --blissbuildvariant foss --isgo --kiosk --ethernetmanager --fossapps --noksu --gesturenavigation --clearhotseat
-	
-**BassCGame**: Gaming focused demo of Bass featuring CrossLauncher
-	
-	. build/envsetup.sh && build-x86 --clean --title "BassCGame" --blissbuildvariant foss --crosslauncher --ethernetmanager --fossapps --noksu --tabletnav --taskbarnav --clearhotseat
-	
 
 ### Patching
 
