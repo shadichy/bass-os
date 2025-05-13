@@ -490,6 +490,13 @@ function copy_configs()
         sed -i 's/"config_navBarInteractionMode">1/"config_navBarInteractionMode">2/' vendor/$vendor_name/overlay/common/frameworks/base/core/res/res/values/config.xml
     fi
 
+    if [ "$BLISS_2BTN_NAVIGATION" = "true" ]; then
+        sed -i 's/config_navBarInteractionMode">1/config_navBarInteractionMode">1/g' device/generic/common/overlay/frameworks/base/core/res/res/values/config.xml
+        sed -i 's/config_navBarInteractionMode">0/config_navBarInteractionMode">1/g' device/generic/common/overlay/frameworks/base/core/res/res/values/config.xml
+        sed -i 's/"config_navBarInteractionMode">0/"config_navBarInteractionMode">1/' vendor/$vendor_name/overlay/common/frameworks/base/core/res/res/values/config.xml
+        sed -i 's/"config_navBarInteractionMode">1/"config_navBarInteractionMode">1/' vendor/$vendor_name/overlay/common/frameworks/base/core/res/res/values/config.xml
+    fi
+
     if [ "$BLISS_SEPARATE_RECENTS_ACTIVITY" = "true" ]; then
         sed -i 's/"SEPARATE_RECENTS_ACTIVITY", false,/"SEPARATE_RECENTS_ACTIVITY", true,/' packages/apps/Launcher3/src/com/android/launcher3/config/FeatureFlags.java
     fi
