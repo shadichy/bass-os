@@ -157,10 +157,58 @@ function restricted_perms()
 	fi
 }
 
+function restricted_pro_perms()
+{
+	# BlissRestrictedLauncherPro
+	exists_restlauncherpro=$(pm list packages com.bliss.restrictedlauncher.pro | grep -c com.bliss.restrictedlauncher.pro)
+	if [ $exists_restlauncherpro -eq 1 ]; then
+		if [ ! -f /data/misc/rlpconfig/admin ]; then
+			# set device admin
+			dpm set-device-owner com.bliss.restrictedlauncher.pro/com.bliss.restrictedlauncher.DeviceAdmin
+			mkdir -p /data/misc/rlpconfig
+			touch /data/misc/rlpconfig/admin
+			chown 1000.1000 /data/misc/rlpconfig /data/misc/rlpconfig/*
+			chmod 775 /data/misc/rlpconfig
+			chmod 664 /data/misc/rlpconfig/admin
+		fi
+		# set overlays enabled
+		settings put secure secure_overlay_settings 1
+
+		# allow displaying over other apps if in Go mode
+		settings put system alert_window_bypass_low_ram 1
+				
+		pm grant com.bliss.restrictedlauncher.pro android.permission.SYSTEM_ALERT_WINDOW
+		pm set-home-activity "com.bliss.restrictedlauncher.pro/com.bliss.restrictedlauncher.activities.LauncherActivity"
+		am start -a android.intent.action.MAIN -c android.intent.category.HOME
+
+		if [ -f /data/data/com.bliss.restrictedlauncher.pro/files/whitelist.lst ]; then
+			if [ ! -f /data/misc/rlpconfig/whitelist ]; then
+				echo -e "\ncom.android.printservice.recommendation" >> /data/data/com.bliss.restrictedlauncher.pro/files/whitelist.lst
+				echo -e "com.android.printspooler" >> /data/data/com.bliss.restrictedlauncher.pro/files/whitelist.lst
+				echo -e "com.android.systemui" >> /data/data/com.bliss.restrictedlauncher.pro/files/whitelist.lst
+				echo -e "com.android.packageinstaller" >> /data/data/com.bliss.restrictedlauncher.pro/files/whitelist.lst				
+				mkdir -p /data/misc/rlpconfig
+				touch /data/misc/rlpconfig/whitelist
+				chown 1000.1000 /data/misc/rlpconfig /data/misc/rlpconfig/*
+				chmod 775 /data/misc/rlpconfig
+				chmod 664 /data/misc/rlpconfig/whitelist
+			fi
+		fi
+	fi
+
+}
+
 function rm_rl_admin()
 {
 	# remove RL admin
 	dpm remove-active-admin --user current com.bliss.restrictedlauncher/.DeviceAdmin
+	rm -rf /data/misc/rlconfig/admin
+}
+
+function rm_rlp_admin()
+{
+	# remove RL admin
+	dpm remove-active-admin --user current com.bliss.restrictedlauncher.pro/com.bliss.restrictedlauncher.DeviceAdmin
 	rm -rf /data/misc/rlconfig/admin
 }
 
@@ -384,42 +432,6 @@ set_custom_package_perms()
 		fi
 	fi
 
-	# BlissRestrictedLauncherPro
-	exists_restlauncherpro=$(pm list packages com.bliss.restrictedlauncher.pro | grep -c com.bliss.restrictedlauncher.pro)
-	if [ $exists_restlauncherpro -eq 1 ]; then
-		if [ ! -f /data/misc/rlpconfig/admin ]; then
-			# set device admin
-			dpm set-device-owner com.bliss.restrictedlauncher.pro/com.bliss.restrictedlauncher.DeviceAdmin
-			mkdir -p /data/misc/rlpconfig
-			touch /data/misc/rlpconfig/admin
-			chown 1000.1000 /data/misc/rlpconfig /data/misc/rlpconfig/*
-			chmod 775 /data/misc/rlpconfig
-			chmod 664 /data/misc/rlpconfig/admin
-		fi
-		# set overlays enabled
-		settings put secure secure_overlay_settings 1
-
-		# allow displaying over other apps if in Go mode
-		settings put system alert_window_bypass_low_ram 1
-				
-		pm grant com.bliss.restrictedlauncher.pro android.permission.SYSTEM_ALERT_WINDOW
-		pm set-home-activity "com.bliss.restrictedlauncher.pro/com.bliss.restrictedlauncher.activities.LauncherActivity"
-		am start -a android.intent.action.MAIN -c android.intent.category.HOME
-
-		if [ -f /data/data/com.bliss.restrictedlauncher.pro/files/whitelist.lst ]; then
-			if [ ! -f /data/misc/rlpconfig/whitelist ]; then
-				echo -e "\ncom.android.printservice.recommendation" >> /data/data/com.bliss.restrictedlauncher.pro/files/whitelist.lst
-				echo -e "com.android.printspooler" >> /data/data/com.bliss.restrictedlauncher.pro/files/whitelist.lst
-				echo -e "com.android.systemui" >> /data/data/com.bliss.restrictedlauncher.pro/files/whitelist.lst
-				echo -e "com.android.packageinstaller" >> /data/data/com.bliss.restrictedlauncher.pro/files/whitelist.lst				
-				mkdir -p /data/misc/rlpconfig
-				touch /data/misc/rlpconfig/whitelist
-				chown 1000.1000 /data/misc/rlpconfig /data/misc/rlpconfig/*
-				chmod 775 /data/misc/rlpconfig
-				chmod 664 /data/misc/rlpconfig/whitelist
-			fi
-		fi
-	fi
 
 	# Molla Launcher
 	exists_molla=$(pm list packages com.sinu.molla | grep -c com.sinu.molla)
@@ -845,23 +857,29 @@ function set_package_opts()
                             ;;
 						BASS_TABLETUI=1)
 							rm_rl_admin
+							rm_rlp_admin
 							rm_sd_admin
 							pm hide cu.axel.smartdock
 							pm hide com.bliss.restrictedlauncher
+							pm hide com.bliss.restrictedlauncher.pro
 							;;
 						BASS_DESKTOPUI=1)
 							rm_rl_admin
+							rm_rlp_admin
 							pm unhide cu.axel.smartdock
 							sleep 1
 							pm hide com.bliss.restrictedlauncher
+							pm hide com.bliss.restrictedlauncher.pro
 							smartdock_perms
 							;;
 						BASS_KIOSKUI=1)
 							rm_sd_admin
 							pm hide cu.axel.smartdock
 							pm unhide com.bliss.restrictedlauncher
+							pm unhide com.bliss.restrictedlauncher.pro
 							sleep 1
 							restricted_perms
+							restricted_pro_perms
 							;;
                     esac
                 fi
@@ -1076,6 +1094,11 @@ function init_bass_options()
 							# options: true,false
 							set_property poweroff.doubleclick "$PWR_OFF_DBLCLK"
 							;;
+						PWR_NON_BOOT_CPU=*)
+							# set non-boot CPU to not power off
+							# options: 0,1
+							set_property power.nonboot-cpu-off "$PWR_NON_BOOT_CPU"
+							;;
 						SET_USB_BUS_PORTS=*)
 							# Set USB bus ports
 							# Example: SET_USB_BUS_PORTS=001/001,001/002,001/003,001/004
@@ -1143,6 +1166,16 @@ function init_bass_options()
 							# Options: true, false
 							device_config put lse_desktop_experience com.android.window.flags.enable_desktop_windowing "$BASSEDW"
 							device_config put lse_desktop_experience com.android.window.flags.enable_desktop_windowing_mode "$BASSEDW"
+							;;
+						IGNORE_DEFAULT_DISPLAY_SLEEP=*)
+							# Ignore default display sleep
+							# Options: true, false
+							set_property persist.ignore.default_display_sleep "$IGNORE_DEFAULT_DISPLAY_SLEEP"
+							;;
+						IGNORE_HDMI_DISPLAY_SLEEP=*)
+							# Ignore HDMI display sleep
+							# Options: true, false
+							set_property persist.ignore.hdmi_display_sleep "$IGNORE_HDMI_DISPLAY_SLEEP"
 							;;
 					esac
 				fi
