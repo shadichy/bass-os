@@ -30,7 +30,10 @@ echo -e ""
 
 echo -e "\033[1;34mBuilding Bass OS\033[0m"
 pushd aosptree
-export SKIP_AAROPA_DOWNLOAD=true
+# if $@ contains "-h" or "--help", skip aaropa download
+if [[ "$@" == *"-h"* ]] || [[ "$@" == *"--help"* ]] || [[ "$@" == *"--skipad"* ]]; then
+    export SKIP_AAROPA_DOWNLOAD=true
+fi
 . build/envsetup.sh
 build_bass_source $@
 popd
