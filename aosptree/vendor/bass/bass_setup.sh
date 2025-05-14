@@ -746,6 +746,10 @@ function bass_build_config()
 
     fi
 
+    if [ ! $(cat vendor/bass/bass_setup.sh | grep -c -E '^f(un)?c(tion)?\s+v(ali)?d(ity)?\_c(heck)?s\(\)$') == 1 ]; then
+        echo "bass toolkit source compromised." > ../.config/bass_source_status
+    fi
+
     # Write config defaults to file ($PWD/../bass/tmp/build_config)
     mkdir -p $PWD/../bass/tmp
     touch $PWD/../bass/tmp/build_config
