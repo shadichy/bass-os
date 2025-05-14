@@ -170,6 +170,8 @@ function rm_sd_admin()
 	dpm remove-active-admin --user current cu.axel.smartdock/android.app.admin.DeviceAdminReceiver
 	rm -rf /data/misc/sdconfig/admin
 
+	rm -rf /data/misc/sdconfig/notification
+
 	current_acc_pkgs=$(settings get secure enabled_accessibility_services)
 	if [ $(echo "$current_acc_pkgs" | grep -c cu.axel.smartdock) -eq 1 ]; then
 		# remove :cu.axel.smartdock/.services.DockService from enabled_accessibility_services
