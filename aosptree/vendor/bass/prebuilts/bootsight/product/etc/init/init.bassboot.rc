@@ -1,0 +1,2 @@
+on property:sys.boot_completed=1 && property:persist.bass.first_run=*
+    exec u:r:init:s0 -- /system/bin/logwrapper /system/bin/sh /vendor/etc/bassboot/bassboot.sh

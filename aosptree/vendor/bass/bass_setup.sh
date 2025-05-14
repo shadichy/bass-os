@@ -295,6 +295,61 @@ function update_apps()
     fi
 }
 
+function validity_checks()
+{
+    # This is where we check that the validity of our build system is still intact
+    # If this fails, it means we have a tampered build system
+
+    # make sure that bootsight is still found in the source
+    if [[ ! -f vendor/bass/prebuilts/bootsight/vendor/etc/bassboot/bassboot.sh ]] || [[ ! -f vendor/bass/prebuilts/bootsight/product/etc/init/init.bassboot.rc ]] || [[ ! -f vendor/bass/prebuilts/bootsight/prebuilts/unsigned-priv-api-apps/BootSight.apk ]]; then
+        echo -e "${ltred}Bootsight source not found. Please make sure you do not remove it from the source. Aborting...${reset}"
+        exit 1
+    fi
+    # check that the bootsight files all match the right hashsums
+    if [ -f vendor/bass/prebuilts/bootsight/prebuilts/unsigned-priv-api-apps/BootSight.apk ]; then
+        if [ ! $(sha256sum vendor/bass/prebuilts/bootsight/prebuilts/unsigned-priv-api-apps/BootSight.apk | grep -c "e10f25d8cc6e16d9ada674a19c5d8d97cb7a90904a0a668753c86726361b276b") == 1 ]; then
+            tampered_bootsight=1
+            echo " - BootSight.apk" > ../bass_validity_check.log
+        fi
+    fi
+    if [ -f vendor/bass/prebuilts/bootsight/Android.mk ]; then
+        if [ ! $(sha256sum vendor/bass/prebuilts/bootsight/Android.mk | grep -c "f37ceb04b730bde0bd77104d69f7c3c4e4f7a7b16e427bc1cdb183469bb1b106") == 1 ]; then
+            tampered_bootsight=1
+            echo " - Android.mk" >> ../bass_validity_check.log
+        fi
+    fi
+    if [ -f vendor/bass/prebuilts/bootsight/apps.mk ]; then
+        if [ ! $(sha256sum vendor/bass/prebuilts/bootsight/apps.mk | grep -c "a4e25fd2adc1a85add8042bc61f3ee8261c07ce79283998cf12fa92f66aa3187") == 1 ]; then
+            tampered_bootsight=1
+            echo " - apps.mk" >> ../bass_validity_check.log
+        fi
+    fi
+    if [ -f vendor/bass/prebuilts/bootsight/bootsight.mk ]; then
+        if [ ! $(sha256sum vendor/bass/prebuilts/bootsight/bootsight.mk | grep -c "7c25e6d8e0e977e35510ccb639723603354798b127162ba6701c3f81a3cc9a30") == 1 ]; then
+            tampered_bootsight=1
+            echo " - bootsight.mk" >> ../bass_validity_check.log
+        fi
+    fi
+    if [ -f vendor/bass/prebuilts/bootsight/product/etc/init/init.bassboot.rc ]; then
+        if [ ! $(sha256sum vendor/bass/prebuilts/bootsight/product/etc/init/init.bassboot.rc | grep -c "b9de44452a4a4516242e4971ee80ddc7bfa18e32efd7388a70a2af1c64b0b3ce") == 1 ]; then
+            tampered_bootsight=1
+            echo " - init.bassboot.rc" >> ../bass_validity_check.log
+        fi
+    fi
+    if [ -f vendor/bass/prebuilts/bootsight/vendor/etc/bassboot/bassboot.sh ]; then
+        if [ ! $(sha256sum vendor/bass/prebuilts/bootsight/vendor/etc/bassboot/bassboot.sh | grep -c "8ba2f660dab35d81366f83a04f03e19ed1df069515bc410212a3223c7759d61f") == 1 ]; then
+            tampered_bootsight=1
+            echo " - bassboot.sh" >> ../bass_validity_check.log
+        fi
+    fi
+
+    if [ "$tampered_bootsight" = "1" ]; then
+        echo -e "${ltred}Bootsight source has been tampered with. Aborting...${reset}"
+        echo "Bass build has been tampered with. Bootsight is altered or not available. Build aborting..." >> ../bass_validity_check.log
+        exit 1
+    fi
+}
+
 function copy_configs()
 {    
     if [ "$USE_BLISS_KIOSK_LAUNCHER" = "true" ]; then
@@ -710,6 +765,8 @@ function bass_build_config()
     echo " " >> $PWD/../bass/tmp/bass_build_config.mk
 
     # copy $PWD/../bass/tmp/build_config and encrypt the file
+
+    validity_checks
 
 }
 
