@@ -287,6 +287,12 @@ function clean_configs()
     
 }
 
+doGenerateChangelog() {
+    # Generate Changelog
+	bash vendor/bass/tools/changelog
+	mv Changelog.txt iso/$build_filename/Changelog-$BASS_BUILD_FILENAME.txt
+}
+
 # if $# -eq 0, exit
 if [ $# -eq 0 ]; then
     displayHelp
@@ -1081,12 +1087,35 @@ changelog_exists=$(find out/target/product/x86_64/ -maxdepth 1 -mindepth 1 -type
 if [[  "$changelog_exists" != "" ]]; then 
     changelog_name=$(basename "$changelog_exists")
     cp "$changelog_exists" iso/$build_filename/"$changelog_name"
+else
+    doGenerateChangelog
 fi
 
 deployment_script_exists=$(find vendor/bass/prebuilts/deployment_scripts -maxdepth 1 -mindepth 1 -type f -name "deploy_branding.sh")
 if [[  "$deployment_script_exists" != "" ]]; then 
     deployment_script_name=$(basename "$deployment_script_exists")
     cp "$deployment_script_exists" iso/$build_filename/"$deployment_script_name"
+fi
+
+# Use $PLATFORM_SDK_VERSION to tell is A12.1, A14 or A15
+if [[ "$PLATFORM_SDK_VERSION" == "32" ]]; then
+    A12_1=true
+    A14=false
+    A15=false
+    install_doc="vendor/bass/docs/install/bass_os/v12.1/aio/Bass OS (Android 12) AIO Install process.md"
+elif [[ "$PLATFORM_SDK_VERSION" == "34" ]]; then
+    A12_1=false
+    A14=true
+    A15=false
+    install_doc="vendor/bass/docs/install/bass_os/v14/aio/Bass OS (Android 14) AIO Install process.md"
+elif [[ "$PLATFORM_SDK_VERSION" == "35" ]]; then
+    A12_1=false
+    A14=false
+    A15=true
+    install_doc="vendor/bass/docs/install/bass_os/v15/aio/Bass OS (Android 15) AIO Install process.md"
+fi
+if [[ "$A12_1" == "true" ]] || [[ "$A14" == "true" ]] || [[ "$A15" == "true" ]]; then
+    cp "$install_doc" iso/$build_filename
 fi
 
 if [[ "$GENERATE_MANIFEST" != "false" ]]; then
