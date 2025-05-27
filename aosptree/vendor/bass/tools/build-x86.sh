@@ -290,7 +290,7 @@ function clean_configs()
 doGenerateChangelog() {
     # Generate Changelog
 	bash vendor/bass/tools/changelog
-	mv Changelog.txt iso/$build_filename/Changelog-$BASS_BUILD_FILENAME.txt
+	mv Changelog.txt iso/$build_filename/Changelog-$build_filename.txt
 }
 
 # if $# -eq 0, exit
