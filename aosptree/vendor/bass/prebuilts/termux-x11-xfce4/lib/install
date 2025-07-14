@@ -1,0 +1,96 @@
+#!/bin/bash
+clear
+echo -e "\a\a\e[36;1m
+\e[33;1m---Installing Termux-x11 Xfce4 Desktop\e[0m"
+echo ---updating system...
+rm -rf $PREFIX/etc/motd
+apt update && apt upgrade
+echo ---installing requirements.....
+apt install toilet figlet x11-repo
+echo ---installing Xfce4-Desktop...
+apt install xfce4 xfce4-terminal xwayland dbus termux-x11-nightly xfce4-goodies firefox neovim
+rm -rf $PREFIX/etc/motd
+cat > x <<- EOF
+toilet -f slant Termux-X11
+echo -e "\e[32mTermux-X11\e[0m"
+echo -e "
+Working with packages:
+
+ * Search packages:   pkg search <query>
+ * Install a package: pkg install <package>
+ * Upgrade packages:  pkg upgrade
+
+Make sure you install the latest nightly Termux-x11 apk:
+
+ * https://github.com/termux/termux-x11/releases/tag/nightly
+
+
+Starting Termux-x11 Desktop
+
+* to start x11-xfce4 : xstart
+"
+EOF
+bash x > $PREFIX/etc/motd
+rm x
+
+# Startup script
+echo 'termux-x11 :1 -xstartup "DISPLAY=:1 dbus-launch --exit-with-session xfce4-session > /dev/null 2>&1"' > xstart
+mv xstart $PATH && chmod +x $PATH/xstart
+
+# create colors profile:
+echo -e "
+# http=//xcolors.net/dl/neon
+background=#171717
+foreground=#F8F8F8
+# black
+color0=#171717
+color8=#38252C
+# red
+color1=#D81765
+color9=#FF0000
+# green
+color2=#97D01A
+color10=#76B639
+# yellow
+color3=#FFA800
+color11=#E1A126
+# blue
+color4=#16B1FB
+color12=#289CD5
+# magenta
+color5=#FF2491
+color13=#FF2491
+# cyan
+color6=#0FDCB6
+color14=#0A9B81
+# white
+color7=#EBEBEB
+color15=#F8F8F8
+" > colors.properties
+
+mv colors.properties .termux
+
+# create bash.bashrc
+echo -e "
+shopt -s histappend
+shopt -s histverify
+export HISTCONTROL=ignoreboth
+PROMPT_DIRTRIM=2
+PS1='┌─(\[\e[32;1m\]Termux-x11\[\e[0m\])-[\[\e[30;1m\]\w\[\e[0m\]]\n└─\[\e[34;1m\]\$\[\e[0m\] '
+alias ll='ls -l'
+alias la='ls -A'
+alias l='ls -CF'
+if [ -x /data/data/com.termux/files/usr/libexec/termux/command-not-found ]; then
+	command_not_found_handle() {
+		/data/data/com.termux/files/usr/libexec/termux/command-not-found \"\$1\"
+	}
+fi
+" > bash.bashrc
+
+mv bash.bashrc $PREFIX/etc
+
+echo -e "Please press Return when you are ready to install the Termux-x11 apk. Press Enter to continue..."
+read
+am start -a android.intent.action.VIEW -d https://github.com/termux/termux-x11/releases/download/nightly/app-universal-debug.apk
+
+echo installed successfully. Please exit termux and open it again...
