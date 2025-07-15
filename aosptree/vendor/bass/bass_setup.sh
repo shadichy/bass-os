@@ -687,6 +687,14 @@ function copy_configs()
         echo -e "Configs updated"
     fi
 
+    if [[ "$USE_BLISS_RESTRICTED_LAUNCHER_PRO" = "true" ]] || [[ "$USE_BLISS_RESTRICTED_LAUNCHER" = "true" ]]; then
+        if [[ "$USE_SMARTDOCK_B" = "true" ]] || [[ "$USE_SMARTDOCK" = "true" ]] ; then
+            cp -r vendor/$vendor_name/configs/grub_configs/aio/isolinux.cfg bootable/newinstaller/boot/isolinux/isolinux.cfg
+            cp -r vendor/$vendor_name/configs/grub_configs/aio/android.cfg bootable/newinstaller/install/grub2/efi/boot/android.cfg
+        fi
+        echo -e "AIO Grub configs updated"
+    fi
+
     echo ""
     echo -e "${ltgreen}copy_configs() complete${reset}"
     echo ""
