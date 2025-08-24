@@ -9,6 +9,8 @@
 		<permission name="android.permission.SYSTEM_ALERT_WINDOW" fixed="true"/>
 		<permission name="android.permission.WRITE_EXTERNAL_STORAGE" fixed="true"/>
 		<permission name="android.permission.READ_EXTERNAL_STORAGE" fixed="true"/>
+		<permission name="android.permission.WRITE_SECURE_SETTINGS" fixed="true"/>
+		<permission name="android.permission.WRITE_SETTINGS" fixed="true"/>
 		<permission name="com.bliss.bootsight.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" fixed="true"/>
     </exception>
 
