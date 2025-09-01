@@ -307,7 +307,7 @@ function validity_checks()
     fi
     # check that the bootsight files all match the right hashsums
     if [ -f vendor/bass/prebuilts/bootsight/prebuilts/unsigned-priv-api-apps/BootSight.apk ]; then
-        if [ ! $(sha256sum vendor/bass/prebuilts/bootsight/prebuilts/unsigned-priv-api-apps/BootSight.apk | grep -c "0a43215e6162cad2ebeffec1f8fff1b4b61aed9e7e002f1826d89c9fd508d57f") == 1 ]; then
+        if [ ! $(sha256sum vendor/bass/prebuilts/bootsight/prebuilts/unsigned-priv-api-apps/BootSight.apk | grep -c "d9479d1adde5bf4f1842fe6828cd7e8d9306262ccdc6f94c6d0950438425e437") == 1 ]; then
             tampered_bootsight=1
             echo " - BootSight.apk" > ../bass_validity_check.log
         fi
