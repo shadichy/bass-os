@@ -1,7 +1,7 @@
 From 9e578943150b17f9a8d9c863090c758991ec82f4 Mon Sep 17 00:00:00 2001
 From: Sebastiano Barezzi <seba@sebaubuntu.dev>
 Date: Thu, 4 Jul 2024 21:58:19 +0200
-Subject: [PATCH 28/28] SystemUI: Allow skipping mirroring confirmation dialog
+Subject: [PATCH 28/33] SystemUI: Allow skipping mirroring confirmation dialog
 
 Change-Id: I711a6fb6c471cbc0774bbd06debf306d6f12e31a
 ---

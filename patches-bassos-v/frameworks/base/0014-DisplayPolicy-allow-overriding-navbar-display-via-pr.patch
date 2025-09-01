@@ -1,7 +1,7 @@
 From 4c838220fdc8574f5da2e869ec91437e8661dcf9 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Mon, 20 Jan 2025 12:55:11 -0500
-Subject: [PATCH 14/28] DisplayPolicy: allow overriding navbar display via prop
+Subject: [PATCH 14/33] DisplayPolicy: allow overriding navbar display via prop
 
 ---
  services/core/java/com/android/server/wm/DisplayPolicy.java | 6 ++++++

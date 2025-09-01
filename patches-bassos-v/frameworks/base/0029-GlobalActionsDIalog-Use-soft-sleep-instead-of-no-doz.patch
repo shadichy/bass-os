@@ -1,0 +1,41 @@
+From edbb5eb8d47ae0ea05cad0629d4c969e4d442e80 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Thu, 8 May 2025 21:47:42 -0400
+Subject: [PATCH 29/33] GlobalActionsDIalog: Use soft sleep instead of no doze
+
+---
+ .../globalactions/GlobalActionsDialogLite.java        | 11 +++++++----
+ 1 file changed, 7 insertions(+), 4 deletions(-)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/globalactions/GlobalActionsDialogLite.java b/packages/SystemUI/src/com/android/systemui/globalactions/GlobalActionsDialogLite.java
+index dff1eb0da9f0..360a29064089 100644
+--- a/packages/SystemUI/src/com/android/systemui/globalactions/GlobalActionsDialogLite.java
++++ b/packages/SystemUI/src/com/android/systemui/globalactions/GlobalActionsDialogLite.java
+@@ -1006,8 +1006,9 @@ public class GlobalActionsDialogLite implements DialogInterface.OnDismissListene
+         public boolean onLongPress() { 
+             PowerManager mPowerManager = (PowerManager) 
+                    mContext.getSystemService(Context.POWER_SERVICE); 
+-            mPowerManager.goToSleep(SystemClock.uptimeMillis(), PowerManager.GO_TO_SLEEP_REASON_SLEEP_BUTTON,
+-                                                                PowerManager.GO_TO_SLEEP_FLAG_NO_DOZE );
++            mPowerManager.goToSleep(SystemClock.uptimeMillis(),
++                    PowerManager.GO_TO_SLEEP_REASON_SLEEP_BUTTON,
++                    PowerManager.GO_TO_SLEEP_FLAG_SOFT_SLEEP);
+             return true; 
+         } 
+  
+@@ -1025,8 +1026,10 @@ public class GlobalActionsDialogLite implements DialogInterface.OnDismissListene
+         public void onPress() { 
+             PowerManager mPowerManager = (PowerManager) 
+                    mContext.getSystemService(Context.POWER_SERVICE); 
+-            mPowerManager.goToSleep(SystemClock.uptimeMillis(), PowerManager.GO_TO_SLEEP_REASON_SLEEP_BUTTON,
+-                                                                PowerManager.GO_TO_SLEEP_FLAG_NO_DOZE );
++            mPowerManager.goToSleep(SystemClock.uptimeMillis(),
++                    PowerManager.GO_TO_SLEEP_REASON_SLEEP_BUTTON,
++                    PowerManager.GO_TO_SLEEP_FLAG_SOFT_SLEEP);
++            return true; 
+         } 
+     } 
+ 
+-- 
+2.43.0
+

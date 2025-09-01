@@ -1,7 +1,7 @@
 From 457b9f6dfe4a218939e28bb4e97b8ca3b19f8e61 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Mon, 20 Jan 2025 12:50:55 -0500
-Subject: [PATCH 13/28] DisplayLayout: allow forcing statusbar on external and
+Subject: [PATCH 13/33] DisplayLayout: allow forcing statusbar on external and
  virtual displays
 
 ---

@@ -1,7 +1,7 @@
 From f13f67e9d93ae952942adbf376b457526c3b0da3 Mon Sep 17 00:00:00 2001
 From: electrikjesus <electrikjesus@gmail.com>
 Date: Wed, 20 Mar 2024 20:05:49 -0400
-Subject: [PATCH 06/28] DisplayLayout: Allow disabling the navbar on secondary
+Subject: [PATCH 06/33] DisplayLayout: Allow disabling the navbar on secondary
  displays
 
 ---

@@ -1,0 +1,24 @@
+From 4e7c59038d46cd5b6d642a00aa0a2736801c2faa Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Fri, 9 May 2025 08:38:29 -0400
+Subject: [PATCH 32/33] fix: 9e5789
+
+---
+ .../android/systemui/globalactions/GlobalActionsDialogLite.java  | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/globalactions/GlobalActionsDialogLite.java b/packages/SystemUI/src/com/android/systemui/globalactions/GlobalActionsDialogLite.java
+index 360a29064089..3644ab5f1d5c 100644
+--- a/packages/SystemUI/src/com/android/systemui/globalactions/GlobalActionsDialogLite.java
++++ b/packages/SystemUI/src/com/android/systemui/globalactions/GlobalActionsDialogLite.java
+@@ -1029,7 +1029,6 @@ public class GlobalActionsDialogLite implements DialogInterface.OnDismissListene
+             mPowerManager.goToSleep(SystemClock.uptimeMillis(),
+                     PowerManager.GO_TO_SLEEP_REASON_SLEEP_BUTTON,
+                     PowerManager.GO_TO_SLEEP_FLAG_SOFT_SLEEP);
+-            return true; 
+         } 
+     } 
+ 
+-- 
+2.43.0
+

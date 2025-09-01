@@ -1,7 +1,7 @@
 From 59512646a1ef554ecdc80de7e17892f4ed4a325a Mon Sep 17 00:00:00 2001
 From: dzy <dzy@rock-chips.com>
 Date: Wed, 29 Nov 2023 16:15:48 +0800
-Subject: [PATCH 27/28] Multi-display:temporary fix to disable mirror display
+Subject: [PATCH 27/33] Multi-display:temporary fix to disable mirror display
  by default.
 
 Change-Id: I74686a024cffff6b0de36c952c48d6f9cf2fd8d8

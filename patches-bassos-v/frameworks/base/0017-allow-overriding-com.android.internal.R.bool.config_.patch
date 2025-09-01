@@ -1,7 +1,7 @@
 From 2961c11bd12afbe9c4e6c93200796f5c1e717f93 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Thu, 10 Apr 2025 17:12:28 -0400
-Subject: [PATCH 17/28] allow overriding
+Subject: [PATCH 17/33] allow overriding
  com.android.internal.R.bool.config_perDisplayFocusEnabled
 
 ---

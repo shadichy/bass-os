@@ -1,7 +1,7 @@
 From d774dfe9e848a3b2beb589ddc45cc8ec8a3603f5 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Wed, 15 Nov 2023 13:35:54 -0500
-Subject: [PATCH 07/28] Rename Tablet to Device in all system dialogs
+Subject: [PATCH 07/33] Rename Tablet to Device in all system dialogs
 
 ---
  core/res/res/values/strings.xml | 68 ++++++++++++++++-----------------

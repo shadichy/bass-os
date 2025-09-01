@@ -1,7 +1,7 @@
 From f45d62bd08c90f5bbc7f9a080fe2c92ea123361a Mon Sep 17 00:00:00 2001
 From: Wu Liangqing <wlq@rock-chips.com>
 Date: Sun, 7 Nov 2021 09:37:08 +0800
-Subject: [PATCH 10/28] SystemUI: Do not show keyguard presentation on external
+Subject: [PATCH 10/33] SystemUI: Do not show keyguard presentation on external
  display
 
 Test: CtsWindowManagerDeviceTestCases

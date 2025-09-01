@@ -1,7 +1,7 @@
 From e44693905fcd1d61d224f920b3c3cd0a82831ae3 Mon Sep 17 00:00:00 2001
 From: electrikjesus <electrikjesus@gmail.com>
 Date: Mon, 30 Oct 2023 15:44:08 -0400
-Subject: [PATCH 20/28] recents: do not show screen pinning dialog
+Subject: [PATCH 20/33] recents: do not show screen pinning dialog
 
 ---
  .../src/com/android/systemui/recents/ScreenPinningRequest.java  | 2 +-

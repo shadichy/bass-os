@@ -1,0 +1,29 @@
+From 6256de477f55a4acac636598b0276de2e87cc3ef Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Thu, 8 May 2025 21:50:19 -0400
+Subject: [PATCH 30/33] PhoneWindowManager: allow ignoring sleepDefaultDisplay
+
+This will use the property: persist.ignore.default_display_sleep=true
+---
+ .../java/com/android/server/policy/PhoneWindowManager.java   | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/services/core/java/com/android/server/policy/PhoneWindowManager.java b/services/core/java/com/android/server/policy/PhoneWindowManager.java
+index 473f6554af66..db9bdc71a1c7 100644
+--- a/services/core/java/com/android/server/policy/PhoneWindowManager.java
++++ b/services/core/java/com/android/server/policy/PhoneWindowManager.java
+@@ -1532,6 +1532,11 @@ public class PhoneWindowManager implements WindowManagerPolicy {
+     }
+ 
+     private void sleepDefaultDisplay(long eventTime, int reason, int flags) {
++        boolean ignoreDefaultDisplaySleep =
++                SystemProperties.getBoolean("persist.ignore.default_display_sleep", false);
++        if (ignoreDefaultDisplaySleep) {
++            return;
++        }
+         mRequestedOrSleepingDefaultDisplay = true;
+         mPowerManager.goToSleep(eventTime, reason, flags);
+     }
+-- 
+2.43.0
+

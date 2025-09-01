@@ -1,7 +1,7 @@
 From 1d4e446380127c63e9b7b8a34792dd6211f20410 Mon Sep 17 00:00:00 2001
 From: electrikjesus <electrikjesus@gmail.com>
 Date: Fri, 26 Jan 2024 13:15:47 -0500
-Subject: [PATCH 03/28] DisplayLayout: Add a method to to force statusbar on
+Subject: [PATCH 03/33] DisplayLayout: Add a method to to force statusbar on
  secondary displays
 
 Allow a system property to override this for desktop mode navigation to work on secondary displays.

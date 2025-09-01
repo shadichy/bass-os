@@ -1,0 +1,25 @@
+From 409c97f898c38af7e7e7ef2c5180883537dd91c4 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Mon, 12 May 2025 12:06:32 -0400
+Subject: [PATCH 33/33] remove teamfood arg from enable_new_qs_edit_mode
+
+---
+ packages/SystemUI/src/com/android/systemui/flags/Flags.kt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/packages/SystemUI/src/com/android/systemui/flags/Flags.kt b/packages/SystemUI/src/com/android/systemui/flags/Flags.kt
+index 95cd9eb4ae4b..e4824f46d05e 100644
+--- a/packages/SystemUI/src/com/android/systemui/flags/Flags.kt
++++ b/packages/SystemUI/src/com/android/systemui/flags/Flags.kt
+@@ -179,7 +179,7 @@ object Flags {
+     /** Enables new QS Edit Mode visual refresh */
+     // TODO(b/269787742): Tracking Bug
+     @JvmField
+-    val ENABLE_NEW_QS_EDIT_MODE = unreleasedFlag("enable_new_qs_edit_mode", teamfood = false)
++    val ENABLE_NEW_QS_EDIT_MODE = unreleasedFlag("enable_new_qs_edit_mode")
+ 
+     // 600- status bar
+ 
+-- 
+2.43.0
+

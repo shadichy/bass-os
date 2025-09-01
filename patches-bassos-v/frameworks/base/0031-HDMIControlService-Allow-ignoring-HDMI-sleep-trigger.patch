@@ -1,0 +1,41 @@
+From ced1ca192e6500e7adc580a6b6d3b8585a189549 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Thu, 8 May 2025 22:01:56 -0400
+Subject: [PATCH 31/33] HDMIControlService: Allow ignoring HDMI sleep triggers
+
+This will use the property: persist.ignore.hdmi_display_sleep=true
+---
+ .../com/android/server/hdmi/HdmiControlService.java    | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/services/core/java/com/android/server/hdmi/HdmiControlService.java b/services/core/java/com/android/server/hdmi/HdmiControlService.java
+index 8e41d18f0953..f896218317f2 100644
+--- a/services/core/java/com/android/server/hdmi/HdmiControlService.java
++++ b/services/core/java/com/android/server/hdmi/HdmiControlService.java
+@@ -3793,6 +3793,11 @@ public class HdmiControlService extends SystemService {
+         if (!canGoToStandby()) {
+             return;
+         }
++        boolean ignoreHDMIDisplaySleep =
++                SystemProperties.getBoolean("persist.ignore.hdmi_display_sleep", false);
++        if (ignoreHDMIDisplaySleep) {
++            return;
++        }
+         mStandbyMessageReceived = true;
+         mPowerManager.goToSleep(SystemClock.uptimeMillis(), PowerManager.GO_TO_SLEEP_REASON_HDMI, 0);
+         // PowerManger will send the broadcast Intent.ACTION_SCREEN_OFF and after this gets
+@@ -4133,6 +4138,11 @@ public class HdmiControlService extends SystemService {
+ 
+     void setStandbyMode(boolean isStandbyModeOn) {
+         assertRunOnServiceThread();
++        boolean ignoreHDMIDisplaySleep =
++                SystemProperties.getBoolean("persist.ignore.hdmi_display_sleep", false);
++        if (ignoreHDMIDisplaySleep) {
++            return;
++        }
+         if (isPowerOnOrTransient() && isStandbyModeOn) {
+             mPowerManager.goToSleep(SystemClock.uptimeMillis(),
+                     PowerManager.GO_TO_SLEEP_REASON_HDMI, 0);
+-- 
+2.43.0
+

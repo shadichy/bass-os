@@ -1,7 +1,7 @@
 From c15ddfa2846989dfdabe1658fb12bb615af4f1bb Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Mon, 20 Jan 2025 12:49:43 -0500
-Subject: [PATCH 12/28] DisplayLayout: allow overriding statusbar display via
+Subject: [PATCH 12/33] DisplayLayout: allow overriding statusbar display via
  prop
 
 ---
