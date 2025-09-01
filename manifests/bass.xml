@@ -11,6 +11,8 @@
   <project path="packages/apps/SetupWizard" name="platform_packages_apps_SetupWizard" remote="bb" revision="bass-12.1" />
   <remove-project name="bootable_newinstaller" />
   <project name="platform_bootable_newinstaller" path="bootable/newinstaller" remote="bb" revision="b23a7873c12d9b1aa3ae6bc824dd1ed54e54b853" />
+  <project name="bootable_aaropa" path="bootable/aaropa" remote="bb" revision="38cf722a84eb6edc4097b1e49ce65839f727d24f" />
+  <project name="prebuilts_aaropa_rootfs_installer_bass" path="prebuilts/aaropa/rootfs/installer/bass" remote="bb" revision="main" />
   <remove-project name="device_generic_common" />
   <project name="device_generic_common" path="device/generic/common" remote="bb" revision="5e949adb9b0cc1b511fcc9c17c1fca31fd72ed10" sync-s="true"/>
   <project path="packages/apps/Seedvault" name="LineageOS/android_packages_apps_Seedvault" remote="ghub" revision="lineage-19.1" />

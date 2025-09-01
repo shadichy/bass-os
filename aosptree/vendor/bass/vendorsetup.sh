@@ -52,7 +52,8 @@ sed '/ lunch()/,/^}/!d'  build/envsetup.sh | sed 's/function lunch/function aosp
 source ${tmp_lunch}
 rm -f ${tmp_lunch}
 
-function checkProjectStatus() {
+function checkProjectStatus()
+{
     TARGET_PROJECT_PATH=$1
     cd $TARGET_PROJECT_PATH
     echo -e "${purple}target_project_path:${reset} $TARGET_PROJECT_PATH"
@@ -251,6 +252,7 @@ function lunch
     build_config
     alternate_signature_prep
     copy_configs
+	copy_themes
     add_grub_cmdline_options
     update_apps
     agp_sign_apk
@@ -290,7 +292,13 @@ function update_apps()
 }
 
 function copy_configs()
-{    
+{
+	aaropa_configs=vendor/$vendor_name/configs/aaropa_configs
+	calamares_presets_dir=calamares/resources/modules/presets
+	calamares_default_options=vendor/$vendor_name/aaropa/$calamares_presets_dir/default.options.yaml
+	iso_dir=bootable/aaropa/iso
+
+	# Copy configs
     if [ "$USE_BLISS_KIOSK_LAUNCHER" = "true" ]; then
         if [ ! -f packages/apps/BlissKioskLauncher/build.gradle ]; then
             echo -e "${ltred}Kiosk launcher source not found. Please make sure you have licensed access. Aborting...${reset}"
@@ -298,8 +306,9 @@ function copy_configs()
         fi
         echo -e "Kiosk launcher selected. Copying configs now..."
         echo ""
-        cp -r vendor/$vendor_name/configs/grub_configs/kiosk/isolinux.cfg bootable/newinstaller/boot/isolinux/isolinux.cfg
-        cp -r vendor/$vendor_name/configs/grub_configs/kiosk/android.cfg bootable/newinstaller/install/grub2/efi/boot/android.cfg
+        { cat "$calamares_default_options"; cat "$aaropa_configs"/kiosk/$calamares_presets_dir/kiosk.options.yaml; } >$iso_dir/overlay/etc/$calamares_presets_dir/kiosk.options.yaml
+        cp -f "$aaropa_configs"/kiosk/$calamares_presets_dir/icon/kiosk.svg $iso_dir/overlay/etc/$calamares_presets_dir/icon/kiosk.svg
+        cat "$aaropa_configs"/kiosk/grub/entry.cfg >>$iso_dir/boot/grub/entry.cfg
         # cp -r vendor/$vendor_name/configs/config_defaults/kiosk/overlay/* vendor/$vendor_name/overlay/
         cp -r vendor/$vendor_name/configs/config_defaults/kiosk/dgc/* device/generic/common/
         sed -i 's/config_freeformWindowManagement">true/config_freeformWindowManagement">false/g' device/generic/common/overlay/frameworks/base/core/res/res/values/config.xml
@@ -319,8 +328,9 @@ function copy_configs()
         fi
         echo -e "Restricted launcher selected. Copying configs now..."
         echo ""
-        cp -r vendor/$vendor_name/configs/grub_configs/restricted/isolinux.cfg bootable/newinstaller/boot/isolinux/isolinux.cfg
-        cp -r vendor/$vendor_name/configs/grub_configs/restricted/android.cfg bootable/newinstaller/install/grub2/efi/boot/android.cfg
+        { cat "$calamares_default_options"; cat "$aaropa_configs"/restricted/$calamares_presets_dir/restricted.options.yaml; } >$iso_dir/overlay/etc/$calamares_presets_dir/restricted.options.yaml
+        cp -f "$aaropa_configs"/restricted/$calamares_presets_dir/icon/restricted.svg $iso_dir/overlay/etc/$calamares_presets_dir/icon/restricted.svg
+        cat "$aaropa_configs"/restricted/grub/entry.cfg >>$iso_dir/boot/grub/entry.cfg
         # cp -r vendor/$vendor_name/configs/config_defaults/restricted/overlay/* vendor/$vendor_name/overlay/
         cp -r vendor/$vendor_name/configs/config_defaults/restricted/dgc/* device/generic/common/
         sed -i 's/config_freeformWindowManagement">true/config_freeformWindowManagement">false/g' device/generic/common/overlay/frameworks/base/core/res/res/values/config.xml
@@ -334,8 +344,9 @@ function copy_configs()
     if [ "$USE_BLISS_GAME_MODE_LAUNCHER" = "true" ]; then
         echo -e "Game-Mode launcher selected. Copying configs now..."
         echo ""
-        cp -r vendor/$vendor_name/configs/grub_configs/game_mode/isolinux.cfg bootable/newinstaller/boot/isolinux/isolinux.cfg
-        cp -r vendor/$vendor_name/configs/grub_configs/game_mode/android.cfg bootable/newinstaller/install/grub2/efi/boot/android.cfg
+        { cat "$calamares_default_options"; cat "$aaropa_configs"/game_mode/$calamares_presets_dir/game_mode.options.yaml; } >$iso_dir/overlay/etc/$calamares_presets_dir/game_mode.options.yaml
+        cp -f "$aaropa_configs"/game_mode/$calamares_presets_dir/icon/game_mode.svg $iso_dir/overlay/etc/$calamares_presets_dir/icon/game_mode.svg
+        cat "$aaropa_configs"/game_mode/grub/entry.cfg >>$iso_dir/boot/grub/entry.cfg
         # cp -r vendor/$vendor_name/configs/config_defaults/game_mode/overlay/* vendor/$vendor_name/overlay/
         cp -r vendor/$vendor_name/configs/config_defaults/game_mode/dgc/* device/generic/common/
         sed -i 's/config_navBarInteractionMode">1/config_navBarInteractionMode">0/g' device/generic/common/overlay/frameworks/base/core/res/res/values/config.xml
@@ -347,8 +358,9 @@ function copy_configs()
     if [ "$USE_TITANIUS_LAUNCHER" = "true" ]; then
         echo -e "Game-Mode launcher selected. Copying configs now..."
         echo ""
-        cp -r vendor/$vendor_name/configs/grub_configs/game_mode/isolinux.cfg bootable/newinstaller/boot/isolinux/isolinux.cfg
-        cp -r vendor/$vendor_name/configs/grub_configs/game_mode/android.cfg bootable/newinstaller/install/grub2/efi/boot/android.cfg
+        { cat "$calamares_default_options"; cat "$aaropa_configs"/game_mode/$calamares_presets_dir/game_mode.options.yaml; } >$iso_dir/overlay/etc/$calamares_presets_dir/game_mode.options.yaml
+        cp -f "$aaropa_configs"/game_mode/$calamares_presets_dir/icon/game_mode.svg $iso_dir/overlay/etc/$calamares_presets_dir/icon/game_mode.svg
+        cat "$aaropa_configs"/game_mode/grub/entry.cfg >>$iso_dir/boot/grub/entry.cfg
         # cp -r vendor/$vendor_name/configs/config_defaults/game_mode/overlay/* vendor/$vendor_name/overlay/
         cp -r vendor/$vendor_name/configs/config_defaults/game_mode/dgc/* device/generic/common/
         sed -i 's/config_navBarInteractionMode">1/config_navBarInteractionMode">0/g' device/generic/common/overlay/frameworks/base/core/res/res/values/config.xml
@@ -360,8 +372,9 @@ function copy_configs()
     if [ "$USE_BLISS_TV_LAUNCHER" = "true" ]; then
         echo -e "TV-Mode launcher selected. Copying configs now..."
         echo ""
-        cp -r vendor/$vendor_name/configs/grub_configs/tv_mode/isolinux.cfg bootable/newinstaller/boot/isolinux/isolinux.cfg
-        cp -r vendor/$vendor_name/configs/grub_configs/tv_mode/android.cfg bootable/newinstaller/install/grub2/efi/boot/android.cfg
+        { cat "$calamares_default_options"; cat "$aaropa_configs"/tv_mode/$calamares_presets_dir/tv_mode.options.yaml; } >$iso_dir/overlay/etc/$calamares_presets_dir/tv_mode.options.yaml
+        cp -f "$aaropa_configs"/tv_mode/$calamares_presets_dir/icon/tv_mode.svg $iso_dir/overlay/etc/$calamares_presets_dir/icon/tv_mode.svg
+        cat "$aaropa_configs"/tv_mode/grub/entry.cfg >>$iso_dir/boot/grub/entry.cfg
         # cp -r vendor/$vendor_name/configs/config_defaults/tv_mode/overlay/* vendor/$vendor_name/overlay/
         cp -r vendor/$vendor_name/configs/config_defaults/tv_mode/dgc/* device/generic/common/
         sed -i 's/config_navBarInteractionMode">1/config_navBarInteractionMode">0/g' device/generic/common/overlay/frameworks/base/core/res/res/values/config.xml
@@ -373,8 +386,9 @@ function copy_configs()
     if [ "$USE_BLISS_CROSS_LAUNCHER" = "true" ]; then
         echo -e "Game-Mode CrossLauncher selected. Copying configs now..."
         echo ""
-        cp -r vendor/$vendor_name/configs/grub_configs/crosslauncher/isolinux.cfg bootable/newinstaller/boot/isolinux/isolinux.cfg
-        cp -r vendor/$vendor_name/configs/grub_configs/crosslauncher/android.cfg bootable/newinstaller/install/grub2/efi/boot/android.cfg
+        { cat "$calamares_default_options"; cat "$aaropa_configs"/crosslauncher/$calamares_presets_dir/crosslauncher.options.yaml; } >$iso_dir/overlay/etc/$calamares_presets_dir/crosslauncher.options.yaml
+        cp -f "$aaropa_configs"/crosslauncher/$calamares_presets_dir/icon/crosslauncher.svg $iso_dir/overlay/etc/$calamares_presets_dir/icon/crosslauncher.svg
+        cat "$aaropa_configs"/crosslauncher/grub/entry.cfg >>$iso_dir/boot/grub/entry.cfg
         # cp -r vendor/$vendor_name/configs/config_defaults/crosslauncher/overlay/* vendor/$vendor_name/overlay/
         cp -r vendor/$vendor_name/configs/config_defaults/crosslauncher/dgc/* device/generic/common/
         sed -i 's/config_navBarInteractionMode">1/config_navBarInteractionMode">0/g' device/generic/common/overlay/frameworks/base/core/res/res/values/config.xml
@@ -386,8 +400,9 @@ function copy_configs()
     if [ "$BLISS_SECURE_LOCKDOWN_BUILD" = "true" ]; then
         echo -e "Secure lockdown branding selected. Copying configs now..."
         echo ""
-        cp -r vendor/$vendor_name/configs/grub_configs/lockdown/isolinux.cfg bootable/newinstaller/boot/isolinux/isolinux.cfg
-        cp -r vendor/$vendor_name/configs/grub_configs/lockdown/android.cfg bootable/newinstaller/install/grub2/efi/boot/android.cfg
+        { cat "$calamares_default_options"; cat "$aaropa_configs"/lockdown/$calamares_presets_dir/lockdown.options.yaml; } >$iso_dir/overlay/etc/$calamares_presets_dir/lockdown.options.yaml
+        cp -f "$aaropa_configs"/lockdown/$calamares_presets_dir/icon/lockdown.svg $iso_dir/overlay/etc/$calamares_presets_dir/icon/lockdown.svg
+        cat "$aaropa_configs"/lockdown/grub/entry.cfg >>$iso_dir/boot/grub/entry.cfg
         # cp -r vendor/$vendor_name/configs/config_defaults/kiosk/overlay/* vendor/$vendor_name/overlay/
         cp -r vendor/$vendor_name/configs/config_defaults/kiosk/dgc/* device/generic/common/
         # sed -i 's/"ENABLE_TASKBAR", true,/"ENABLE_TASKBAR", false,/' packages/apps/Launcher3/src/com/android/launcher3/config/FeatureFlags.java# Reset sleep and screen off to default values for normal devices
@@ -397,8 +412,9 @@ function copy_configs()
     if [[ "$USE_SMARTDOCK_B" = "true" ]] || [[ "$USE_SMARTDOCK" = "true" ]] || [[ "$USE_DESKTOP_MODE_ON_SECONDARY_DISPLAY" = "true" ]]; then
         echo -e "Desktop launcher selected. Copying configs now..."
         echo ""    
-        cp -r vendor/$vendor_name/configs/grub_configs/desktop/isolinux.cfg bootable/newinstaller/boot/isolinux/isolinux.cfg
-        cp -r vendor/$vendor_name/configs/grub_configs/desktop/android.cfg bootable/newinstaller/install/grub2/efi/boot/android.cfg
+        { cat "$calamares_default_options"; cat "$aaropa_configs"/desktop/$calamares_presets_dir/desktop.options.yaml; } >$iso_dir/overlay/etc/$calamares_presets_dir/desktop.options.yaml
+        cp -f "$aaropa_configs"/desktop/$calamares_presets_dir/icon/desktop.svg $iso_dir/overlay/etc/$calamares_presets_dir/icon/desktop.svg
+        cat "$aaropa_configs"/desktop/grub/entry.cfg >>$iso_dir/boot/grub/entry.cfg
         # cp -r vendor/$vendor_name/configs/config_defaults/desktop/overlay/* vendor/$vendor_name/overlay/
         cp -r vendor/$vendor_name/configs/config_defaults/desktop/dgc/* device/generic/common/
         sed -i 's/config_navBarInteractionMode">1/config_navBarInteractionMode">2/g' device/generic/common/overlay/frameworks/base/core/res/res/values/config.xml
@@ -459,8 +475,9 @@ function copy_configs()
     if [[ "$USE_BLISS_TV_LAUNCHER" = "false" ]] && [[ "$USE_BLISS_KIOSK_LAUNCHER" = "false" ]] && [[ "$BLISS_SECURE_LOCKDOWN_BUILD" = "false" ]] && [[ "$USE_SMARTDOCK_B" = "false" ]] && [[ "$USE_SMARTDOCK" = "false" ]] && [[ "$USE_BLISS_RESTRICTED_LAUNCHER" = "false" ]] && [[ "$USE_BLISS_RESTRICTED_LAUNCHER_PRO" = "false" ]] && [[ "$USE_BLISS_GAME_MODE_LAUNCHER" = "false" ]] && [[ "$USE_BLISS_CROSS_LAUNCHER" = "false" ]]; then
         echo -e "Defaulting to Tablet launcher. Copying configs now..."
         echo ""
-        cp -r vendor/$vendor_name/configs/grub_configs/tablet/isolinux.cfg bootable/newinstaller/boot/isolinux/isolinux.cfg
-        cp -r vendor/$vendor_name/configs/grub_configs/tablet/android.cfg bootable/newinstaller/install/grub2/efi/boot/android.cfg
+        { cat "$calamares_default_options"; cat "$aaropa_configs"/tablet/$calamares_presets_dir/tablet.options.yaml; } >$iso_dir/overlay/etc/$calamares_presets_dir/tablet.options.yaml
+        cp -f "$aaropa_configs"/tablet/$calamares_presets_dir/icon/tablet.svg $iso_dir/overlay/etc/$calamares_presets_dir/icon/tablet.svg
+        cat "$aaropa_configs"/tablet/grub/entry.cfg >>$iso_dir/boot/grub/entry.cfg
         echo -e "Grub configs updated"
     fi
     if [ "$BLISS_TABLET_NAVIGATION" = "true" ]; then
@@ -572,6 +589,34 @@ function copy_configs()
         sed -i 's#config_letterboxBackgroundType">0#config_letterboxBackgroundType">3#g' frameworks/base/core/res/res/values/config.xml
         sed -i 's#config_letterboxBackgroundType">0#config_letterboxBackgroundType">3#g' frameworks/base/core/res/res/values/config.xml
     fi
+
+	# Copy custom configs
+	if [ -f "$aaropa_configs/custom/$calamares_presets_dir/custom.options.yaml" ]; then
+		# Skip if no icon is found
+		if [ ! -f "$aaropa_configs/custom/$calamares_presets_dir/icon/custom.svg" ]; then
+			echo -e "${ltred}Custom icon not found. Skipping...${reset}"
+		else
+			echo -e "${ltblue}Copying custom configs${reset}"
+			{ cat "$calamares_default_options"; cat "$aaropa_configs/custom/$calamares_presets_dir/custom.options.yaml"; } >$iso_dir/overlay/etc/$calamares_presets_dir/custom.options.yaml
+			cp -f "$aaropa_configs/custom/$calamares_presets_dir/icon/custom.svg" $iso_dir/overlay/etc/$calamares_presets_dir/icon/custom.svg
+			# Copy grub config if available
+			if [ -f "$aaropa_configs/custom/grub/entry.cfg" ]; then
+				cat "$aaropa_configs/custom/grub/entry.cfg" >>$iso_dir/boot/grub/entry.cfg
+			fi
+		fi
+	fi
+}
+
+function copy_themes()
+{
+	echo -e "${ltblue}Copying Bass GRUB and aaropa themes themes${reset}"
+	themes_dir=vendor/$vendor_name/themes
+	iso_dir=bootable/aaropa/iso
+	cp -rf "$themes_dir"/calamares $iso_dir/overlay/etc/calamares/branding/bass
+	cp -rf "$themes_dir"/grub $iso_dir/boot/grub/themes/bass
+	cp -rf "$themes_dir"/gtk $iso_dir/overlay/root/.themes/"$(grep -E '^Name=' "$themes_dir"/gtk/index.theme | awk -F '=' '{print $2}')"
+	cp -f "$themes_dir"/rootfs/system.jwmrc $iso_dir/overlay/root/.jwmrc
+	cp -f "$themes_dir"/rootfs/background.png $iso_dir/overlay/root/.backgrounds/background.png
 }
 
 function build_config()
@@ -652,12 +697,9 @@ function build_config()
 
 function add_grub_cmdline_options()
 {
-    # add "$GRUB_CMDLINE_OPTIONS" to the the specified grub config files, replacing the word "logo":
-    # bootable/newinstaller/boot/isolinux/isolinux.cfg
-    # bootable/newinstaller/install/grub2/efi/boot/android.cfg
+    # add "$GRUB_CMDLINE_OPTIONS" to the the specified grub config files, replacing the word "CMDLINE":
     if [ "$GRUB_CMDLINE_OPTIONS" != "" ]; then
-        sed -i "s/logo/$GRUB_CMDLINE_OPTIONS/g" bootable/newinstaller/boot/isolinux/isolinux.cfg
-        sed -i "s/logo/$GRUB_CMDLINE_OPTIONS/g" bootable/newinstaller/install/grub2/efi/boot/android.cfg
+        sed -i "s/CMDLINE/$GRUB_CMDLINE_OPTIONS/g" bootable/aaropa/iso/boot/grub/grub.cfg
     fi
 }
 

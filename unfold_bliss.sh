@@ -49,6 +49,34 @@ if [ $private_manifests_exist -gt 0 ] || [ $private_addon_manifests_exist -gt 0 
     cp ${LOCAL_PATH}/private/manifests/private*.xml ../local_manifests/
     cp ${LOCAL_PATH}/private/addons/**/manifest/private*.xml ../local_manifests/
 fi
+aaropa_configs=aosptree/vendor/bass/configs/aaropa_configs
+calamares_presets_dir=calamares/resources/modules/presets
+private_aaropa=${LOCAL_PATH}/private/aaropa
+if [ -f "$private_aaropa/$calamares_presets_dir/custom.options.yaml" ]; then
+	# Skip if no icon is found
+	if [ ! -f "$private_aaropa/$calamares_presets_dir/icon/custom.svg" ]; then
+		echo -e "${ltred}Custom icon not found. Skipping...${reset}"
+	else
+		echo -e "${ltblue}Copying custom configs${reset}"
+		mkdir -p $aaropa_configs/custom/$calamares_presets_dir/icon
+		cp "$private_aaropa/$calamares_presets_dir/custom.options.yaml" $aaropa_configs/custom/$calamares_presets_dir/custom.options.yaml
+		cp "$private_aaropa/$calamares_presets_dir/icon/custom.svg" $aaropa_configs/custom/$calamares_presets_dir/icon/custom.svg
+		# Copy grub config if available
+		if [ -f "$private_aaropa/grub/entry.cfg" ]; then
+			mkdir -p $aaropa_configs/custom/grub
+			cp "$private_aaropa/grub/entry.cfg" $aaropa_configs/custom/grub/entry.cfg
+		fi
+	fi
+fi
+themes_dir=aosptree/vendor/bass/themes
+private_themes=${LOCAL_PATH}/private/themes
+for theme in calamares grub gtk rootfs; do
+	# If $private_themes/$theme is not empty, delete corresponding $themes_dir/$theme and copy $private_themes/$theme to $themes_dir/$theme
+	if [ "$(ls -A $private_themes/$theme)" ]; then
+		rm -rf $themes_dir/$theme
+		cp -r "$private_themes/$theme" "$themes_dir/$theme"
+	fi
+done
 git add *
 git commit --no-edit -m "Add Bass OS Project"
 popd
