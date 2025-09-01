@@ -1,7 +1,7 @@
 From 60eec0d35555208c4ed9a7651d5fbc34ad57c1ff Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Mon, 7 Apr 2025 13:49:41 -0400
-Subject: [PATCH 10/19] allow switch for system image type
+Subject: [PATCH 10/42] allow switch for system image type
 
 This allows us to set the config on build time
 USE_SQUASHFS or USE_EROFS

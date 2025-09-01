@@ -1,0 +1,28 @@
+From f449d0580b65806f109df686687083443893e8ef Mon Sep 17 00:00:00 2001
+From: hmtheboy154 <buingoc67@gmail.com>
+Date: Thu, 24 Apr 2025 10:40:31 +0000
+Subject: [PATCH 20/42] init.sh: Allow Intel iGPU gen8+ to use minigbm
+
+made an oopsie here
+
+Signed-off-by: hmtheboy154 <buingoc67@gmail.com>
+---
+ init.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/init.sh b/init.sh
+index 6c97035..1f01268 100644
+--- a/init.sh
++++ b/init.sh
+@@ -378,7 +378,7 @@ function init_hal_gralloc()
+ 			HWC=${HWC:-drm_minigbm}
+ 			;&
+ 		*i915)
+-			if [ "$(cat /sys/kernel/debug/dri/0/i915_capabilities | grep -e 'gen' -e 'graphics version' | awk '{print $NF}')" -gt 9 ]; then
++			if [ "$(cat /sys/kernel/debug/dri/0/i915_capabilities | grep -e 'gen' -e 'graphics version' | awk '{print $NF}')" -ge 8 ]; then
+ 				HWC=${HWC:-drm_minigbm_celadon}
+ 				GRALLOC=${GRALLOC:-minigbm}
+ 			else
+-- 
+2.43.0
+

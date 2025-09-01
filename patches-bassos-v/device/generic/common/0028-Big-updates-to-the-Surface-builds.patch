@@ -1,0 +1,192 @@
+From 1b9f5d183f050b36b95113d4dbd85224e1b8c808 Mon Sep 17 00:00:00 2001
+From: hmtheboy154 <buingoc67@gmail.com>
+Date: Tue, 6 May 2025 14:01:29 -0400
+Subject: [PATCH 28/42] Big updates to the Surface builds !!!
+
+As I got my hands on a Surface Pro 5 to know wtf is happening in
+Surface builds, time to fix them.
+
+Currently the Surface builds have these issues:
+- Merge newer iptsd giving us newer iptsd-find-hidraw that was uses
+the new iptsd-foreach script, and currently that script is not executable
+on our shell (https://github.com/linux-surface/iptsd/issues/184)
+- The logic to start iptsd is pretty flawed. Also waking up from sleep
+broke the touch.
+
+Here's what we're gonna do to tackle these:
+- For iptsd, update it to latest and write a new script that
+iptsd-find-hidraw can use instead of using iptsd-foreach (thanks
+shadichy for your help)
+- For how to start iptsd, our current logic will be like this:
++ Create a service for iptsd, disabled by default
++ Create a script & service for the script that find the current ipts
+hidraw device & put it into a property. Whenever this prop is set,
+iptsd will immediately restart (or start). Start this service at boot
+so iptsd service will be triggered.
++ Trigger the script when waking up by using a property. Require
+this commit on system/hardware/interfaces
+https://github.com/BlissOS/platform_system_hardware_interfaces/commit/fe7ed42d65fabf58f44cb25a47119d9dc5cb0b6c
+
+Co-authored-by: shadichy <shadichy@blisslabs.org>
+Signed-off-by: hmtheboy154 <buingoc67@gmail.com>
+---
+ init.sh                   | 16 +++++++++++++---
+ init.x86.rc               | 18 +++++++++++++++---
+ iptsd_runner/Android.mk   | 10 ----------
+ iptsd_runner/iptsd_runner |  5 -----
+ packages.mk               |  2 +-
+ scripts/Android.bp        |  6 ++++++
+ scripts/set_iptsd_device  |  7 +++++++
+ 7 files changed, 42 insertions(+), 22 deletions(-)
+ delete mode 100755 iptsd_runner/Android.mk
+ delete mode 100755 iptsd_runner/iptsd_runner
+ create mode 100644 scripts/set_iptsd_device
+
+diff --git a/init.sh b/init.sh
+index 47bcf41..8b48fd6 100644
+--- a/init.sh
++++ b/init.sh
+@@ -790,9 +790,19 @@ function init_hal_sensors()
+ 
+ function init_hal_surface()
+ {
+-	case "$UEVENT" in
++	case "$PRODUCT" in
+ 		*Surface*Pro*[4-9]*|*Surface*Book*|*Surface*Laptop*[1~4]*|*Surface*Laptop*Studio*)
+-			start iptsd_runner
++			set_property vendor.iptsd.device $(iptsd-find-hidraw)
++			;;
++	esac
++
++	# Handle a seperate case for Surface Pro 5 as it's initially being called
++	# Surface Pro LTE 2017, which gives "Surface Pro" in product_name
++	sku=$(cat /sys/class/dmi/id/product_sku 2>/dev/null)
++	case "$sku" in
++		Surface_Pro_1796|Surface_Pro_1807)
++			# Execute command with hidraw device from iptsd-find-hidraw
++			set_property vendor.iptsd.device "$(iptsd-find-hidraw)"
+ 			;;
+ 	esac
+ }
+@@ -947,7 +957,6 @@ function do_init()
+ 	init_hal_lights
+ 	init_hal_power
+ 	init_hal_sensors
+-	init_hal_surface
+ 	init_tscal
+ 	init_ril
+ 	init_prepare_ota
+@@ -1027,6 +1036,7 @@ function do_bootcomplete()
+ 	fi
+ 
+ 	init_hal_thermal
++	init_hal_surface
+ 	post_bootcomplete
+ }
+ 
+diff --git a/init.x86.rc b/init.x86.rc
+index 6ad03fb..9b9aae8 100644
+--- a/init.x86.rc
++++ b/init.x86.rc
+@@ -154,12 +154,18 @@ service ctrl-alt-del /system/bin/input keyevent --longpress POWER
+     keycodes 97 100 111
+     seclabel u:r:init:s0
+ 
+-service iptsd_runner /vendor/bin/iptsd_runner
+-	user root
+-    class main
++service iptsd /vendor/bin/iptsd ${vendor.iptsd.device}
++    user root
++    group root system wakelock uhid
+     disabled
+     seclabel u:r:zygote:s0
+ 
++service set_iptsd /vendor/bin/set_iptsd_device
++    user root
++    group root
++    disabled
++    oneshot
++
+ service zram_setup /vendor/bin/sh /vendor/etc/init.zram.sh
+     class late_start
+     user root
+@@ -188,3 +194,9 @@ on property:sys.shutdown.requested=*
+     start vendor.boot-mode-selection
+     wait_for_prop vendor.boot-mode-selection.complete true
+ 
++on property:vendor.iptsd.device=*
++    restart iptsd
++
++on property:suspend.device_is_awake=1
++    start set_iptsd
++    setprop suspend.device_is_awake 0
+diff --git a/iptsd_runner/Android.mk b/iptsd_runner/Android.mk
+deleted file mode 100755
+index a64c34b..0000000
+--- a/iptsd_runner/Android.mk
++++ /dev/null
+@@ -1,10 +0,0 @@
+-LOCAL_PATH := $(call my-dir)
+-
+-include $(CLEAR_VARS)
+-LOCAL_MODULE := iptsd_runner
+-LOCAL_MODULE_TAGS := optional
+-LOCAL_MODULE_CLASS := EXECUTABLES
+-LOCAL_PROPRIETARY_MODULE := true
+-LOCAL_SRC_FILES := iptsd_runner
+-
+-include $(BUILD_PREBUILT)
+diff --git a/iptsd_runner/iptsd_runner b/iptsd_runner/iptsd_runner
+deleted file mode 100755
+index 997c9a9..0000000
+--- a/iptsd_runner/iptsd_runner
++++ /dev/null
+@@ -1,5 +0,0 @@
+-#!/system/bin/sh
+-
+-PATH=/system/bin:/system/xbin:/system/vendor/bin:/vendor/bin
+-
+-iptsd $(iptsd-find-hidraw)
+diff --git a/packages.mk b/packages.mk
+index cab870e..0cf841f 100644
+--- a/packages.mk
++++ b/packages.mk
+@@ -140,7 +140,7 @@ PRODUCT_PACKAGES += tput dialog alsa-info.sh tree lspci dmidecode vainfo evtest
+ 
+ # Surface specific
+ ifeq ($(BOARD_IS_SURFACE_BUILD),true)
+-PRODUCT_PACKAGES += iptsd_runner iptsd \
++PRODUCT_PACKAGES += set_iptsd_device iptsd \
+                     iptsd-find-hidraw \
+                     iptsd-calibrate \
+                     iptsd-check-device \
+diff --git a/scripts/Android.bp b/scripts/Android.bp
+index 644bbe1..02aa77e 100644
+--- a/scripts/Android.bp
++++ b/scripts/Android.bp
+@@ -14,3 +14,9 @@ sh_binary {
+     src: "boot-mode-selection.sh",
+     recovery: true,
+ }
++
++sh_binary {
++    name: "set_iptsd_device",
++    src: "set_iptsd_device",
++    vendor: true,
++}
+diff --git a/scripts/set_iptsd_device b/scripts/set_iptsd_device
+new file mode 100644
+index 0000000..4152377
+--- /dev/null
++++ b/scripts/set_iptsd_device
+@@ -0,0 +1,7 @@
++#!/vendor/bin/sh -e
++
++sleep 1
++
++if [ "$(getprop vendor.iptsd.device)" != "$(iptsd-find-hidraw)" ]; then
++    setprop vendor.iptsd.device $(iptsd-find-hidraw)
++fi
+-- 
+2.43.0
+

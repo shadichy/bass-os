@@ -1,0 +1,52 @@
+From 57b5c25ac89bfe37ffb8606005937ad106ab6eb5 Mon Sep 17 00:00:00 2001
+From: hmtheboy154 <buingoc67@gmail.com>
+Date: Sun, 18 May 2025 09:24:26 +0000
+Subject: [PATCH 35/42] Remove dGPU hack & force set card0 as default
+
+Let's hope that multi-GPU users are gonna be fine this time
+
+Signed-off-by: hmtheboy154 <buingoc67@gmail.com>
+---
+ init.sh     | 11 +++--------
+ init.x86.rc |  3 ---
+ 2 files changed, 3 insertions(+), 11 deletions(-)
+
+diff --git a/init.sh b/init.sh
+index e978049..4409197 100644
+--- a/init.sh
++++ b/init.sh
+@@ -473,14 +473,9 @@ function init_egl()
+ 	fi
+ 
+ 	# Set default GPU render
+-	if [ -z ${GPU_OVERRIDE+x} ]; then
+-		echo ""
+-	else
+-		set_property gralloc.gbm.device /dev/dri/$GPU_OVERRIDE
+-		set_property vendor.hwc.drm.device /dev/dri/$GPU_OVERRIDE
+-		set_property hwc.drm.device /dev/dri/$GPU_OVERRIDE
+-	fi
+-
++	GPU_OVERRIDE=${GPU_OVERRIDE:-card0}
++	set_property gralloc.gbm.device /dev/dri/$GPU_OVERRIDE
++	set_property vendor.hwc.drm.device /dev/dri/$GPU_OVERRIDE
+ }
+ 
+ function init_hal_hwcomposer()
+diff --git a/init.x86.rc b/init.x86.rc
+index 74b8952..665e45e 100644
+--- a/init.x86.rc
++++ b/init.x86.rc
+@@ -46,9 +46,6 @@ on post-fs
+     chown system system /dev/ion
+ 
+ on post-fs-data
+-    # HACK: Temporary remove dGPU node. We will have a better solution for hybrid laptop later
+-    rm /dev/dri/card1
+-	rm /dev/dri/renderD129
+     # Create the directories used by the Wireless subsystem
+     mkdir /data/vendor/wifi 0771 wifi wifi
+     mkdir /data/vendor/wifi/wpa 0770 wifi wifi
+-- 
+2.43.0
+

@@ -1,7 +1,7 @@
 From ba8a0a08cf657c102711f409020a32452e7ebfca Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Sat, 19 Apr 2025 14:44:31 -0400
-Subject: [PATCH 17/19] Include minimal bass configs
+Subject: [PATCH 17/42] Include minimal bass configs
 
 ---
  device.mk | 3 +++

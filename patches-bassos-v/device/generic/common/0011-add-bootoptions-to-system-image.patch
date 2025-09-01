@@ -1,7 +1,7 @@
 From d09a9e1d24653cbca6dc6dbe11ac66ceb7259032 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Thu, 10 Apr 2025 13:01:19 -0400
-Subject: [PATCH 11/19] add bootoptions to system image
+Subject: [PATCH 11/42] add bootoptions to system image
 
 ---
  boot_options/options.yaml | 520 ++++++++++++++++++++++++++++++++++++++

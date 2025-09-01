@@ -1,0 +1,49 @@
+From 32422d631af136445addfe4896b10db4f15ce330 Mon Sep 17 00:00:00 2001
+From: hmtheboy154 <buingoc67@gmail.com>
+Date: Thu, 24 Apr 2025 11:03:34 +0000
+Subject: [PATCH 25/42] init.recovery.sh: Pick the correct pixel format based
+ on GPU driver
+
+No more showing all options on Grub, yay !
+
+Signed-off-by: hmtheboy154 <buingoc67@gmail.com>
+---
+ init.recovery.sh | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
+
+diff --git a/init.recovery.sh b/init.recovery.sh
+index f535894..67a2c36 100644
+--- a/init.recovery.sh
++++ b/init.recovery.sh
+@@ -15,6 +15,20 @@ function set_prop_if_empty()
+ 	[ -z "$(getprop $1)" ] && set_property "$1" "$2"
+ }
+ 
++function init_graphics()
++{
++	case "$(readlink /sys/class/graphics/fb0/device/driver)" in
++		*i915)
++			set_property ro.minui.pixel_format RGBX_8888
++			;;
++		*vmwgfx)
++			set_property ro.minui.pixel_format BGRX_8888
++			;;
++		*)
++			;;
++	esac
++}
++
+ function init_misc()
+ {
+ 	# Tell vold to use ntfs3 driver instead of ntfs-3g
+@@ -52,6 +66,7 @@ function do_netconsole()
+ 
+ function do_init()
+ {
++	init_graphics
+     init_misc
+ 	init_recovery_device_link
+ }
+-- 
+2.43.0
+

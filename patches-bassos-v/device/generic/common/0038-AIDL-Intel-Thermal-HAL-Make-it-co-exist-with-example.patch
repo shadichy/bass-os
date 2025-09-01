@@ -1,0 +1,123 @@
+From 8119a08fcbbc3a4b75342d93139808d255258ec1 Mon Sep 17 00:00:00 2001
+From: hmtheboy154 <buingoc67@gmail.com>
+Date: Sun, 18 May 2025 09:33:59 +0000
+Subject: [PATCH 38/42] AIDL Intel Thermal HAL & Make it co-exist with example
+ Thermal HAL
+
+Build Intel Thermal HAL, which is now AIDL in APEX. Also because on
+VM it doesn't show CPU temperature we build example thermal HAL as
+a replacement, staying on Intel Thermal HAL will make it spam errors.
+
+Signed-off-by: hmtheboy154 <buingoc67@gmail.com>
+---
+ BoardConfig.mk                                        | 3 ++-
+ init.sh                                               | 9 +++++++++
+ sepolicy/celadon/thermal/thermal-daemon/file_contexts | 1 +
+ sepolicy/vendor/file_contexts                         | 1 +
+ sepolicy/vendor/logwrapper.te                         | 6 ++++++
+ treble.mk                                             | 3 ++-
+ 6 files changed, 21 insertions(+), 2 deletions(-)
+ create mode 100644 sepolicy/vendor/logwrapper.te
+
+diff --git a/BoardConfig.mk b/BoardConfig.mk
+index 5c065a6..821596d 100644
+--- a/BoardConfig.mk
++++ b/BoardConfig.mk
+@@ -196,10 +196,11 @@ DEVICE_PRODUCT_COMPATIBILITY_MATRIX_FILE := $(LOCAL_COMMON_TREE)/manifest_framew
+ #BOARD_SEPOLICY_DIRS += device/generic/common/sepolicy/nonplat \
+ #                       system/bt/vendor_libs/linux/sepolicy \
+ #                       device/generic/common/sepolicy/celadon/graphics/mesa \
+-#                       device/generic/common/sepolicy/celadon/thermal \
+ #                       vendor/intel/proprietary/houdini/sepolicy \
+ #                       vendor/google/proprietary/widevine-prebuilt/sepolicy
+ #
++BOARD_SEPOLICY_DIRS += $(LOCAL_COMMON_TREE)/sepolicy/celadon/thermal \
++						$(LOCAL_COMMON_TREE)/sepolicy/celadon/thermal/thermal-daemon
+ SYSTEM_EXT_PRIVATE_SEPOLICY_DIRS += $(LOCAL_COMMON_TREE)/sepolicy/plat_private
+ SYSTEM_EXT_PUBLIC_SEPOLICY_DIRS += $(LOCAL_COMMON_TREE)/sepolicy/public
+ BOARD_VENDOR_SEPOLICY_DIRS += $(LOCAL_COMMON_TREE)/sepolicy/vendor
+diff --git a/init.sh b/init.sh
+index 06f1f78..4499020 100644
+--- a/init.sh
++++ b/init.sh
+@@ -660,12 +660,15 @@ function init_hal_power()
+ 
+ function init_hal_thermal()
+ {
++	export USE_THERMAL_HAL=${USE_THERMAL_HAL:-1}
++
+     # Check if thermald needs to be disabled
+     # 1. VMs (QEMU, VMware, Oracle VirtualBox)
+     # 2. AMD CPUs
+     case "$VENDOR" in
+         *QEMU*|*VMware*)
+             export THERMALD_DISABLE=${THERMALD_DISABLE:-1}
++			USE_THERMAL_HAL=${USE_THERMAL_HAL:-0}
+             ;;
+         *)
+             ;;
+@@ -673,6 +676,7 @@ function init_hal_thermal()
+ 
+     if [[ "$BOARD" == *VirtualBox* ]]; then
+         export THERMALD_DISABLE=${THERMALD_DISABLE:-1}
++		USE_THERMAL_HAL=${USE_THERMAL_HAL:-0}
+     fi
+ 
+     if grep -q "AuthenticAMD" /proc/cpuinfo; then
+@@ -682,6 +686,11 @@ function init_hal_thermal()
+     if [ "$THERMALD_DISABLE" -lt 1 ]; then
+         start thermal-daemon
+     fi
++
++    if [ "$USE_THERMAL_HAL" -ge 1 ]; then
++		stop vendor.thermal-example
++		start vendor.thermal-aidl-intel
++	fi
+ }
+ 
+ function init_hal_sensors()
+diff --git a/sepolicy/celadon/thermal/thermal-daemon/file_contexts b/sepolicy/celadon/thermal/thermal-daemon/file_contexts
+index e4cd421..9c81aee 100644
+--- a/sepolicy/celadon/thermal/thermal-daemon/file_contexts
++++ b/sepolicy/celadon/thermal/thermal-daemon/file_contexts
+@@ -4,3 +4,4 @@
+ 
+ # thermal service
+ /vendor/bin/hw/android\.hardware\.thermal@2\.0-service\.intel u:object_r:hal_thermal_intel_exec:s0
++/vendor/bin/hw/android\.hardware\.thermal@aidl-service\.intel u:object_r:hal_thermal_intel_exec:s0
+diff --git a/sepolicy/vendor/file_contexts b/sepolicy/vendor/file_contexts
+index 259ff94..863240d 100644
+--- a/sepolicy/vendor/file_contexts
++++ b/sepolicy/vendor/file_contexts
+@@ -1 +1,2 @@
++/(vendor|system/vendor)/bin/logwrapper      u:object_r:logwrapper_exec:s0
+ /(vendor|system/vendor)/bin/hw/android\.hardware\.camera\.provider@2\.7-service-google u:object_r:hal_camera_default_exec:s0
+diff --git a/sepolicy/vendor/logwrapper.te b/sepolicy/vendor/logwrapper.te
+new file mode 100644
+index 0000000..4606b9f
+--- /dev/null
++++ b/sepolicy/vendor/logwrapper.te
+@@ -0,0 +1,6 @@
++type logwrapper, domain;
++type logwrapper_exec, exec_type, file_type, vendor_file_type;
++
++init_daemon_domain(logwrapper)
++
++allow logwrapper devpts:chr_file rw_file_perms;
+diff --git a/treble.mk b/treble.mk
+index 7d93d93..fdfa95b 100644
+--- a/treble.mk
++++ b/treble.mk
+@@ -105,7 +105,8 @@ PRODUCT_PACKAGES += \
+ 
+ # Thermal HAL
+ PRODUCT_PACKAGES += \
+-    android.hardware.thermal@aidl-service.intel
++    com.android.hardware.thermal.intel \
++    com.android.hardware.thermal
+ 
+ # Fingerprint
+ PRODUCT_PACKAGES += \
+-- 
+2.43.0
+

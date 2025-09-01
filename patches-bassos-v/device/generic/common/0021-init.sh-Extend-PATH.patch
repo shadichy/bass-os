@@ -1,0 +1,26 @@
+From 0c44e3e60b228755718f3d7bf44d4d25e900e15d Mon Sep 17 00:00:00 2001
+From: hmtheboy154 <buingoc67@gmail.com>
+Date: Thu, 24 Apr 2025 10:41:30 +0000
+Subject: [PATCH 21/42] init.sh: Extend PATH
+
+Signed-off-by: hmtheboy154 <buingoc67@gmail.com>
+---
+ init.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/init.sh b/init.sh
+index 1f01268..94768c3 100644
+--- a/init.sh
++++ b/init.sh
+@@ -1025,7 +1025,7 @@ function do_bootcomplete()
+ 	post_bootcomplete
+ }
+ 
+-PATH=/sbin:/system/bin:/system/xbin
++PATH=/sbin:/system/bin:/system/xbin:/vendor/bin:/product/bin:/system_ext/bin:/system/vendor/bin:/system/product/bin:/system/system_ext/bin
+ 
+ DMIPATH=/sys/class/dmi/id
+ BOARD=$(cat $DMIPATH/board_name)
+-- 
+2.43.0
+

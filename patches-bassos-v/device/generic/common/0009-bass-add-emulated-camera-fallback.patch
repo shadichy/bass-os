@@ -1,7 +1,7 @@
 From 60301842ffb47fd3efe9d08ffd0c0f82652662ba Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Sat, 8 Feb 2025 17:08:39 -0500
-Subject: [PATCH 09/19] bass: add emulated camera fallback
+Subject: [PATCH 09/42] bass: add emulated camera fallback
 
 ---
  packages.mk |  8 ++++++++

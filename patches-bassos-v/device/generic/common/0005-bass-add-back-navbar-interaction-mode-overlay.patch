@@ -1,7 +1,7 @@
 From bf7f4e3fc946852407d8669f795b6f0c128a293b Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Fri, 24 Jan 2025 09:43:19 -0500
-Subject: [PATCH 05/19] bass: add back navbar interaction mode overlay
+Subject: [PATCH 05/42] bass: add back navbar interaction mode overlay
 
 ---
  overlay/frameworks/base/core/res/res/values/config.xml | 6 ++++++

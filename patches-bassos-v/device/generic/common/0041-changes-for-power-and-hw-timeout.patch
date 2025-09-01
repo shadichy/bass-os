@@ -1,0 +1,67 @@
+From 20eaa06d604f77f8ef60196090d76e9e3d84336a Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Wed, 4 Jun 2025 13:48:24 -0400
+Subject: [PATCH 41/42] changes for power and hw timeout
+
+---
+ device.mk | 17 +++++++----------
+ init.sh   |  2 +-
+ 2 files changed, 8 insertions(+), 11 deletions(-)
+
+diff --git a/device.mk b/device.mk
+index 1aa56da..f6d60f1 100644
+--- a/device.mk
++++ b/device.mk
+@@ -69,21 +69,18 @@ PRODUCT_PRODUCT_PROPERTIES += \
+     ro.lmk.use_minfree_levels=true \
+     ro.lmk.use_psi=true \
+     ro.lmk.use_new_strategy=false
+-else
+-# LMKd
+-PRODUCT_PRODUCT_PROPERTIES += \
+-    ro.lmk.critical_upgrade=true \
+-    ro.lmk.use_psi=true \
+-    ro.lmk.use_new_strategy=false
+-    
+-    # We want to be able to set this via kernel cli
+-    # ro.lmk.use_minfree_levels=true
+ endif
+ 
+ # Disable support of one-handed mode
+ PRODUCT_PRODUCT_PROPERTIES += \
+     ro.support_one_handed_mode=false
+ 
++
++# Use poweroff non-boot cpu 1 for default befavior
++PRODUCT_PROPERTY_OVERRIDES += \
++    power.nonboot-cpu-off=1
++
++
+ # Go mode tweaks
+ ifeq ($(IS_GO_VERSION),true)
+ PRODUCT_PRODUCT_PROPERTIES += \
+@@ -103,7 +100,7 @@ endif
+ 
+ # Watchdog
+ PRODUCT_PROPERTY_OVERRIDES += \
+-    ro.hw_timeout_multiplier=3
++    ro.hw_timeout_multiplier=6
+ 
+ PRODUCT_COPY_FILES := \
+     $(if $(wildcard $(PRODUCT_DIR)init.rc),$(PRODUCT_DIR)init.rc:root/init.rc) \
+diff --git a/init.sh b/init.sh
+index 4499020..6f9d1db 100644
+--- a/init.sh
++++ b/init.sh
+@@ -991,7 +991,7 @@ function do_bootcomplete()
+ 	esac
+ 
+     if [ "$POWER_NONBOOT_CPU_OFF" -ge 1 ]; then
+-        set_property power.nonboot-cpu-off 1
++        set_property power.nonboot-cpu-off ${POWER_NONBOOT_CPU_OFF:-1}
+     fi
+ 
+ 	# initialize audio in bootcomplete
+-- 
+2.43.0
+

@@ -1,0 +1,82 @@
+From d8879a0d0e1fed5bc4e2afcf52d0ab4f630bb7ad Mon Sep 17 00:00:00 2001
+From: hmtheboy154 <buingoc67@gmail.com>
+Date: Wed, 21 May 2025 20:26:56 -0400
+Subject: [PATCH 34/42] Build AIDL Bluetooth HAL
+
+And this time, we only have to use 1 HAL instead of 2 as Celadon
+HAL is just AIDL Bluetooth HAL with their SCO audio setup
+on top.
+
+Signed-off-by: hmtheboy154 <buingoc67@gmail.com>
+---
+ device.mk    | 1 -
+ init.sh      | 6 ------
+ manifest.xml | 9 ---------
+ treble.mk    | 2 +-
+ 4 files changed, 1 insertion(+), 17 deletions(-)
+
+diff --git a/device.mk b/device.mk
+index 2f64948..e3b945b 100644
+--- a/device.mk
++++ b/device.mk
+@@ -54,7 +54,6 @@ PRODUCT_PROPERTY_OVERRIDES := \
+     ro.lmk.kill_timeout_ms=100 \
+     ro.arch=x86 \
+     persist.rtc_local_time=1 \
+-    bluetooth.rfkill=1 \
+     dalvik.vm.useautofastjni=true \
+     ro.surface_flinger.max_frame_buffer_acquired_buffers=3 \
+     audio.safemedia.bypass=true \
+diff --git a/init.sh b/init.sh
+index 1e71dfd..e978049 100644
+--- a/init.sh
++++ b/init.sh
+@@ -305,12 +305,6 @@ function init_hal_bluetooth()
+ 		start btattach
+ 	fi
+ 
+-#	if [ "$BTLINUX_HAL" = "1" ]; then
+-#		start btlinux-1.1
+-#	else
+-#		start vendor.bluetooth-1-1
+-#	fi
+-
+ 	if [ "$BT_BLE_DISABLE" = "1" ]; then
+ 		set_property bluetooth.core.le.disabled true
+ 		set_property bluetooth.hci.disabled_commands 246
+diff --git a/manifest.xml b/manifest.xml
+index 1d5299e..556595e 100644
+--- a/manifest.xml
++++ b/manifest.xml
+@@ -17,15 +17,6 @@
+             <instance>default</instance>
+         </interface>
+     </hal>
+-    <hal format="hidl">
+-        <name>android.hardware.bluetooth</name>
+-        <transport>hwbinder</transport>
+-        <version>1.1</version>
+-        <interface>
+-            <name>IBluetoothHci</name>
+-            <instance>default</instance>
+-        </interface>
+-    </hal>
+     <hal format="hidl">
+         <name>android.hardware.camera.provider</name>
+         <transport>hwbinder</transport>
+diff --git a/treble.mk b/treble.mk
+index 598dce0..f386577 100644
+--- a/treble.mk
++++ b/treble.mk
+@@ -25,7 +25,7 @@ PRODUCT_PACKAGES += \
+ 
+ # Bluetooth HAL
+ PRODUCT_PACKAGES += \
+-    android.hardware.bluetooth-service.default\
++    android.hardware.bluetooth-service.default \
+     android.hardware.bluetooth.audio-impl
+ 
+ # Media codec
+-- 
+2.43.0
+

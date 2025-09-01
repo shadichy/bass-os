@@ -1,0 +1,26 @@
+From 068120894d60e6c0946d3622aa605c06c05d41de Mon Sep 17 00:00:00 2001
+From: hmtheboy154 <buingoc67@gmail.com>
+Date: Fri, 25 Apr 2025 10:52:07 +0000
+Subject: [PATCH 29/42] Set iptsd to highest priority
+
+Signed-off-by: hmtheboy154 <buingoc67@gmail.com>
+---
+ init.x86.rc | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/init.x86.rc b/init.x86.rc
+index 9b9aae8..74b8952 100644
+--- a/init.x86.rc
++++ b/init.x86.rc
+@@ -157,6 +157,8 @@ service ctrl-alt-del /system/bin/input keyevent --longpress POWER
+ service iptsd /vendor/bin/iptsd ${vendor.iptsd.device}
+     user root
+     group root system wakelock uhid
++    ioprio rt 0
++    priority -20
+     disabled
+     seclabel u:r:zygote:s0
+ 
+-- 
+2.43.0
+

@@ -1,0 +1,84 @@
+From 4ff5457f2d8a6ad3f39e4ae131cfb9367285ee9e Mon Sep 17 00:00:00 2001
+From: hmtheboy154 <buingoc67@gmail.com>
+Date: Thu, 22 May 2025 08:23:16 +0700
+Subject: [PATCH 40/42] sepolicy: Small edit
+
+Signed-off-by: hmtheboy154 <buingoc67@gmail.com>
+---
+ sepolicy/celadon/thermal/file_contexts                | 11 ++++++++++-
+ sepolicy/celadon/thermal/thermal-daemon/file_contexts |  6 +++---
+ .../thermal/thermal-daemon/hal_thermal_intel.te       |  3 +++
+ sepolicy/plat_private/file_contexts                   |  6 +++---
+ 4 files changed, 19 insertions(+), 7 deletions(-)
+
+diff --git a/sepolicy/celadon/thermal/file_contexts b/sepolicy/celadon/thermal/file_contexts
+index 02d7664..5514826 100644
+--- a/sepolicy/celadon/thermal/file_contexts
++++ b/sepolicy/celadon/thermal/file_contexts
+@@ -7,6 +7,15 @@
+ /dev/acpi_thermal_rel       u:object_r:thermal_device:s0
+ 
+ # thermal management
+-/sys/devices/platform/coretemp.0(/.*)? u:object_r:sysfs_thermal_management:s0
+ /sys/devices/virtual/thermal(/.*)?     u:object_r:sysfs_thermal_management:s0
+ /sys/devices/virtual/powercap(/.*)?  u:object_r:sysfs_powercap:s0
++
++/sys/devices/platform(/.*)? u:object_r:sysfs_thermal_management:s0
++/sys/devices/platform/coretemp.[0-9](/.*)? u:object_r:sysfs_thermal_management:s0
++/sys/devices/platform/coretemp.[0-9]/hwmon/hwmon[0-9]/name u:object_r:sysfs_thermal_management:s0
++/sys/devices/platform/coretemp.[0-9]/hwmon/hwmon[0-9]/temp[0-9]_(input|label) u:object_r:sysfs_thermal_management:s0
++
++/sys/class/hwmon(/.*)? u:object_r:sysfs_thermal_management:s0
++/sys/class/hwmon/hwmon[0-9] u:object_r:sysfs_thermal_management:s0
++/sys/class/hwmon/hwmon[0-9](/.*)? u:object_r:sysfs_thermal_management:s0
++/sys/class/hwmon/hwmon[0-9]/temp[0-9]_(input|label) u:object_r:sysfs_thermal_management:s0
+diff --git a/sepolicy/celadon/thermal/thermal-daemon/file_contexts b/sepolicy/celadon/thermal/thermal-daemon/file_contexts
+index 9c81aee..38cf1d3 100644
+--- a/sepolicy/celadon/thermal/thermal-daemon/file_contexts
++++ b/sepolicy/celadon/thermal/thermal-daemon/file_contexts
+@@ -1,7 +1,7 @@
+-/vendor/bin/thermal-daemon        u:object_r:thermal-daemon_exec:s0
++/(vendor|system/vendor)/bin/thermal-daemon        u:object_r:thermal-daemon_exec:s0
+ /vendor/etc/thermal-daemon(/.*)?        u:object_r:thermal-daemon_data_file:s0
+ /data/vendor/thermal-daemon(/.*)?       u:object_r:thermal-daemon_run_dir:s0
+ 
+ # thermal service
+-/vendor/bin/hw/android\.hardware\.thermal@2\.0-service\.intel u:object_r:hal_thermal_intel_exec:s0
+-/vendor/bin/hw/android\.hardware\.thermal@aidl-service\.intel u:object_r:hal_thermal_intel_exec:s0
++/(vendor|system/vendor)/bin/hw/android\.hardware\.thermal@2\.0-service\.intel u:object_r:hal_thermal_intel_exec:s0
++/(vendor|system/vendor)/bin/hw/android\.hardware\.thermal@aidl-service\.intel u:object_r:hal_thermal_intel_exec:s0
+diff --git a/sepolicy/celadon/thermal/thermal-daemon/hal_thermal_intel.te b/sepolicy/celadon/thermal/thermal-daemon/hal_thermal_intel.te
+index 8866b3c..6711694 100644
+--- a/sepolicy/celadon/thermal/thermal-daemon/hal_thermal_intel.te
++++ b/sepolicy/celadon/thermal/thermal-daemon/hal_thermal_intel.te
+@@ -9,6 +9,9 @@ vndbinder_use(hal_thermal_intel)
+ add_service(hal_thermal_intel, thermal_hal_service)
+ 
+ allow hal_thermal_intel sysfs_thermal_management:dir r_dir_perms;
++allow hal_thermal_intel sysfs_thermal_management:lnk_file read;
++allow hal_thermal_intel sysfs_thermal_management:file { read open getattr };
++
+ allow hal_thermal_intel sysfs_thermal:file r_file_perms;
+ allow hal_thermal_intel proc_stat:file r_file_perms;
+ allow hal_thermal_intel serial_device:chr_file rw_file_perms;
+diff --git a/sepolicy/plat_private/file_contexts b/sepolicy/plat_private/file_contexts
+index 91a9c70..bd8135f 100644
+--- a/sepolicy/plat_private/file_contexts
++++ b/sepolicy/plat_private/file_contexts
+@@ -1,10 +1,10 @@
+ # surfaceflinger
+ /dev/dri(/.*)?               u:object_r:gpu_device:s0
+ /dev/tty0                    u:object_r:gpu_device:s0
+-/vendor/lib{64}?/libgbm_mesa_wrapper.so     u:object_r:same_process_hal_file:s0
+-/vendor/bin/hw/android\.hardware\.graphics\.allocator@4\.0-service\.minigbm_gbm_mesa        u:object_r:hal_graphics_allocator_default_exec:s0
++/(vendor|system/vendor)/lib{64}?/libgbm_mesa_wrapper.so     u:object_r:same_process_hal_file:s0
++/(vendor|system/vendor)/bin/hw/android\.hardware\.graphics\.allocator@4\.0-service\.minigbm_gbm_mesa        u:object_r:hal_graphics_allocator_default_exec:s0
+ /(vendor|system/vendor)/lib(64)?/libgallium_dri\.so							u:object_r:same_process_hal_file:s0
+-/vendor/bin/hw/android\.hardware\.graphics\.composer@2\.1-service-clone              u:object_r:hal_graphics_composer_default_exec:s0
++/(vendor|system/vendor)/bin/hw/android\.hardware\.graphics\.composer@2\.1-service-clone              u:object_r:hal_graphics_composer_default_exec:s0
+ 
+ # Files in rootfs
+ /boot(/.*)?       u:object_r:bootdir_file:s0
+-- 
+2.43.0
+

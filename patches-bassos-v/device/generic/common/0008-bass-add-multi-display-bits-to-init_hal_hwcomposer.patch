@@ -1,7 +1,7 @@
 From a7ce513a09d3310d2a0b3bca08fe6c5bed6f96b1 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Fri, 31 Jan 2025 08:52:54 -0500
-Subject: [PATCH 08/19] bass: add multi-display bits to init_hal_hwcomposer
+Subject: [PATCH 08/42] bass: add multi-display bits to init_hal_hwcomposer
 
 ---
  init.sh | 76 +++++++++++++++++++++++----------------------------------

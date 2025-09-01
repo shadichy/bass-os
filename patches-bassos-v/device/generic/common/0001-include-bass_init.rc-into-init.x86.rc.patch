@@ -1,7 +1,7 @@
 From a0f63cc1f85a0d02cc30ca115421679bec957048 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Sat, 11 Jan 2025 17:08:59 -0500
-Subject: [PATCH 01/19] include bass_init.rc into init.x86.rc
+Subject: [PATCH 01/42] include bass_init.rc into init.x86.rc
 
 ---
  init.x86.rc | 1 +

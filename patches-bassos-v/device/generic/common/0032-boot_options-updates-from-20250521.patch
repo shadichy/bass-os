@@ -1,0 +1,122 @@
+From 9862b1e00de0e8e860c1684610fc6db1e514d5b5 Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Wed, 21 May 2025 20:24:27 -0400
+Subject: [PATCH 32/42] boot_options: updates from 20250521
+
+---
+ boot_options/options.yaml | 52 ++++++++++++++++++++++++++-------------
+ 1 file changed, 35 insertions(+), 17 deletions(-)
+
+diff --git a/boot_options/options.yaml b/boot_options/options.yaml
+index 4462ee2..c5732fc 100644
+--- a/boot_options/options.yaml
++++ b/boot_options/options.yaml
+@@ -86,6 +86,10 @@
+       description: "SET_SF_ROTATION=true"
+     - name: "Forced orientation"
+       description: "SET_OVERRIDE_FORCED_ORIENT=true"
++    - name: "Delay sensors load by seconds (recommend for tablets that uses iio)"
++      description: "SENSORS_DELAY_INIT="
++      editable: true
++      default: "5"
+ 
+ - name: "Battery"
+   options:
+@@ -233,18 +237,18 @@
+           editable: true
+           default: "1280x720"
+ 
+-- name: "Bootloader"
+-  distinct: true
+-  options:
+-    - name: "Use GNU GRUB bootloader"
+-      description: "androidboot.bootctrl_bootcfg=/boot/grub/android.cfg"
+-      selected: true
+-    - name: "Use rEFInd bootloader"
+-      description: "androidboot.bootctrl_bootcfg=/boot/efi/EFI/refind/android.conf"
+-    - name: "Manual configurations"
+-      description: "androidboot.bootctrl_bootcfg="
+-      editable: true
+-      default: "/ab.env.cfg"
++# - name: "Bootloader"
++#   distinct: true
++#   options:
++#     - name: "Use GNU GRUB bootloader"
++#       description: "androidboot.bootctrl_bootcfg=/boot/grub/android.cfg"
++#       selected: true
++#     - name: "Use rEFInd bootloader"
++#       description: "androidboot.bootctrl_bootcfg=/boot/efi/EFI/refind/android.conf"
++#     - name: "Manual configurations"
++#       description: "androidboot.bootctrl_bootcfg="
++#       editable: true
++#       default: "/ab.env.cfg"
+ 
+ - name: "Recovery"
+   options:
+@@ -252,6 +256,10 @@
+       description: "DEBUG_NET_PORT="
+       editable: true
+       default: "5555 "
++    - name: "Force default color format"
++      description: "androidboot.pixel_format="
++      editable: true
++      default: "RGBX_8888"
+ 
+ - name: "Camera"
+   options:
+@@ -272,6 +280,8 @@
+       description: "HPE=1"
+     - name: "Disable x86 syscall hardening"
+       description: "syscall_hardening=off"
++    - name: "Disable Thermald"
++      description: "THERMALD_DISABLE=1"
+ 
+ - name: "Package Options"
+   options:
+@@ -420,6 +430,14 @@
+       default: "mem "
+     - name: "Set Power-off double-click"
+       description: "PWR_OFF_DBLCLK=1"
++    - name: "Set power non-boot CPU off (0,1)"
++      description: "PWR_NON_BOOT_CPU="
++      editable: true
++      default: "1 "
++    - name: "Ignore default display sleep"
++      description: "IGNORE_DEFAULT_DISPLAY_SLEEP=true"
++    - name: "ignore HDMI display sleep"
++      description: "IGNORE_HDMI_DISPLAY_SLEEP=true"
+ 
+ - name: "Radios & Bluetooth Options"
+   options:
+@@ -504,23 +522,23 @@
+     - name: "Force disable external display focus (0,1)"
+       description: "androidboot.force.disable_external_display_focus="
+       editable: true
+-      default: "0 "
++      default: "1 "
+     - name: "force ignore external display input (0,1)"
+       description: "androidboot.force.ignore_external_input="
+       editable: true
+-      default: "0 "
++      default: "1 "
+     - name: "Force ignore external display touchscreen input (0,1)"
+       description: "androidboot.force.ignore_external_touch="
+       editable: true
+-      default: "0 "
++      default: "1 "
+     - name: "Only rotate primary touchscreen (true,false)"
+       description: "androidboot.only_rotate_primary_touch="
+       editable: true
+-      default: "false "
++      default: "true "
+     - name: "Only rotate secondary touchscreen (external) (true,false)"
+       description: "androidboot.only_rotate_secondary_touch="
+       editable: true
+-      default: "false "
++      default: "true "
+     - name: "Set override per-display focus enabled (true/false)"
+       description: "androidboot.per_display_focus_enabled=true"
+ 
+-- 
+2.43.0
+

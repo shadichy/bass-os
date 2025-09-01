@@ -1,7 +1,7 @@
 From 098c1a8b6be60e04fb4ce8f6011e41fed1fbfcc1 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Thu, 30 Jan 2025 16:20:10 -0500
-Subject: [PATCH 18/19] bass: set desktop mode on boot
+Subject: [PATCH 18/42] bass: set desktop mode on boot
 
 ---
  device.mk | 8 ++++++++

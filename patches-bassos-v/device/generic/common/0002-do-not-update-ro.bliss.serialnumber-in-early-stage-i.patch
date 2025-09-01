@@ -1,7 +1,7 @@
 From e385bb2c5dd6d2b42bea70891be7471d5c12b2e6 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Wed, 15 Jan 2025 13:26:49 -0500
-Subject: [PATCH 02/19] do not update ro.bliss.serialnumber in early stage init
+Subject: [PATCH 02/42] do not update ro.bliss.serialnumber in early stage init
 
 ---
  libinit/init_x86.cpp | 1 -

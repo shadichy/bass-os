@@ -1,0 +1,205 @@
+From 08b584030236139f3a65ee479432a4ebf57de37c Mon Sep 17 00:00:00 2001
+From: hmtheboy154 <buingoc67@gmail.com>
+Date: Thu, 24 Apr 2025 11:10:42 +0000
+Subject: [PATCH 27/42] Support "Reboot to Recovery" by using a script to edit
+ cmdline
+
+Use a script to edit androidboot.mode=, so that we can be able to switch
+between recovery or system. Use sys.shutdown.requested to trigger the script
+and edit the same file that bootctrl HAL uses then reboot.
+
+For recovery, remember to port sys.shutdown.requested by using this commit:
+https://github.com/BlissOS/platform_bootable_recovery/commit/abe6110007f658acc823e4070d38134aa1ccc55c
+
+Big thanks to 0xCAFEBABE for the idea
+
+Signed-off-by: hmtheboy154 <buingoc67@gmail.com>
+---
+ init.recovery.x86.rc           |  5 +++
+ init.x86.rc                    | 11 +++++
+ packages.mk                    |  4 +-
+ scripts/Android.bp             | 16 +++++++
+ scripts/Android.mk             |  7 ----
+ scripts/boot-mode-selection.sh | 76 ++++++++++++++++++++++++++++++++++
+ 6 files changed, 110 insertions(+), 9 deletions(-)
+ create mode 100644 scripts/Android.bp
+ delete mode 100644 scripts/Android.mk
+ create mode 100644 scripts/boot-mode-selection.sh
+
+diff --git a/init.recovery.x86.rc b/init.recovery.x86.rc
+index a5ac475..977b429 100644
+--- a/init.recovery.x86.rc
++++ b/init.recovery.x86.rc
+@@ -18,6 +18,11 @@ on early-fs
+ 
+ on post-fs
+     exec u:r:init:s0 -- /system/bin/sh /system/etc/init.recovery.sh
++    exec u:r:init:s0 -- /system/bin/sh /system/bin/recovery.bms.sh
+ 
+ on property:net.dns1=*
+     exec u:r:init:s0 -- /system/bin/sh /system/etc/init.recovery.sh netconsole
++
++on property:sys.shutdown.requested=*
++    exec u:r:init:s0 -- /system/bin/sh /system/bin/recovery.bms.sh ${sys.shutdown.requested}
++    wait_for_prop vendor.boot-mode-selection.complete true
+diff --git a/init.x86.rc b/init.x86.rc
+index 529b583..6ad03fb 100644
+--- a/init.x86.rc
++++ b/init.x86.rc
+@@ -116,6 +116,12 @@ service kmsg_fetch /system/bin/sh /system/etc/init.sh kmsg
+ 	user root
+     class debug
+ 
++service vendor.boot-mode-selection /vendor/bin/boot-mode-selection.sh ${sys.shutdown.requested}
++    user root
++    group root
++    disabled
++    oneshot
++
+ service thermal-daemon /vendor/bin/thermal-daemon --adaptive
+     class main
+     user system
+@@ -177,3 +183,8 @@ on property:net.dns1=*
+ 
+ on property:debug.logcat=1
+     class_start debug
++
++on property:sys.shutdown.requested=*
++    start vendor.boot-mode-selection
++    wait_for_prop vendor.boot-mode-selection.complete true
++
+diff --git a/packages.mk b/packages.mk
+index 1f121f9..cab870e 100644
+--- a/packages.mk
++++ b/packages.mk
+@@ -153,8 +153,8 @@ endif
+ PRODUCT_PACKAGES += \
+     x86_dhcpclient.recovery
+ 
+-# A small script to inherit paths
+-PRODUCT_PACKAGES += blisspath
++# A collection of scripts at scripts/
++PRODUCT_PACKAGES += blisspath boot-mode-selection.sh recovery.bms.sh
+ 
+ # Emulated Camera fallback
+ PRODUCT_PACKAGES += \
+diff --git a/scripts/Android.bp b/scripts/Android.bp
+new file mode 100644
+index 0000000..644bbe1
+--- /dev/null
++++ b/scripts/Android.bp
+@@ -0,0 +1,16 @@
++sh_binary {
++    name: "blisspath",
++    src: "blisspath",
++}
++
++sh_binary {
++    name: "boot-mode-selection.sh",
++    src: "boot-mode-selection.sh",
++    vendor: true,
++}
++
++sh_binary {
++    name: "recovery.bms.sh",
++    src: "boot-mode-selection.sh",
++    recovery: true,
++}
+diff --git a/scripts/Android.mk b/scripts/Android.mk
+deleted file mode 100644
+index 995d261..0000000
+--- a/scripts/Android.mk
++++ /dev/null
+@@ -1,7 +0,0 @@
+-LOCAL_PATH := $(call my-dir)
+-
+-include $(CLEAR_VARS)
+-LOCAL_MODULE := blisspath
+-LOCAL_MODULE_CLASS := EXECUTABLES
+-LOCAL_SRC_FILES := blisspath
+-include $(BUILD_PREBUILT)
+diff --git a/scripts/boot-mode-selection.sh b/scripts/boot-mode-selection.sh
+new file mode 100644
+index 0000000..2a7eccd
+--- /dev/null
++++ b/scripts/boot-mode-selection.sh
+@@ -0,0 +1,76 @@
++#!/vendor/bin/sh -e
++
++# Determine the configuration file path
++CFG_PATH=$(getprop ro.boot.bootctrl_bootcfg)
++
++klog() {
++    echo "$0: $@" > /dev/kmsg
++}
++
++if [ -z "$CFG_PATH" ]; then
++    if [ -f "/boot/grub/android.cfg" ]; then
++        CFG_PATH="/boot/grub/android.cfg"
++    elif [ -f "/boot/efi/EFI/refind/android.conf" ]; then
++        CFG_PATH="/boot/efi/EFI/refind/android.conf"
++    else
++        klog "Error: No valid configuration file found"
++        setprop vendor.boot-mode-selection.complete true  
++        exit 1
++    fi
++fi
++
++# Check if the configuration file is writable
++if [ ! -w "$CFG_PATH" ]; then
++    klog "Error: $CFG_PATH is not writable"
++    setprop vendor.boot-mode-selection.complete true 
++    exit 1
++fi
++
++# Determine boot mode from first argument
++REASON=$(echo -n "$1" | cut -c 2-)
++case "$REASON" in
++    recovery|recovery-update)
++        new_mode="recovery"
++        ;;
++    *)
++        new_mode="normal"
++        ;;
++esac
++
++# First pass: Try to modify androidboot.mode
++found_android=0
++while IFS= read -r line; do
++    if [ "$found_android" -eq 0 ] && echo "$line" | grep -q 'androidboot\.mode='; then
++        line=$(echo "$line" | sed "s/androidboot\.mode=[^ ]*/androidboot.mode=$new_mode/")
++        found_android=1
++    fi
++    printf '%s\n' "$line"
++done < "$CFG_PATH" > "$CFG_PATH.tmp" && mv "$CFG_PATH.tmp" "$CFG_PATH"
++
++# Second pass: Fallback to MODE= if androidboot.mode wasn't found
++if [ "$found_android" -eq 0 ]; then
++    klog "Notice: androidboot.mode not found, checking for MODE="
++    
++    found_mode=0
++    while IFS= read -r line; do
++        if [ "$found_mode" -eq 0 ] && echo "$line" | grep -q 'MODE='; then
++            line=$(echo "$line" | sed "s/MODE=[^ ]*/MODE=$new_mode/")
++            found_mode=1
++        fi
++        printf '%s\n' "$line"
++    done < "$CFG_PATH" > "$CFG_PATH.tmp" && mv "$CFG_PATH.tmp" "$CFG_PATH"
++
++    if [ "$found_mode" -eq 0 ]; then
++        klog "Error: Neither androidboot.mode nor MODE= found in $CFG_PATH"
++        setprop vendor.boot-mode-selection.complete true 
++        exit 1
++    else
++        klog "Success: Updated MODE= to $new_mode"
++        setprop vendor.boot-mode-selection.complete true 
++        exit 0
++    fi
++else
++    klog "Success: Updated androidboot.mode to $new_mode"
++    setprop vendor.boot-mode-selection.complete true 
++    exit 0
++fi
+-- 
+2.43.0
+

@@ -1,0 +1,45 @@
+From 520140ac225ae4ce9f91719f6678a9172a87381b Mon Sep 17 00:00:00 2001
+From: Jon West <electrikjesus@gmail.com>
+Date: Tue, 6 May 2025 09:56:14 -0400
+Subject: [PATCH 23/42] Add stable kernel to device configs
+
+---
+ BoardConfig.mk | 5 +++++
+ device.mk      | 5 +++++
+ 2 files changed, 10 insertions(+)
+
+diff --git a/BoardConfig.mk b/BoardConfig.mk
+index 7bffdbd..34d9efc 100644
+--- a/BoardConfig.mk
++++ b/BoardConfig.mk
+@@ -175,6 +175,11 @@ ifeq ($(BOARD_IS_ZENITH_BUILD),true)
+ KERNEL_DIR := kernel/x86/zenith
+ endif
+ 
++# Stable
++ifeq ($(BOARD_IS_STABLE_BUILD),true)
++KERNEL_DIR := kernel/x86/stable
++endif
++
+ TARGET_KERNEL_SOURCE := $(KERNEL_DIR)
+ COMPATIBILITY_ENHANCEMENT_PACKAGE := true
+ PRC_COMPATIBILITY_PACKAGE := true
+diff --git a/device.mk b/device.mk
+index 72e7070..2f64948 100644
+--- a/device.mk
++++ b/device.mk
+@@ -332,6 +332,11 @@ ifeq ($(BOARD_IS_ZENITH_BUILD),true)
+ BLISS_SPECIAL_VARIANT := -Zenith
+ endif
+ 
++# Stable
++ifeq ($(BOARD_IS_STABLE_BUILD),true)
++BLISS_SPECIAL_VARIANT := -Stable
++endif
++
+ # Widevine addons
+ ifeq ($(USE_LIBNDK_TRANSLATION_NB),true)
+ $(call inherit-product-if-exists, vendor/google/emu-x86/target/widevine.mk)
+-- 
+2.43.0
+

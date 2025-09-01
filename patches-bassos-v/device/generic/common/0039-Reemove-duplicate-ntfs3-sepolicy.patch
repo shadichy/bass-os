@@ -1,0 +1,21 @@
+From 151980909a0d7a533cd5f14ed5cb69437886bf7b Mon Sep 17 00:00:00 2001
+From: hmtheboy154 <buingoc67@gmail.com>
+Date: Sat, 5 Apr 2025 00:44:03 -0400
+Subject: [PATCH 39/42] Reemove duplicate ntfs3 sepolicy
+
+Signed-off-by: hmtheboy154 <buingoc67@gmail.com>
+---
+ sepolicy/nonplat/file.te | 1 -
+ 1 file changed, 1 deletion(-)
+
+diff --git a/sepolicy/nonplat/file.te b/sepolicy/nonplat/file.te
+index d7b8a81..d648361 100644
+--- a/sepolicy/nonplat/file.te
++++ b/sepolicy/nonplat/file.te
+@@ -1,2 +1 @@
+ type ntfs, sdcard_type, fs_type, mlstrustedobject;
+-type ntfs3, sdcard_type, fs_type, mlstrustedobject;
+\ No newline at end of file
+-- 
+2.43.0
+

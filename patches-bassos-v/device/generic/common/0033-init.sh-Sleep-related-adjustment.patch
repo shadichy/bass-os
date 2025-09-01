@@ -1,0 +1,51 @@
+From d7422c66274e47d9b0098149c476b68b0e1344d3 Mon Sep 17 00:00:00 2001
+From: hmtheboy154 <buingoc67@gmail.com>
+Date: Sun, 18 May 2025 09:22:55 +0000
+Subject: [PATCH 33/42] init.sh: Sleep-related adjustment
+
+- SLEEP_STATE cmdline can be able to override now
+- Add POWER_NONBOOT_CPU_OFF cmdline to set power.nonboot-cpu-off property
+
+Signed-off-by: hmtheboy154 <buingoc67@gmail.com>
+---
+ init.sh | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/init.sh b/init.sh
+index 0d6b7df..1e71dfd 100644
+--- a/init.sh
++++ b/init.sh
+@@ -657,10 +657,10 @@ function init_hal_power()
+ 	# TODO
+ 	case "$PRODUCT" in
+ 		HP*Omni*|OEMB|Standard*PC*|Surface*3|T10*TA|VMware*)
+-			SLEEP_STATE=none
++			export SLEEP_STATE=${SLEEP_STATE:-none}
+ 			;;
+ 		e-tab*Pro)
+-			SLEEP_STATE=force
++			export SLEEP_STATE=${SLEEP_STATE:-force}
+ 			;;
+ 		*)
+ 			;;
+@@ -986,12 +986,16 @@ function do_bootcomplete()
+ 			pm disable com.android.bluetooth
+ 			;;
+ 		X80*Power)
+-			set_property power.nonboot-cpu-off 1
++			export POWER_NONBOOT_CPU_OFF=${POWER_NONBOOT_CPU_OFF:-1}
+ 			;;
+ 		*)
+ 			;;
+ 	esac
+ 
++    if [ "$POWER_NONBOOT_CPU_OFF" -ge 1 ]; then
++        set_property power.nonboot-cpu-off 1
++    fi
++
+ 	# initialize audio in bootcomplete
+ 	init_hal_audio_bootcomplete
+ 
+-- 
+2.43.0
+

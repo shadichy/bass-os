@@ -1,7 +1,7 @@
 From 5f02092964a3378da25e8b197a9483671d655d26 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Thu, 17 Apr 2025 14:54:43 -0400
-Subject: [PATCH 16/19] remove duplicate overlay config
+Subject: [PATCH 16/42] remove duplicate overlay config
 
 ---
  overlay/frameworks/base/core/res/res/values/config.xml | 6 ------

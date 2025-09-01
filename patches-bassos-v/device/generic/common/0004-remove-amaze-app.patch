@@ -1,7 +1,7 @@
 From 3aaf145f472a123f7f561b55668ae5c2f27814cb Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Wed, 22 Jan 2025 11:38:48 -0500
-Subject: [PATCH 04/19] remove amaze app
+Subject: [PATCH 04/42] remove amaze app
 
 ---
  user_app/amaze.apk | Bin 10182967 -> 0 bytes

@@ -1,0 +1,26 @@
+From 46c5a56be4c1a1adfe7d2eeb024c263b05b93553 Mon Sep 17 00:00:00 2001
+From: hmtheboy154 <buingoc67@gmail.com>
+Date: Sun, 18 May 2025 09:17:55 +0000
+Subject: [PATCH 37/42] init.sh: I forgot to change bootctrl service name
+
+Signed-off-by: hmtheboy154 <buingoc67@gmail.com>
+---
+ init.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/init.sh b/init.sh
+index 4409197..06f1f78 100644
+--- a/init.sh
++++ b/init.sh
+@@ -902,7 +902,7 @@ function init_prepare_ota()
+ 	# If there's slot set, turn on bootctrl
+ 	# If not, disable the OTA app (in bootcomplete)
+ 	if [ "$(getprop ro.boot.slot_suffix)" ]; then
+-		start vendor.boot-hal-1-1
++		start vendor.boot-hal-1-2
+ 	fi
+ }
+ 
+-- 
+2.43.0
+

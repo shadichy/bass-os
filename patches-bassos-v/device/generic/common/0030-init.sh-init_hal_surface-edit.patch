@@ -1,0 +1,28 @@
+From 260d8f0bd297599a9e1bab5bdd15b4892916be90 Mon Sep 17 00:00:00 2001
+From: hmtheboy154 <buingoc67@gmail.com>
+Date: Fri, 25 Apr 2025 19:34:05 +0000
+Subject: [PATCH 30/42] init.sh: init_hal_surface() edit
+
+Signed-off-by: hmtheboy154 <buingoc67@gmail.com>
+---
+ init.sh | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/init.sh b/init.sh
+index 8b48fd6..0d6b7df 100644
+--- a/init.sh
++++ b/init.sh
+@@ -791,8 +791,8 @@ function init_hal_sensors()
+ function init_hal_surface()
+ {
+ 	case "$PRODUCT" in
+-		*Surface*Pro*[4-9]*|*Surface*Book*|*Surface*Laptop*[1~4]*|*Surface*Laptop*Studio*)
+-			set_property vendor.iptsd.device $(iptsd-find-hidraw)
++		*Surface*Pro*[4-9]*|*Surface*Book*|*Surface*Laptop*[1-4]*|*Surface*Laptop*Studio*)
++			set_property vendor.iptsd.device "$(iptsd-find-hidraw)"
+ 			;;
+ 	esac
+ 
+-- 
+2.43.0
+

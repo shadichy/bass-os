@@ -1,7 +1,7 @@
 From 168155f3b926482ed77f747b0641ea63fbcc30a5 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Fri, 11 Apr 2025 16:32:08 -0400
-Subject: [PATCH 12/19] update boot options
+Subject: [PATCH 12/42] update boot options
 
 ---
  boot_options/options.yaml | 54 +++++++++++++++++++++++++++++++++++++--

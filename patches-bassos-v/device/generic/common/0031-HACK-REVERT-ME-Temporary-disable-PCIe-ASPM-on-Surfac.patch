@@ -1,0 +1,29 @@
+From c83f515980aca84d5ebba08f660547f696b8bc58 Mon Sep 17 00:00:00 2001
+From: hmtheboy154 <buingoc67@gmail.com>
+Date: Fri, 25 Apr 2025 19:34:31 +0000
+Subject: [PATCH 31/42] [HACK][REVERT ME] Temporary disable PCIe ASPM on
+ Surface builds
+
+Due to NVMe suspend issue, to be able to suspend on some Surface devices,
+we have to completely shut PCIe ASPM off until we found a solution
+
+Signed-off-by: hmtheboy154 <buingoc67@gmail.com>
+---
+ BoardConfig.mk | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/BoardConfig.mk b/BoardConfig.mk
+index 34d9efc..5c065a6 100644
+--- a/BoardConfig.mk
++++ b/BoardConfig.mk
+@@ -168,6 +168,7 @@ KERNEL_DIR ?= kernel/x86/common
+ # Surface specific
+ ifeq ($(BOARD_IS_SURFACE_BUILD),true)
+ KERNEL_DIR := kernel/x86/surface
++BOARD_KERNEL_CMDLINE += nvme_core.default_ps_max_latency_us=0 pcie_aspm=off
+ endif
+ 
+ # Zenith
+-- 
+2.43.0
+

@@ -1,0 +1,91 @@
+From 8eec843a3d14fa71d04aab0a35879607eae5662a Mon Sep 17 00:00:00 2001
+From: hmtheboy154 <buingoc67@gmail.com>
+Date: Sun, 18 May 2025 09:15:10 +0000
+Subject: [PATCH 36/42] Proper support for gatekeeper & building more related
+ HALs
+
+- We brought AIDL gatekeeper nonsecure in APEX down to 14QPR3, so
+use that.
+- Build more HALs like keymint, authgraph & secretkeeper
+- Bump our manifest.xml to version 8
+- Add android.hardware.keystore.app_attest_key.xml
+
+Signed-off-by: hmtheboy154 <buingoc67@gmail.com>
+---
+ device.mk        |  1 +
+ manifest.xml     |  2 +-
+ manifest_omx.xml |  2 +-
+ treble.mk        | 18 +++++++++++++++++-
+ 4 files changed, 20 insertions(+), 3 deletions(-)
+
+diff --git a/device.mk b/device.mk
+index e3b945b..1aa56da 100644
+--- a/device.mk
++++ b/device.mk
+@@ -188,6 +188,7 @@ PRODUCT_COPY_FILES += \
+     frameworks/native/data/etc/android.software.sip.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.sip.xml \
+     frameworks/native/data/etc/android.software.voice_recognizers.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.voice_recognizers.xml \
+     frameworks/native/data/etc/android.software.webview.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.software.webview.xml \
++    frameworks/native/data/etc/android.hardware.keystore.app_attest_key.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.keystore.app_attest_key.xml \
+     external/thermal_daemon/data/thermal-conf.xml:$(TARGET_COPY_OUT_VENDOR)/etc/thermal-daemon/thermal-conf.xml \
+     external/thermal_daemon/data/thermal-cpu-cdev-order.xml:$(TARGET_COPY_OUT_VENDOR)/etc/thermal-daemon/thermal-cpu-cdev-order.xml \
+     $(LOCAL_PATH)/OEMBlackList:$(TARGET_COPY_OUT_VENDOR)/etc/misc/.OEMBlackList \
+diff --git a/manifest.xml b/manifest.xml
+index 556595e..00bce86 100644
+--- a/manifest.xml
++++ b/manifest.xml
+@@ -1,4 +1,4 @@
+-<manifest version="8.0" type="device" target-level="7">
++<manifest version="8.0" type="device" target-level="8">
+     <hal format="hidl">
+         <name>android.hardware.audio</name>
+         <transport>hwbinder</transport>
+diff --git a/manifest_omx.xml b/manifest_omx.xml
+index a771d0b..6715bb3 100644
+--- a/manifest_omx.xml
++++ b/manifest_omx.xml
+@@ -1,4 +1,4 @@
+-<manifest version="8.0" type="device" target-level="7">
++<manifest version="8.0" type="device" target-level="8">
+     <hal format="hidl">
+         <name>android.hardware.media.omx</name>
+         <transport>hwbinder</transport>
+diff --git a/treble.mk b/treble.mk
+index f386577..7d93d93 100644
+--- a/treble.mk
++++ b/treble.mk
+@@ -42,7 +42,7 @@ PRODUCT_PACKAGES += \
+ 
+ # Gatekeeper HAL
+ PRODUCT_PACKAGES += \
+-    android.hardware.gatekeeper-service.nonsecure
++    com.android.hardware.gatekeeper.nonsecure
+ 
+ # Health HAL
+ PRODUCT_PACKAGES += \
+@@ -53,6 +53,22 @@ PRODUCT_PACKAGES += \
+ PRODUCT_PACKAGES += \
+     android.hardware.keymaster@4.1-service
+ 
++# Keymint HAL
++PRODUCT_PACKAGES += \
++    android.hardware.security.keymint-service
++
++#
++# Non-secure implementation of AuthGraph HAL for compliance.
++#
++PRODUCT_PACKAGES += \
++    com.android.hardware.security.authgraph
++
++#
++# Non-secure implementation of Secretkeeper HAL for compliance.
++#
++PRODUCT_PACKAGES += \
++    com.android.hardware.security.secretkeeper
++
+ # Light HAL
+ PRODUCT_PACKAGES += \
+     android.hardware.light-service.x86
+-- 
+2.43.0
+

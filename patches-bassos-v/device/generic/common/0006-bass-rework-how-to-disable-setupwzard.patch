@@ -1,7 +1,7 @@
 From 4b921a450e4f25cbff6c0e209e23461980158d8f Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Fri, 24 Jan 2025 09:44:05 -0500
-Subject: [PATCH 06/19] bass: rework how to disable setupwzard
+Subject: [PATCH 06/42] bass: rework how to disable setupwzard
 
 ---
  device.mk        |  5 -----

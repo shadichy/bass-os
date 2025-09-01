@@ -1,7 +1,7 @@
 From 97cf6a730570bf831b20be2e8aa2f3d2460df1f4 Mon Sep 17 00:00:00 2001
 From: Jon West <electrikjesus@gmail.com>
 Date: Sat, 19 Apr 2025 15:04:21 -0400
-Subject: [PATCH 19/19] generic device config overrides
+Subject: [PATCH 19/42] generic device config overrides
 
 ---
  device.mk | 55 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
