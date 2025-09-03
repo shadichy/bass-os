@@ -1,0 +1,4 @@
+- name: "Defaults"
+  description: "BASS_TABLETUI=1"
+  selected: true
+  hidden: true

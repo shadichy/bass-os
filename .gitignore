@@ -12,8 +12,24 @@ logs/*
 manifests/private*.xml
 private/manifests/*
 private/addons/*
+private/aaropa/calamares/*
+private/aaropa/grub/*
+private/themes/calamares/*
+private/themes/grub/*
+private/themes/gtk/*
+private/themes/rootfs/*
+
 !private/addons/patchsets-lindroid
 !private/addons/patchsets-lindroid/**
+!private/manifests/.gitignore
+!private/addons/.gitignore
+!private/aaropa/calamares/.gitignore
+!private/aaropa/grub/.gitignore
+!private/themes/calamares/.gitignore
+!private/themes/grub/.gitignore
+!private/themes/gtk/.gitignore
+!private/themes/rootfs/.gitignore
+
 .config
 .config/**
 
@@ -24,3 +40,6 @@ aosp_folders_missing.txt
 
 ._*
 .DS_Store
+
+# IDE
+.vscode

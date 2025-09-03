@@ -1,0 +1,26 @@
+- name: "Defaults"
+  description: "BASS_DESKTOPUI=1"
+  selected: true
+  hidden: true
+
+- name: "Desktop Mode Tweaks"
+  subgroups:
+    - name: "Enable desktop mode on external displays (0,1)"
+      description: "FORCE_DESKTOP_ON_EXTERNAL="
+      editable: true
+      default: "0 "
+    - name: "Enable Desktop Windowing mode."
+      description: "BASSEDW="
+      editable: true
+      default: "true "
+    - name: "Desktop Modes"
+      distinct: true
+      options:
+        - name: "Desktop Mode 1"
+          description: "BASSDM="
+          editable: true
+          default: "true "
+        - name: "Desktop Mode 2"
+          description: "BASSDM2="
+          editable: true
+          default: "true "

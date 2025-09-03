@@ -1,0 +1,12 @@
+- name: "Defaults"
+  description: "BASS_KIOSKUI=1"
+  selected: true
+  hidden: true
+
+- name: "Lockdown/Admin Boot Modes"
+  distinct: true
+  options:
+    - name: "Lockdown Mode"
+      description: "androidboot.bliss.bootmode=lockdown"
+    - name: "Admin Mode"
+      description: "androidboot.bliss.bootmode=admin"
