@@ -1,0 +1,23 @@
+From ca6a2695d94c3d22e8ed377dc2c17ce89da7f483 Mon Sep 17 00:00:00 2001
+From: Shadichy <shadichy@blisslabs.org>
+Date: Thu, 4 Sep 2025 15:50:48 +0700
+Subject: [PATCH] bass: Invoking vendorsetup.sh for bass builds
+
+Signed-off-by: Shadichy <shadichy@blisslabs.org>
+---
+ vendorsetup.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/vendorsetup.sh b/vendorsetup.sh
+index 804f919..4165401 100755
+--- a/vendorsetup.sh
++++ b/vendorsetup.sh
+@@ -13,4 +13,4 @@
+ # See the License for the specific language governing permissions and
+ # limitations under the License.
+ #
+-bash bootable/aaropa/download.sh
++bash bootable/aaropa/vendorsetup.sh
+-- 
+2.50.1
+
